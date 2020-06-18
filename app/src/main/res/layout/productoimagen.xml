@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imagenProductoVenta"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:background="@color/lineaVerde"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/fondoApp"
+          android:id="@+id/txtNomProducto"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Producto"
+            android:textSize="16dp"
+            />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

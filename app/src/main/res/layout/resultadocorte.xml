@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondoExtras">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:gravity="center_horizontal"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Resultado Corte"
+                android:textColor="@color/fondoBtnAzul"
+                android:textSize="35dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:gravity="center_horizontal"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Corte Realizado Con Éxito"
+                android:textColor="@color/fondoBtnAzul"
+                android:textSize="20dp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:gravity="center_horizontal" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:gravity="center_horizontal"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Felicidades la diferencia fue de 0 en pago en tarjeta"
+                android:textSize="20dp"
+                android:id="@+id/txtResultadoTarjeta"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:gravity="center_horizontal"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Felicidades la diferencia fue de 0 en pago en efectivo"
+                android:textSize="20dp"
+                android:id="@+id/txtResultadoEfectivo"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center_horizontal"
+
+                />
+
+
+            <ImageButton
+                android:id="@+id/btnAceptarCorte"
+                android:layout_width="180dp"
+                android:layout_height="80dp"
+                android:background="@color/zxing_transparent"
+                android:layout_gravity="center_horizontal"
+                android:onClick="btnAceptarCorteClick"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/aceptar" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/fondoAppBla"
+        >
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/fondoBtnAzul"
+
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/fondoApp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    />
+                <ImageButton
+
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:onClick="btnRegresarClick"
+                    android:scaleType="centerInside"
+                    android:background="@color/zxing_transparent"
+                    android:src="@drawable/flecha"  />
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    />
+                <Button
+                    android:id="@+id/btnCarrito"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/fondoApp"
+                    android:textColor="@color/letraCobrar"
+                    android:text="Carrito(3)"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/fondoApp"
+                    android:gravity="right|center_vertical"
+                    android:orientation="horizontal">
+                    <ImageButton
+                        android:id="@+id/botonImpresora"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+
+                        android:background="@color/zxing_transparent"
+                        android:onClick="btnEmparejarClick"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/impresoranook" />
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content" />
+
+                    <ImageButton
+
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+
+                        android:onClick="btnAsignarClick"
+                        android:scaleType="centerInside"
+                        android:background="@color/zxing_transparent"
+                        android:src="@drawable/clienten"  />
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        />
+                    <ImageButton
+
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+
+                        android:onClick="btnBorrarClick"
+                        android:scaleType="centerInside"
+                        android:background="@color/zxing_transparent"
+                        android:src="@drawable/basuran"  />
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        />
+                    <ImageButton
+                        android:id="@+id/btnMenuDerecho"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+
+                        android:onClick="btnDerechoClick"
+                        android:scaleType="centerInside"
+                        android:background="@color/zxing_transparent"
+                        android:src="@drawable/trespuntos"  />
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/fondoBtnAzul"
+
+                />
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:gravity="center_vertical"
+                android:background="@color/fondoCabecera"
+                android:orientation="horizontal">
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".2"
+                    android:gravity="center_horizontal"
+                    android:text="Cantidad"
+
+                    android:textColor="@color/listClaro"
+                    />
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:gravity="center_horizontal"
+                    android:text="Producto"
+
+                    android:textColor="@color/listClaro"
+                    />
+
+
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".2"
+                    android:gravity="center_horizontal"
+                    android:text="$"
+                    android:textColor="@color/listClaro" />
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".2"
+                    android:gravity="center_horizontal"
+                    android:text="Tot"
+                    android:textColor="@color/listClaro" />
+
+
+
+
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/gvProductosAgregados"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".8"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                >
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".65"
+                    android:layout_gravity="right"
+                    android:text="SUBTOTAL"
+                    android:textColor="@color/fondoApp"
+                    android:gravity="right"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".35"
+                    android:layout_gravity="right"
+                    android:text="25879.00"
+                    android:textColor="@color/fondoApp"
+                    android:gravity="right"
+                    android:id="@+id/txtSubtotal"
+                    />
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".65"
+                    android:layout_gravity="right"
+                    android:text="IVA"
+                    android:textColor="@color/fondoApp"
+                    android:gravity="right"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".35"
+                    android:layout_gravity="right"
+                    android:text="152.25"
+                    android:gravity="right"
+                    android:textColor="@color/fondoApp"
+                    android:id="@+id/txtIva"
+                    />
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".65"
+                    android:layout_gravity="right"
+                    android:text="DESCUENTO"
+                    android:textColor="@color/fondoApp"
+                    android:gravity="right"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".35"
+                    android:layout_gravity="right"
+                    android:text="152.25"
+                    android:gravity="right"
+                    android:textColor="@color/fondoApp"
+                    android:id="@+id/txtDescuento"
+                    />
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".65"
+                    android:layout_gravity="right"
+                    android:text="PROPINA / COMISIÓN"
+                    android:textColor="@color/fondoApp"
+                    android:gravity="right"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".35"
+                    android:layout_gravity="right"
+                    android:textColor="@color/fondoApp"
+                    android:text="152.25"
+                    android:gravity="right"
+                    android:id="@+id/txtPropina"
+                    />
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/fondoAppBla"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".65"
+                    android:layout_gravity="center_horizontal"
+                    android:text="TOTAL "
+                    android:textSize="25dp"
+
+                    android:id="@+id/txtCobrar"
+
+                    android:textColor="@color/fondoApp"
+                    android:gravity="right"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".35"
+                    android:layout_gravity="right"
+
+                    android:textColor="@color/fondoApp"
+                    android:text="98576.00"
+                    android:textSize="22dp"
+                    android:gravity="right"
+
+                    android:id="@+id/txtTotal"
+                    />
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/letraCobrar"
+                    />
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnGuardarPedido"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/roundbottongreen2"
+                android:onClick="btnGuardarPedidoClick"
+                android:text="Guardar Pedido" />
+            <ImageButton
+android:id="@+id/btnPedidoCarrito"
+                android:layout_width="0dp"
+                android:layout_weight=".33"
+                android:layout_height="80dp"
+                android:layout_gravity="center_vertical"
+                android:onClick="btnPedidoClick"
+                android:scaleType="centerInside"
+                android:background="@color/zxing_transparent"
+                android:src="@drawable/btnporpagar"  />
+            <ImageButton
+android:id="@+id/btnCotizarPedido"
+            android:layout_width="0dp"
+            android:layout_weight=".33"
+            android:layout_height="80dp"
+            android:layout_gravity="center_vertical"
+            android:onClick="btnCotizarClick"
+            android:scaleType="centerInside"
+            android:background="@color/zxing_transparent"
+            android:src="@drawable/btncotizar"  />
+
+
+            <ImageButton
+android:id="@+id/btnPagarCarrito"
+                android:layout_width="0dp"
+                android:layout_weight=".33"
+                android:layout_height="80dp"
+                android:layout_gravity="center_vertical"
+                android:onClick="btnCobrarClick"
+                android:scaleType="centerInside"
+                android:background="@color/zxing_transparent"
+                android:src="@drawable/btnpagar"  />
+        </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+
+                />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>

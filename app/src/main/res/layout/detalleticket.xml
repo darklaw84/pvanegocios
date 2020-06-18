@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondoExtras">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:gravity="center_horizontal"
+
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:id="@+id/txtTituloDetalle"
+                        android:layout_weight=".9"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="DETALLE TICKET"
+                        android:textColor="@color/fondoBtnAzul"
+                        android:textSize="25dp" />
+
+                    <ImageButton
+                        android:id="@+id/btnTresPuntos"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+
+                        android:onClick="btnDerechoClick"
+                        android:scaleType="centerInside"
+                        android:background="@color/zxing_transparent"
+                        android:src="@drawable/trespuntosazul"  />
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:gravity="center_horizontal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Folio: "
+                        android:textStyle="bold"
+                        android:textSize="@dimen/letraTicketTit"
+                        android:textColor="@color/fondoApp"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Folio"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="10dp"
+                        android:textSize="@dimen/letraTicketCont"
+                        android:textColor="@color/fondoApp"
+                        android:id="@+id/txtFolio"
+
+                        />
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Fecha: "
+                        android:textStyle="bold"
+                        android:textColor="@color/fondoApp"
+                        android:textSize="@dimen/letraTicketTit"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Folio"
+                        android:textSize="@dimen/letraTicketCont"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/fondoApp"
+                        android:id="@+id/txtFecha"
+
+                        />
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Cliente: "
+                        android:textStyle="bold"
+                        android:paddingLeft="15dp"
+                        android:textColor="@color/fondoApp"
+                        android:textSize="@dimen/letraTicketTit"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Folio"
+                        android:minWidth="30dp"
+                        android:textSize="@dimen/letraTicketCont"
+                        android:paddingLeft="15dp"
+                        android:textColor="@color/fondoApp"
+                        android:id="@+id/txtCliente"
+
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Producto Entregado: "
+                        android:textColor="@color/fondoApp"
+                        android:paddingLeft="15dp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/letraTicketTit"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Folio"
+                        android:minWidth="30dp"
+                        android:textSize="@dimen/letraTicketCont"
+                        android:paddingLeft="15dp"
+                        android:textColor="@color/fondoApp"
+                        android:id="@+id/txtProdEntregado"
+
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Estatus: "
+                        android:textStyle="bold"
+                        android:textColor="@color/fondoApp"
+                        android:paddingLeft="15dp"
+                        android:textSize="@dimen/letraTicketTit"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Folio"
+                        android:minWidth="30dp"
+                        android:textSize="@dimen/letraTicketCont"
+                        android:paddingLeft="15dp"
+                        android:textColor="@color/fondoApp"
+                        android:id="@+id/txtEstatus"
+
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Comentario: "
+                        android:textStyle="bold"
+                        android:textSize="@dimen/letraTicketTit"
+                        android:textColor="@color/fondoApp"
+                        android:paddingLeft="15dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Folio"
+                        android:minWidth="30dp"
+                        android:textSize="@dimen/letraTicketCont"
+                        android:paddingLeft="15dp"
+                        android:textColor="@color/fondoApp"
+                        android:id="@+id/txtComentario"
+
+                        />
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="@color/fondoCabecera"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".1"
+                android:gravity="center_horizontal"
+                android:text="Cant."
+
+
+                android:textColor="@color/listClaro" />
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:gravity="center_horizontal"
+                android:text="Producto"
+
+
+                android:textColor="@color/listClaro" />
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:gravity="center_horizontal"
+                android:text="$ Unit."
+
+                android:textColor="@color/listClaro" />
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:gravity="center_horizontal"
+                android:text="$"
+
+                android:textColor="@color/listClaro" />
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:gravity="center_horizontal"
+                android:text="Iva"
+
+                android:textColor="@color/listClaro" />
+
+        </LinearLayout>
+
+        <ListView
+
+            android:id="@+id/gvVentas"
+            android:background="@drawable/bordertabla"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+
+             />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingTop="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Subtotal: "
+                android:textStyle="bold"
+                android:textSize="@dimen/letraTicketTit"
+                android:textColor="@color/fondoApp"
+                />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Folio"
+                android:paddingRight="15dp"
+                android:paddingLeft="10dp"
+
+                android:textSize="@dimen/letraTicketCont"
+                android:textColor="@color/fondoApp"
+                android:id="@+id/txtSubtotal"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingTop="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Propina: "
+                android:textStyle="bold"
+                android:textSize="@dimen/letraTicketTit"
+                android:textColor="@color/fondoApp"
+                />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Folio"
+                android:paddingRight="15dp"
+                android:paddingLeft="10dp"
+
+                android:textSize="@dimen/letraTicketCont"
+                android:textColor="@color/fondoApp"
+                android:id="@+id/txtPropina"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingTop="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Descuento: "
+                android:textStyle="bold"
+                android:textSize="@dimen/letraTicketTit"
+                android:textColor="@color/fondoApp"
+                />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Folio"
+                android:paddingRight="15dp"
+                android:paddingLeft="10dp"
+
+                android:textSize="@dimen/letraTicketCont"
+                android:textColor="@color/fondoApp"
+                android:id="@+id/txtDescuento"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingTop="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Iva: "
+                android:textStyle="bold"
+                android:textSize="@dimen/letraTicketTit"
+                android:textColor="@color/fondoApp"
+                />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Folio"
+                android:paddingRight="15dp"
+                android:paddingLeft="10dp"
+
+                android:textSize="@dimen/letraTicketCont"
+                android:textColor="@color/fondoApp"
+                android:id="@+id/txtIva"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingTop="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Total: "
+                android:textStyle="bold"
+                android:textSize="@dimen/letraTicketTit"
+                android:textColor="@color/fondoApp"
+                />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Folio"
+                android:paddingRight="15dp"
+                android:paddingLeft="10dp"
+
+                android:textSize="@dimen/letraTicketCont"
+                android:textColor="@color/fondoApp"
+                android:id="@+id/txtTotal"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingTop="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Pago: "
+                android:textStyle="bold"
+                android:textSize="@dimen/letraTicketTit"
+                android:textColor="@color/fondoApp"
+                />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Folio"
+                android:paddingRight="15dp"
+                android:paddingLeft="10dp"
+
+                android:textSize="@dimen/letraTicketCont"
+                android:textColor="@color/fondoApp"
+                android:id="@+id/txtPago"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingTop="5dp"
+
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Saldo: "
+                android:textStyle="bold"
+                android:textSize="@dimen/letraTicketTit"
+                android:textColor="@color/fondoApp"
+                />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Folio"
+                android:paddingRight="15dp"
+                android:paddingLeft="10dp"
+
+                android:textSize="@dimen/letraTicketCont"
+                android:textColor="@color/fondoApp"
+                android:id="@+id/txtSaldo"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

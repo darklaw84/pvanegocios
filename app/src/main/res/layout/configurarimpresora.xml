@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondoExtras">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/fondoBtnAzul"
+
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/fondoApp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    />
+                <ImageButton
+                    android:id="@+id/btnMostrarMenu"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:onClick="btnMostrarMenuClick"
+                    android:scaleType="centerInside"
+                    android:background="@color/zxing_transparent"
+                    android:src="@drawable/rayitas"  />
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp"
+                    android:background="@color/fondoApp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="CONFIGURAR IMPRESORA"
+                    android:typeface="sans"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/fondoBtnAzul"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Dispositivos"
+                android:textColor="@color/fondoBtnAzul"
+                />
+            <ListView
+
+                android:id="@+id/gvImpresoras"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+
+
+
+</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#6578b0"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_drawer"
+        app:itemTextColor="@color/letraCobrar"
+        app:menu="@menu/activity_drawer_drawer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:padding="16dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <ImageButton
+
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/zxing_transparent"
+                    android:onClick="btnEmparejarClick"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/bluetooth" />
+
+                <TextView
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:stateListAnimator="@null"
+                    android:background="#6578b0"
+                    android:gravity="center_vertical|left"
+                    android:onClick="btnEmparejarClick"
+                    android:text="Impresora"
+                    android:textAllCaps="false"
+                    android:textColor="@color/letraCobrar" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <ImageButton
+
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:stateListAnimator="@null"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/zxing_transparent"
+                    android:onClick="btnConfigurarTicketClick"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ticketconf" />
+
+                <TextView
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:stateListAnimator="@null"
+                    android:background="#6578b0"
+                    android:gravity="center_vertical|left"
+                    android:onClick="btnConfigurarTicketClick"
+                    android:text="Personalizar Ticket"
+                    android:textAllCaps="false"
+                    android:textColor="@color/letraCobrar" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <ImageButton
+
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/zxing_transparent"
+                    android:onClick="btnConfigurarClick"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/configuracion" />
+
+                <TextView
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:stateListAnimator="@null"
+
+                    android:background="#6578b0"
+                    android:gravity="left|center_vertical"
+                    android:onClick="btnConfigurarClick"
+                    android:text="Plan"
+                    android:textAllCaps="false"
+                    android:textColor="@color/letraCobrar" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <ImageButton
+
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/zxing_transparent"
+                    android:onClick="btnAyudaClick"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ayuda" />
+
+                <TextView
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:stateListAnimator="@null"
+                    android:background="#6578b0"
+                    android:gravity="left|center_vertical"
+                    android:onClick="btnAyudaClick"
+                    android:text="Ayuda"
+                    android:textAllCaps="false"
+
+                    android:textColor="@color/letraCobrar" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
+
+            <ImageButton
+
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/zxing_transparent"
+                android:onClick="btnLogOutClick"
+
+                android:scaleType="centerInside"
+                android:src="@drawable/logout" />
+
+
+        </LinearLayout>
+    </android.support.design.widget.NavigationView>
+</android.support.v4.widget.DrawerLayout>

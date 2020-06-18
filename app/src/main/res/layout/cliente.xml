@@ -1,0 +1,1012 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/fondoApp"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_horizontal"
+
+                />
+
+            <TextView
+                android:id="@+id/txtTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="NUEVO CLIENTE"
+                android:textColor="@color/fondoAppBla"
+                android:textSize="35dp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center_horizontal"
+
+                />
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:id="@+id/lblNombre"
+                android:paddingLeft="15dp"
+                android:text="Nombre *"
+                android:textColor="@color/letraCobrar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+
+
+
+
+                <EditText
+                    android:id="@+id/txtNombre"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="textPersonName"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:id="@+id/vieNombre"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:id="@+id/lblAppPaterno"
+                android:text="Apellido Paterno"
+                android:textColor="@color/letraCobrar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+                <EditText
+                    android:id="@+id/txtPaterno"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="textPersonName"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:id="@+id/vieAppPaterno"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:text="Apellido Materno"
+                android:id="@+id/lblAppMaterno"
+                android:textColor="@color/letraCobrar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+                <EditText
+                    android:id="@+id/txtMaterno"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="textPersonName"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:id="@+id/vieAppMaterno"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:text="Correo "
+                android:id="@+id/lblCorreo"
+                android:textColor="@color/letraCobrar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+                <EditText
+                    android:id="@+id/txtCorreo"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:id="@+id/vieCorreo"
+                    android:layout_weight=".9"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:id="@+id/lblTelefono"
+                android:text="Teléfono"
+                android:textColor="@color/letraCobrar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+                <EditText
+                    android:id="@+id/txtTelefono"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="number"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:id="@+id/vieTelefono"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:text="Calle"
+                android:id="@+id/lblCalle"
+                android:textColor="@color/letraCobrar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+
+
+
+
+                <EditText
+                    android:id="@+id/txtCalle"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="textPersonName"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:id="@+id/vieCalle"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:id="@+id/lblExterior"
+                android:text="# Exterior"
+                android:textColor="@color/letraCobrar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+                <EditText
+                    android:id="@+id/txtNumeroExt"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="textPersonName"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="1dp"
+                    android:id="@+id/vieExterior"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:id="@+id/lblInterior"
+                android:text="# Interior"
+                android:textColor="@color/letraCobrar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+                <EditText
+                    android:id="@+id/txtNumeroInt"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="textPersonName"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:id="@+id/vieInterior"
+                    android:layout_weight=".9"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:text="Colonia"
+                android:id="@+id/lblColonia"
+                android:textColor="@color/letraCobrar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+
+
+
+
+                <EditText
+                    android:id="@+id/txtColonia"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="textPersonName"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:id="@+id/vieColonia"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:text="Municipio"
+                android:id="@+id/lblMunicipio"
+                android:textColor="@color/letraCobrar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+
+                <EditText
+                    android:id="@+id/txtMunicipio"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="textPersonName"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:id="@+id/vieMunicipio"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:text="Estado"
+                android:id="@+id/lblEstado"
+                android:textColor="@color/letraCobrar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+
+
+
+
+                <EditText
+                    android:id="@+id/txtEstado"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="textPersonName"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:id="@+id/vieEstado"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:id="@+id/lblCodigoPostal"
+                android:text="Código Postal"
+                android:textColor="@color/letraCobrar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+
+
+
+                <EditText
+                    android:id="@+id/txtCodigoPostal"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="number"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="1dp"
+                    android:id="@+id/vieCodigoPostal"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:id="@+id/lblComentario"
+                android:text="Comentario"
+                android:textColor="@color/letraCobrar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+
+
+
+                <EditText
+                    android:id="@+id/txtComentario"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="textPersonName"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:id="@+id/vieComentario"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+
+
+
+
+
+
+            <ImageButton
+                android:id="@+id/btnListo"
+                android:layout_width="280dp"
+                android:layout_height="50dp"
+                android:background="@color/zxing_transparent"
+                android:layout_gravity="center_horizontal"
+                android:onClick="btnListoClick"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/agregar" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:gravity="center_horizontal" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:gravity="center_horizontal" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</android.support.constraint.ConstraintLayout>

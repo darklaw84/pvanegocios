@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/fondoExtras"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="EXTRAS"
+                android:textColor="@color/fondoBtnAzul"
+                android:textSize="35dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_horizontal"
+                />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+            <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight=".5"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="- Descuentos"
+                    android:textColor="@color/fondoBtnAzul"
+                    android:textSize="25dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center_horizontal"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+
+                        android:layout_width="45dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+
+                        />
+                    <ImageView
+
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="right"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/porcentajeazul"
+                        />
+                    <TextView
+
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+
+                        />
+                    <EditText
+                        android:id="@+id/txtDescPorcentaje"
+                        android:layout_width="285dp"
+                        android:layout_height="33dp"
+                        android:ems="10"
+                        android:hint="Porcentaje"
+                        android:imeOptions="flagNoExtractUi"
+                        android:layout_gravity="left"
+                        android:background="@color/fondoExtras"
+                        android:theme="@style/EditTextStyle"
+                        android:typeface="sans"
+                        android:textColorHint="@color/fondoApp"
+                        android:textColor="@color/fondoApp"
+                        android:gravity="left"
+                        android:inputType="numberDecimal"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    >
+                    <TextView
+
+                        android:layout_width="35dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+
+                        />
+                    <View
+                        android:layout_width="250dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@android:color/darker_gray"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+
+                        android:layout_width="45dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+
+                        />
+                    <ImageView
+
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="right"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/precioazul"
+                        />
+                    <TextView
+
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+
+                        />
+                    <EditText
+                        android:id="@+id/txtDescEfectivo"
+                        android:layout_width="285dp"
+                        android:layout_height="33dp"
+                        android:ems="10"
+                        android:hint="Efectivo"
+                        android:imeOptions="flagNoExtractUi"
+                        android:layout_gravity="left"
+                        android:background="@color/fondoExtras"
+                        android:theme="@style/EditTextStyle"
+                        android:typeface="sans"
+                        android:textColorHint="@color/fondoApp"
+                        android:textColor="@color/fondoApp"
+                        android:gravity="left"
+                        android:inputType="numberDecimal"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    >
+                    <TextView
+
+                        android:layout_width="35dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+
+                        />
+                    <View
+                        android:layout_width="250dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@android:color/darker_gray"/>
+                </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="+ Propina / Comisiones"
+                        android:textColor="@color/fondoBtnAzul"
+                        android:textSize="25dp"
+                        />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center_horizontal"
+                    />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        >
+                        <TextView
+
+                            android:layout_width="45dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                        <ImageView
+
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="right"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/porcentajeazul"
+                            />
+                        <TextView
+
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                        <EditText
+                            android:id="@+id/txtPropinaPorcentaje"
+                            android:layout_width="285dp"
+                            android:layout_height="33dp"
+                            android:ems="10"
+                            android:hint="Porcentaje"
+                            android:imeOptions="flagNoExtractUi"
+                            android:layout_gravity="left"
+                            android:background="@color/fondoExtras"
+                            android:theme="@style/EditTextStyle"
+                            android:typeface="sans"
+                            android:textColorHint="@color/fondoApp"
+                            android:textColor="@color/fondoApp"
+                            android:gravity="left"
+                            android:inputType="numberDecimal"
+                            />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal"
+                        >
+                        <TextView
+
+                            android:layout_width="35dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                        <View
+                            android:layout_width="250dp"
+                            android:layout_height="1dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@android:color/darker_gray"/>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        >
+                        <TextView
+
+                            android:layout_width="45dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                        <ImageView
+
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="right"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/precioazul"
+                            />
+                        <TextView
+
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                        <EditText
+                            android:id="@+id/txtPropinaEfectivo"
+                            android:layout_width="285dp"
+                            android:layout_height="33dp"
+                            android:ems="10"
+                            android:hint="Efectivo"
+                            android:imeOptions="flagNoExtractUi"
+                            android:layout_gravity="left"
+                            android:background="@color/fondoExtras"
+                            android:theme="@style/EditTextStyle"
+                            android:typeface="sans"
+                            android:textColorHint="@color/fondoApp"
+                            android:textColor="@color/fondoApp"
+                            android:gravity="left"
+                            android:inputType="numberDecimal"
+                            />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal"
+                        >
+                        <TextView
+
+                            android:layout_width="35dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                        <View
+                            android:layout_width="250dp"
+                            android:layout_height="1dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@android:color/darker_gray"/>
+                    </LinearLayout>
+
+
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:gravity="center_horizontal"
+                />
+
+
+            <ImageButton
+                android:id="@+id/btnGuardarExtras"
+                android:layout_width="180dp"
+                android:layout_height="80dp"
+                android:background="@color/zxing_transparent"
+                android:layout_gravity="center_horizontal"
+                android:onClick="btnGuardarExtrasClick"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/aceptar" />
+
+        </LinearLayout>
+
+
+
+
+
+
+
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/fondoOscuro">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".1"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".5"
+
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+
+                />
+
+            <LinearLayout
+
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight=".9"
+                android:background="@drawable/roundtextoblanco">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="Se están actualizando los productos, por favor espere"
+                    android:textColor="@color/letraGris"
+                    android:textSize="30dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+
+                    />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:progressDrawable="@drawable/progressbarstyle"
+                    android:layout_gravity="center_horizontal"
+                     />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+
+                    />
+                <ImageView
+
+                    android:layout_width="200dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+
+                    android:scaleType="fitCenter"
+                    android:onClick="btnMostrarMenuClick"
+                    android:src="@drawable/anegociosazul" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+
+                />
+
+
+
+
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".10"
+            />
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

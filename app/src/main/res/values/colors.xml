@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#FFFFFF</color>
+    <color name="fondoApp">#373E55</color>
+    <color name="fondoAppBla">#FFFFFF</color>
+    <color name="fondoBuscar">#eeeef0</color>
+    <color name="fondoBotonEquis">#d4d5da</color>
+
+    <color name="fondoCabecera">#8bc8b9</color>
+    <color name="letraTablas">#797c8d</color>
+    <color name="botonesPV">#6578B0</color>
+    <color name="lineaOscura">#373E55</color>
+    <color name="fondoPV">#48547b</color>
+    <color name="lineaVerde">#8bc8ba</color>
+    <color name="fondoExtras">#f0f4f7</color>
+    <color name="fondoComentarios">#e8ecef</color>
+    <color name="letraVideos">#3abfba</color>
+    <color name="fondoOscuro">#3D3D3D</color>
+    <color name="letraBlanca">#FFFFFF</color>
+    <color name="letraGris">#8B8A8A</color>
+
+
+
+
+
+
+    <color name="fondoTextField">#ffffff</color>
+    <color name="letraBtnAzul">#ffffff</color>
+    <color name="fondoBtnAzul">#343c56</color>
+    <color name="fondoBtnVerde">#00f2b0</color>
+    <color name="fondoBtnVerde2">#8ac8b9</color>
+    <color name="listClaro">#FFFFFF</color>
+    <color name="listOscuro">#F6F3F0</color>
+    <color name="letraBtnVerde">#343c56</color>
+    <color name="letraVerde">#a9f8a2</color>
+
+    <color name="fondoCobrar">#abd0b1</color>
+    <color name="letraCobrar">#FFFFFF</color>
+    <color name="fondoCotizar">#d1c2de</color>
+    <color name="fondoPedido">#abdbed</color>
+    <color name="fondoRayo">#ebba1b</color>
+    <color name="fondoPagar">#a7d0b0</color>
+    <color name="fondoBtnDisabled">#BBBBBB</color>
+    <color name="textoFaltante">#c81212</color>
+    <color name="textoSobrante">#40a21e</color>
+    <color name="textoCeros">#343c56</color>
+    <color name="verdeExitoso">#55ae5a</color>
+    <color name="botonCotizar">#3c4975</color>
+
+
+
+
+    <color name="background1">#6073ba</color>
+    <color name="background2">#eb9678</color>
+    <color name="background4">#61bbea</color>
+
+    <array name="array_backgorund">
+        <item>@color/background2</item>
+        <item>@color/background4</item>
+        <item>@color/background4</item>
+    </array>
+
+    
+
+</resources>

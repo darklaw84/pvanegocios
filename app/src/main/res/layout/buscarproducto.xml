@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondoApp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:gravity="center_horizontal"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Buscar Producto"
+                android:textColor="@color/fondoBtnAzul"
+                android:textSize="35dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:gravity="center_horizontal"
+
+                />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtDatoBuscar"
+                android:layout_width="310dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/roundcorners"
+                android:gravity="center_horizontal"
+                android:inputType="textPersonName"
+                android:imeOptions="flagNoExtractUi"
+
+                />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                />
+
+            <ImageButton
+                android:id="@+id/btnCancelarX"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:onClick="btnCancelarXClick"
+                app:srcCompat="@drawable/x" />
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                />
+
+            <ImageButton
+                android:id="@+id/btnBuscar"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:onClick="btnBuscarClick"
+                app:srcCompat="@drawable/lupa" />
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                />
+            <ImageButton
+                android:id="@+id/btnCodCamara"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:onClick="btnCodCamaraClick"
+                app:srcCompat="@drawable/scanner" />
+
+
+        </LinearLayout>
+
+            <ListView
+                android:id="@+id/gvProductos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

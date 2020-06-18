@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/fondoAppBla"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center_horizontal"
+              />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="293dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/anegociosazul"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:gravity="center_horizontal"
+
+
+            />
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            />
+        <ImageButton
+            android:id="@+id/btnPuntoVenta"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="@color/zxing_transparent"
+            android:layout_gravity="center_horizontal"
+            android:onClick="btnPuntoVentaClick"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/puntoventa" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center_horizontal"
+
+            />
+
+        <ImageButton
+            android:id="@+id/btnProductos"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="@color/zxing_transparent"
+            android:layout_gravity="center_horizontal"
+            android:onClick="btnProductosClick"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/productos" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center_horizontal"
+
+            />
+
+        <ImageButton
+            android:id="@+id/btnClientes"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="@color/zxing_transparent"
+            android:layout_gravity="center_horizontal"
+            android:onClick="btnClientesClick"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/clientes" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center_horizontal"
+
+            />
+
+        <ImageButton
+            android:id="@+id/btnReportes"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="@color/zxing_transparent"
+            android:layout_gravity="center_horizontal"
+            android:onClick="btnReportesClick"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/reportes" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center_horizontal"
+
+            />
+
+        <ImageButton
+            android:id="@+id/btnModo"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:background="@color/zxing_transparent"
+            android:layout_gravity="center_horizontal"
+            android:onClick="btnModoClick"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/conconexion" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center_horizontal"
+
+            />
+        <ImageButton
+            android:id="@+id/btnWhatss"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:background="@color/zxing_transparent"
+            android:layout_gravity="center_horizontal"
+            android:onClick="btnWhatssClick"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/soporte" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center_horizontal"
+
+            />
+        <ImageButton
+            android:id="@+id/btnWeb"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/zxing_transparent"
+            android:layout_gravity="center_horizontal"
+            android:onClick="btnWebClick"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/web" />
+
+
+    </LinearLayout>
+
+
+
+
+</android.support.constraint.ConstraintLayout>

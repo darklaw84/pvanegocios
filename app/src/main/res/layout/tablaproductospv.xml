@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondoExtras">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+
+                android:id="@+id/txtCantPV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".15"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
+                android:text="NOMBRE DE ALGO"
+                android:textSize="14dp"
+                android:textColor="@color/fondoApp" />
+
+            <TextView
+
+                android:id="@+id/txtNombrePV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".45"
+                android:textSize="14dp"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
+                android:text="NOMBRE DE ALGO"
+                android:textColor="@color/fondoApp" />
+
+
+            <TextView
+
+                android:id="@+id/txtPrecioPV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_weight=".2"
+                android:gravity="right"
+                android:layout_gravity="center_vertical"
+                android:text="225.36"
+                android:textColor="@color/fondoApp" />
+            <TextView
+
+                android:id="@+id/txtTotalPV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:layout_gravity="center_vertical"
+                android:gravity="right"
+                android:text="225.36"
+                android:textSize="14dp"
+                android:textColor="@color/fondoApp" />
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="50dp" />
+
+
+        </LinearLayout>
+        <ListView
+            android:id="@+id/gvOpcionesSeleccionadas"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

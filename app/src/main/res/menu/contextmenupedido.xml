@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/btnEditar"
+        android:icon="@drawable/descuento"
+        android:title="Editar" />
+    <item
+        android:id="@+id/btnEntregar"
+        android:icon="@drawable/corten"
+        android:title="Entregar Producto" />
+    <item
+        android:id="@+id/btnAbonar"
+        android:icon="@drawable/reimprimir"
+        android:title="Abonar" />
+
+</menu>

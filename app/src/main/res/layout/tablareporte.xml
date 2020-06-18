@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondoAppBla">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="5dp"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+
+            android:layout_width="0dp"
+            android:layout_weight=".1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/letraTablas"
+            android:gravity="center_horizontal"
+            android:id="@+id/txtFolio"
+            android:text="1245"
+            />
+
+
+
+        <TextView
+
+            android:layout_width="0dp"
+            android:layout_weight=".15"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:textColor="@color/letraTablas"
+            android:id="@+id/txtReporteTotal"
+            android:text="12407.52"
+            />
+
+        <TextView
+
+            android:layout_width="0dp"
+            android:layout_weight=".15"
+            android:layout_height="wrap_content"
+            android:textColor="@color/letraTablas"
+            android:gravity="center_horizontal"
+            android:id="@+id/txtReporteAbonado"
+            android:text="12407.52"
+            />
+
+        <TextView
+
+            android:layout_width="0dp"
+            android:layout_weight=".15"
+            android:layout_height="wrap_content"
+            android:textColor="@color/letraTablas"
+            android:gravity="center_horizontal"
+            android:id="@+id/txtReporteSaldo"
+            android:text="12407.52"
+            />
+
+        <TextView
+
+            android:layout_width="0dp"
+            android:layout_weight=".35"
+            android:layout_height="wrap_content"
+            android:textColor="@color/letraTablas"
+            android:gravity="center_horizontal"
+            android:id="@+id/txtCliente"
+            android:text="ARCOS AUREOS DE QUERETARO"
+            />
+        <TextView
+
+            android:layout_width="0dp"
+            android:layout_weight=".1"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:gravity="center_horizontal"
+            android:background="@drawable/roundbuttons"
+            android:text="Detalle"
+
+            />
+        <ImageView
+            android:id="@+id/entregadoped"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/zxing_transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/entregadoped" />
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

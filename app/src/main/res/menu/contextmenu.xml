@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/btnReimprimir"
+        android:icon="@drawable/reimprimir"
+        android:title="Reimprimir" />
+
+    <item
+        android:id="@+id/btnDescuentos"
+        android:icon="@drawable/descuento"
+        android:title="Descuentos" />
+    <item
+        android:id="@+id/btnCorte"
+        android:icon="@drawable/corten"
+        android:title="Corte Caja" />
+
+</menu>

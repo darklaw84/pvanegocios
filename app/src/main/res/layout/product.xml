@@ -1,0 +1,1001 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondoApp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center_horizontal"
+
+                />
+
+            <TextView
+                android:id="@+id/txtTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="NUEVO PRODUCTO"
+                android:textColor="@color/fondoAppBla"
+                android:textSize="35dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:gravity="center_horizontal" />
+
+
+            <ImageView
+                android:id="@+id/imageProd"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:padding="1dp"
+                android:src="@drawable/sinimagen" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:gravity="center_horizontal"
+
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnGaleria"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@color/zxing_transparent"
+                    android:gravity="right"
+                    android:onClick="btnGaleriaClick"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/imagenbla" />
+
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+
+                    />
+
+                <ImageButton
+                    android:id="@+id/btnCamara"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@color/zxing_transparent"
+                    android:gravity="left"
+                    android:onClick="btnCamaraClick"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/camarabla" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:gravity="center_horizontal"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_horizontal"
+                android:text="La imagen del producto es opcional"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:gravity="center_horizontal"
+
+                />
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:id="@+id/lblCodBarra"
+                android:paddingLeft="15dp"
+                android:text="Código de Barras"
+                android:textColor="@color/letraCobrar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+
+
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+                <EditText
+                    android:id="@+id/txtCodigoBarras"
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_weight=".9"
+                    android:layout_gravity="left"
+
+
+
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+
+                <ImageButton
+                    android:id="@+id/btnCodCamara"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/zxing_transparent"
+                    android:onClick="btnCodCamaraClick"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/scannerblanco" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:id="@+id/vieCodigoBarras"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:id="@+id/lblNombre"
+                android:text="Nombre del Producto *"
+                android:textColor="@color/letraCobrar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+
+
+
+                <EditText
+                    android:id="@+id/txtNombreProd"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+
+
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:id="@+id/vieNombre"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:paddingLeft="15dp"
+                        android:id="@+id/lblPrecioCompra"
+                        android:text="Precio Compra"
+                        android:textColor="@color/letraCobrar" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+
+
+
+
+                        <EditText
+                            android:id="@+id/txtPrecioCompra"
+                            android:layout_width="0dp"
+                            android:layout_weight=".9"
+                            android:layout_height="33dp"
+                            android:layout_gravity="left"
+
+
+                            android:background="@color/fondoApp"
+                            android:ems="10"
+                            android:gravity="left"
+                            android:inputType="numberDecimal"
+                            android:textColor="@color/letraCobrar"
+                            android:textColorHint="@color/letraCobrar"
+                            android:theme="@style/EditTextStyle"
+                            android:typeface="sans" />
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_weight=".9"
+                            android:layout_height="1dp"
+                            android:id="@+id/viePrecioCompra"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@android:color/darker_gray" />
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:paddingLeft="15dp"
+                        android:text="Precio Venta *"
+                        android:id="@+id/lblPrecioVenta"
+                        android:textColor="@color/letraCobrar" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+
+
+
+
+                        <EditText
+                            android:id="@+id/txtPrecioVenta"
+                            android:layout_width="0dp"
+                            android:layout_weight=".9"
+                            android:layout_height="33dp"
+                            android:layout_gravity="left"
+
+
+                            android:background="@color/fondoApp"
+                            android:ems="10"
+                            android:gravity="left"
+                            android:inputType="numberDecimal"
+                            android:textColor="@color/letraCobrar"
+                            android:textColorHint="@color/letraCobrar"
+                            android:theme="@style/EditTextStyle"
+                            android:typeface="sans" />
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight=".9"
+                            android:id="@+id/viePrecioVenta"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@android:color/darker_gray" />
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:paddingLeft="15dp"
+                        android:text="Precio Mayoreo"
+                        android:id="@+id/lblPrecioMayoreo"
+                        android:textColor="@color/letraCobrar" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+
+
+
+
+                        <EditText
+                            android:id="@+id/txtPrecioMayoreo"
+                            android:layout_width="0dp"
+                            android:layout_weight=".9"
+                            android:layout_height="33dp"
+                            android:layout_gravity="left"
+                            android:background="@color/fondoApp"
+                            android:ems="10"
+                            android:gravity="left"
+                            android:inputType="numberDecimal"
+                            android:textColor="@color/letraCobrar"
+                            android:textColorHint="@color/letraCobrar"
+                            android:theme="@style/EditTextStyle"
+                            android:typeface="sans" />
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_weight=".9"
+                            android:layout_height="1dp"
+                            android:id="@+id/viePrecioMayoreo"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@android:color/darker_gray" />
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:paddingLeft="15dp"
+                        android:text="Cantidad Mayoreo"
+                        android:id="@+id/lblCantidadMayoreo"
+                        android:textColor="@color/letraCobrar" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+
+
+
+
+                        <EditText
+                            android:id="@+id/txtCantMayoreo"
+                            android:layout_width="0dp"
+                            android:layout_weight=".9"
+                            android:layout_height="33dp"
+                            android:layout_gravity="left"
+                            android:background="@color/fondoApp"
+                            android:ems="10"
+                            android:gravity="left"
+                            android:inputType="numberDecimal"
+                            android:textColor="@color/letraCobrar"
+                            android:textColorHint="@color/letraCobrar"
+                            android:theme="@style/EditTextStyle"
+                            android:typeface="sans" />
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_weight=".9"
+                            android:id="@+id/vieCantidadMayoreo"
+                            android:layout_height="1dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@android:color/darker_gray" />
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:paddingLeft="15dp"
+                        android:text="Iva"
+                        android:id="@+id/lblIva"
+                        android:textColor="@color/letraCobrar" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+
+
+
+
+                        <CheckBox
+                            android:id="@+id/chkIva"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:shadowColor="@color/fondoAppBla"
+                            android:text=""
+                            android:textColorLink="@color/fondoAppBla" />
+
+                        <EditText
+                            android:id="@+id/txtIva"
+                            android:layout_width="0dp"
+                            android:layout_weight=".9"
+                            android:layout_height="33dp"
+                            android:layout_gravity="left"
+
+                            android:background="@color/fondoApp"
+                            android:ems="10"
+                            android:gravity="left"
+                            android:inputType="number"
+                            android:textColor="@color/letraCobrar"
+                            android:textColorHint="@color/letraCobrar"
+                            android:theme="@style/EditTextStyle"
+                            android:typeface="sans" />
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_weight=".9"
+                            android:layout_height="1dp"
+                            android:id="@+id/vieIva"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@android:color/darker_gray" />
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:paddingLeft="15dp"
+                        android:text="Comisión"
+                        android:id="@+id/lblComision"
+                        android:textColor="@color/letraCobrar" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+
+
+
+
+                        <EditText
+                            android:id="@+id/txtComision"
+                            android:layout_width="0dp"
+                            android:layout_weight=".9"
+                            android:layout_height="33dp"
+                            android:layout_gravity="left"
+
+                            android:background="@color/fondoApp"
+                            android:ems="10"
+                            android:gravity="left"
+                            android:inputType="numberDecimal"
+                            android:textColor="@color/letraCobrar"
+                            android:textColorHint="@color/letraCobrar"
+                            android:theme="@style/EditTextStyle"
+                            android:typeface="sans" />
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_weight=".9"
+                            android:id="@+id/vieComision"
+                            android:layout_height="1dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@android:color/darker_gray" />
+                        <TextView
+
+                            android:layout_width="15dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:text="Existencias"
+                android:id="@+id/lblExistencias"
+                android:textColor="@color/letraCobrar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+
+
+
+                <EditText
+                    android:id="@+id/txtExistencias"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+
+
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:id="@+id/vieExistencias"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:text="Categoría"
+                android:textColor="@color/letraCobrar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+
+
+
+                <Spinner
+                    android:id="@+id/spGrupos"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center_horizontal"
+            />
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:visibility="invisible"
+                android:layout_gravity="center_horizontal"
+                />
+            <ImageButton
+                android:id="@+id/btnListo"
+                android:layout_width="280dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/zxing_transparent"
+                android:onClick="btnListoClick"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/agregar" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:gravity="center_horizontal" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>
