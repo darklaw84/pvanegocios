@@ -350,6 +350,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
     }
 
     private void guardarPedido() {
+
         generarTicket("", "0", "0", "0",
                 "pedido", false, false);
     }
@@ -413,7 +414,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
         final ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
         if (productosDisponibles != null) {
 
-            ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, this);
+            ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, this,"G");
             gvProductosDisponibles.setAdapter(adapter);
             totalBusqueda = productosDisponibles.size();
 
@@ -1194,7 +1195,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
 
         if (productosDisponibles != null) {
             ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
-            ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context);
+            ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context,"G");
             gvProductosDisponibles.setAdapter(adapter);
             totalBusqueda = productosDisponibles.size();
             //  actualizarTotalesProductos();
@@ -1254,7 +1255,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
                 productosDisponibles = productosBuscar;
                 if (productosDisponibles != null) {
                     ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
-                    ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context);
+                    ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context,"G");
                     gvProductosDisponibles.setAdapter(adapter);
                 }
             }
@@ -1894,10 +1895,13 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
         if (ut.verificaConexion(context)) {
 
 
-            List<CajaDTOLocal> cajas = cdb.obtenerCajasParaEnviar(Integer.parseInt(ut.obtenerValor("idTienda", this)), realm);
-            if (cajas != null && cajas.size() > 0) {
-                ut.imprimirTicket(this, this, idTiendaGlobal);
-            }
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    Utilerias ut = new Utilerias();
+                    ut.imprimirTicket(context, activity, idTiendaGlobal);
+                }
+            });
 
 
             AsyncTask.execute(new Runnable() {
@@ -2373,7 +2377,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
 
                 if (productosDisponibles != null) {
                     ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
-                    ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context);
+                    ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context,"G");
                     gvProductosDisponibles.setAdapter(adapter);
                     totalBusqueda = productosDisponibles.size();
                     // actualizarTotalesProductos();

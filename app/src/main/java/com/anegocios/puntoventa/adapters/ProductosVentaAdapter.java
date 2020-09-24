@@ -22,12 +22,14 @@ public class ProductosVentaAdapter extends ArrayAdapter {
 
     List<ProductosXYDTOAux> mItems;
     private Context c;
+    String tipo ;
 
 
-    public ProductosVentaAdapter(List<ProductosXYDTOAux> items, Context context) {
+    public ProductosVentaAdapter(List<ProductosXYDTOAux> items, Context context,String tipoP) {
         super(context, R.layout.tablaproductos, items);
         c = context;
         mItems = items;
+        tipo = tipoP;
     }
 
     @Override
@@ -49,7 +51,17 @@ public class ProductosVentaAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         Utilerias ut = new Utilerias();
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View rowView = inflater.inflate(R.layout.tablaproductosventa, null);
+        View rowView;
+        if(tipo.equals("G"))
+        {
+             rowView = inflater.inflate(R.layout.tablaproductosventagrande, null);
+        }
+        else
+        {
+             rowView = inflater.inflate(R.layout.tablaproductosventa, null);
+        }
+
+
 
         TextView txtNombre = (TextView) rowView.findViewById(R.id.txtVenNomProducto);
         TextView txtExistencia = (TextView) rowView.findViewById(R.id.txtVenExistencia);

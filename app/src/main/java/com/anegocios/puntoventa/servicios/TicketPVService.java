@@ -54,7 +54,7 @@ public class TicketPVService extends AsyncTask<Void, Void, TicketPVDTO> {
                         if (realm != null && !realm.isClosed()) {
                             realm.close();
                         }
-                        ut.imprimirTicket(con, act, idTGlobal);
+                      //  ut.imprimirTicket(con, act, idTGlobal);
 
 
                     }

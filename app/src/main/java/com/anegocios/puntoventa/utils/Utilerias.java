@@ -539,6 +539,7 @@ public class Utilerias {
         TicketDTOLocal ultimoTicket = cdb.obtenerTicketCaja(idTicket, realm);
 
         String cliente = ultimoTicket.getIdCliente();
+
         String tipoCliente = ultimoTicket.getTipoCliente();
         String negocio = "";
         String telefono = "";
@@ -617,6 +618,16 @@ public class Utilerias {
         s += "                TOTAL:" + formatDoubleTicket(ultimoTicket.getTotal(), 8, "$") + "\n";
         s += "             EFECTIVO:" + formatDoubleTicket(ultimoTicket.getEfectivo(), 8, "$") + "\n";
         s += "               CAMBIO:" + formatDoubleTicket(ultimoTicket.getCambio(), 8, "$") + "\n";
+
+        if(ultimoTicket.getTipo().equals("pedido") && (ultimoTicket.getEfectivo()>0 || ultimoTicket.getTarjeta()>0 ))
+        {
+            //agregamos el saldo y el abono
+            double abono = ultimoTicket.getEfectivo()+ultimoTicket.getTarjeta();
+            s += "                ABONO:" + formatDoubleTicket(abono, 8, "$") + "\n";
+            s += "                SALDO:" + formatDoubleTicket(ultimoTicket.getTotal()-abono, 8, "$") + "\n";
+
+        }
+
         s += "\n";
         s += "\n";
         s += " Comentario:\n";
@@ -1163,7 +1174,7 @@ public class Utilerias {
         boolean mostrarPantallaChica = true;
         switch (screenSize) {
             case Configuration.SCREENLAYOUT_SIZE_LARGE:
-                mostrarPantallaChica = false;
+                mostrarPantallaChica = true;
                 break;
             case Configuration.SCREENLAYOUT_SIZE_NORMAL:
                 mostrarPantallaChica = true;
@@ -1175,7 +1186,7 @@ public class Utilerias {
                 mostrarPantallaChica = false;
                 break;
             default:
-                mostrarPantallaChica = false;
+                mostrarPantallaChica = true;
         }
 
         return mostrarPantallaChica;

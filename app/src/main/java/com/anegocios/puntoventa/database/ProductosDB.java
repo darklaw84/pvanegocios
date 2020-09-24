@@ -16,8 +16,10 @@ import com.anegocios.puntoventa.utils.ImageSeek;
 import com.anegocios.puntoventa.utils.Utilerias;
 
 import java.io.Console;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -187,23 +189,30 @@ public class ProductosDB {
         }
     }
 
-    private Bitmap obtenerImagen(String urln) {
+
+
+
+
+    public static Bitmap obtenerImagen(String src) {
         try {
-            urln = urln.replace("http://anegocios.com", "http://www.anegocios.com");
-            URL url = new URL(urln);
+
+            src= src.replace("http://anegocios.com","http://www.anegocios.com");
+            src= src.replace("http","https");
+            URL url = new URL(src);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
-            BitmapFactory.Options options = new BitmapFactory.Options();
 
-            Bitmap myBitmap = BitmapFactory.decodeStream(input, null, options);
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
             return myBitmap;
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+        } catch (IOException e) {
+            // Log exception
+            return null;
         }
-        return null;
     }
+
+
 
 
     public List<ProductosXYDTOAux> obtenerProductosCompletos(int idTienda, Realm realm) {

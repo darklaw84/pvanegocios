@@ -349,6 +349,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
     }
 
     private void guardarPedido() {
+
         generarTicket("", "0", "0", "0",
                 "pedido", false, false);
     }
@@ -404,7 +405,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         final ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
         if (productosDisponibles != null) {
 
-            ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, this);
+            ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, this,"C");
             gvProductosDisponibles.setAdapter(adapter);
             totalBusqueda = productosDisponibles.size();
 
@@ -1169,7 +1170,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
 
         if (productosDisponibles != null) {
             ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
-            ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context);
+            ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context,"C");
             gvProductosDisponibles.setAdapter(adapter);
             totalBusqueda = productosDisponibles.size();
             //  actualizarTotalesProductos();
@@ -1229,7 +1230,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
                 productosDisponibles = productosBuscar;
                 if (productosDisponibles != null) {
                     ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
-                    ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context);
+                    ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context,"C");
                     gvProductosDisponibles.setAdapter(adapter);
                 }
             }
@@ -1871,11 +1872,13 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         if (ut.verificaConexion(context)) {
 
 
-            List<CajaDTOLocal> cajas = cdb.obtenerCajasParaEnviar(Integer.parseInt(ut.obtenerValor("idTienda", this)), realm);
-            if (cajas != null && cajas.size() > 0) {
-                ut.imprimirTicket(this, this, idTiendaGlobal);
-            }
-
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    Utilerias ut = new Utilerias();
+                    ut.imprimirTicket(context, activity, idTiendaGlobal);
+                }
+            });
 
             AsyncTask.execute(new Runnable() {
                 @Override
@@ -2397,7 +2400,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
 
                 if (productosDisponibles != null) {
                     ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
-                    ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context);
+                    ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context,"C");
                     gvProductosDisponibles.setAdapter(adapter);
                     totalBusqueda = productosDisponibles.size();
                     // actualizarTotalesProductos();
