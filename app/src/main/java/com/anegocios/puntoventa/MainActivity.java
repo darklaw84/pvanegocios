@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
             Realm.setDefaultConfiguration(config);
             realm = ut.obtenerInstanciaBD();
             ImageButton btnModo = findViewById(R.id.btnModo);
+
+
             if (ut.obtenerModoAplicacion(this)) {
                 btnModo.setImageResource(R.drawable.conconexionbla);
             } else {

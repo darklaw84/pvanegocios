@@ -211,7 +211,7 @@ public class Utilerias {
     public boolean obtenerModoAplicacion(Context context) {
         String modoApp = obtenerValor("modoApp", context);
         if (modoApp == null) {
-            return false;
+            return true;
         } else {
             if (modoApp.equals("on")) {
                 return true;
