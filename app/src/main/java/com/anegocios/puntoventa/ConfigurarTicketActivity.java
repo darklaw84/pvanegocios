@@ -7,11 +7,11 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,8 +30,6 @@ import com.anegocios.puntoventa.database.TicketDB;
 import com.anegocios.puntoventa.dtosauxiliares.BytesImagenResultadoDTO;
 import com.anegocios.puntoventa.utils.Utilerias;
 import com.anegocios.puntoventa.utils.UtilsImagenes;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import java.util.List;
 import java.util.Set;
@@ -133,6 +131,8 @@ public class ConfigurarTicketActivity extends AppCompatActivity
 
     public void btnLogOutClick(View view)
     {
+        Utilerias ut = new Utilerias();
+        ut.guardarValor("idUsuario","",this);
         cerrarRealmN(realm);
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
@@ -152,7 +152,7 @@ public class ConfigurarTicketActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         Utilerias ut = new Utilerias();
         idTiendaGlobal = Long.parseLong(ut.obtenerValor("idTienda", this));
-        realm = ut.obtenerInstanciaBD();
+        realm = ut.obtenerInstanciaBD(this);
 
         //tenemos que cargar los header is los footer que haya
 

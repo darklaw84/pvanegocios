@@ -5,9 +5,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -15,8 +15,6 @@ import android.widget.TextView;
 
 import com.anegocios.puntoventa.adapters.ViewPagerAdapter;
 import com.anegocios.puntoventa.utils.Utilerias;
-
-import static android.support.v4.view.ViewPager.*;
 
 public class SliderActivity extends AppCompatActivity {
 
@@ -73,33 +71,32 @@ public class SliderActivity extends AppCompatActivity {
             adapter.addFragment(slider.newInstace(titulo[i], image[i], colorBackGround[i], contenido[i]));
         }
         viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(pagerListener);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                addDots(position);
+                if(position==4)
+                {
+                    btnSaltar.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    btnSaltar.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
-    OnPageChangeListener pagerListener = new OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int i, float v, int i1) {
 
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            addDots(position);
-            if(position==4)
-            {
-              btnSaltar.setVisibility(INVISIBLE);
-            }
-            else
-            {
-                btnSaltar.setVisibility(VISIBLE);
-            }
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int i) {
-
-        }
-    };
 
     public void btnListoClick(View view) {
         saltar();

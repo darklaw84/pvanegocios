@@ -4,10 +4,10 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -17,16 +17,13 @@ import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.anegocios.puntoventa.database.ProductosDB;
 import com.anegocios.puntoventa.database.UsuariosDB;
-import com.anegocios.puntoventa.dtosauxiliares.ProductosXYDTOAux;
 import com.anegocios.puntoventa.jsons.VersionEscritorioDTO;
 import com.anegocios.puntoventa.servicios.APIClient;
 import com.anegocios.puntoventa.servicios.APIInterface;
 import com.anegocios.puntoventa.utils.Utilerias;
 
 import java.net.URLEncoder;
-import java.util.List;
 import java.util.Set;
 
 import io.realm.Realm;
@@ -53,7 +50,7 @@ public class AyudaActivity extends AppCompatActivity
             Intent i = new Intent(this, ProductosActivity.class);
             startActivity(i);
         }
-        realm = ut.obtenerInstanciaBD();
+        realm = ut.obtenerInstanciaBD(this);
         setContentView(R.layout.ayuda);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -149,6 +146,8 @@ public class AyudaActivity extends AppCompatActivity
     }
 
     public void btnLogOutClick(View view) {
+        Utilerias ut = new Utilerias();
+        ut.guardarValor("idUsuario","",this);
         cerrarRealmN(realm);
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);

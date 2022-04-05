@@ -3,10 +3,10 @@ package com.anegocios.puntoventa;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -28,7 +28,7 @@ public class ConfiguracionActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         Utilerias ut = new Utilerias();
-        realm = ut.obtenerInstanciaBD();
+        realm = ut.obtenerInstanciaBD(this);
         mostrarConfiguracionUsuario();
     }
 
@@ -130,6 +130,8 @@ public class ConfiguracionActivity extends AppCompatActivity
 
     public void btnLogOutClick(View view)
     {
+        Utilerias ut = new Utilerias();
+        ut.guardarValor("idUsuario","",this);
         cerrarRealmN(realm);
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);

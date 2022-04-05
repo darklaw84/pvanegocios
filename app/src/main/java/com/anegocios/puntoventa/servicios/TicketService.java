@@ -47,13 +47,13 @@ public class TicketService extends AsyncTask<Void, Void, TicketDTO> {
                 if (res.isExito()) {
                     CajasDB cdb = new CajasDB();
                     if (res.getFolio() > 0) {
-                        Realm realm = ut.obtenerInstanciaBD();
+                        Realm realm = ut.obtenerInstanciaBD(con);
                         cdb.actualizarIdFolioTicketServer(idTicketLocal, res.getFolio(), realm);
 
                         if (realm != null && !realm.isClosed()) {
                             realm.close();
                         }
-                        ut.imprimirTicket(con, act, idTGlobal);
+                        ut.imprimirTicket(con, act, idTGlobal,idTicketLocal);
 
 
                     }

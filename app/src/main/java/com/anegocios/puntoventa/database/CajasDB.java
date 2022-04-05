@@ -57,6 +57,9 @@ public class CajasDB {
         return ticketsCaja;
     }
 
+
+
+
     public TicketDTOLocal obtenerTicketCaja(long idTicket, Realm realm) {
 
         Utilerias ut = new Utilerias();

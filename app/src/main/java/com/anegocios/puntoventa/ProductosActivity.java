@@ -15,29 +15,25 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -49,7 +45,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anegocios.puntoventa.servicios.ProductoAsyncService;
 import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -65,9 +60,7 @@ import com.anegocios.puntoventa.jsons.ProductosXYDTO;
 import com.anegocios.puntoventa.jsons.Usuario;
 import com.anegocios.puntoventa.servicios.APIClient;
 import com.anegocios.puntoventa.servicios.APIInterface;
-import com.anegocios.puntoventa.servicios.ProductosService;
 import com.anegocios.puntoventa.utils.ActualizacionCatalogosUtil;
-import com.anegocios.puntoventa.utils.ImageSeek;
 import com.anegocios.puntoventa.utils.Utilerias;
 
 import java.io.File;
@@ -107,13 +100,13 @@ public class ProductosActivity extends AppCompatActivity
             activity = this;
             Utilerias ut = new Utilerias();
             permisos = ut.obtenerPermisosUsuario(this);
-            realm = ut.obtenerInstanciaBD();
+            realm = ut.obtenerInstanciaBD(this);
 
 
             if (realm != null && !realm.isClosed()) {
                 realm.refresh();
             } else {
-                realm = ut.obtenerInstanciaBD();
+                realm = ut.obtenerInstanciaBD(this);
                 if (realm != null && !realm.isClosed()) {
                     realm.refresh();
                 }
@@ -170,7 +163,7 @@ public class ProductosActivity extends AppCompatActivity
                 acum.consultarGrupos(this, this);
                 pr.setIdAndroid(ut.obtenerSerial(this, this));
                 UsuariosDB udb = new UsuariosDB();
-                Realm realm = ut.obtenerInstanciaBD();
+                Realm realm = ut.obtenerInstanciaBD(this);
                 int idUT = udb.obtenerIdUTUsuario(Integer.parseInt(ut.obtenerValor("idUsuario", this)),
                         Integer.parseInt(ut.obtenerValor("idTienda", this)), realm).getIdUT();
                 pr.setIdUT(idUT);
@@ -280,6 +273,8 @@ public class ProductosActivity extends AppCompatActivity
     }
 
     public void btnLogOutClick(View view) {
+        Utilerias ut = new Utilerias();
+        ut.guardarValor("idUsuario","",this);
         cerrarRealmN(realm);
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
@@ -1126,7 +1121,7 @@ public class ProductosActivity extends AppCompatActivity
                         if (res.getProductosxy().size() > 0) {
                             ProductosDB pdb = new ProductosDB();
                             Utilerias ut = new Utilerias();
-                            Realm realmaux = ut.obtenerInstanciaBD();
+                            Realm realmaux = ut.obtenerInstanciaBD(context);
                             pdb.actualizarBDProductos(res.getProductosxy(),
                                     Integer.parseInt(ut.obtenerValor("idTienda", context)),
                                     ut.obtenerModoAplicacion(context), ut.verificaConexion(context), realmaux, context);
@@ -1196,7 +1191,7 @@ public class ProductosActivity extends AppCompatActivity
                         System.out.println(res.getMsg());
                     } else {
                         Utilerias ut = new Utilerias();
-                        Realm realm = ut.obtenerInstanciaBD();
+                        Realm realm = ut.obtenerInstanciaBD(context);
                         if (res.getProductosxy().size() > 0) {
                             ProductosDB pdb = new ProductosDB();
                             pdb.actualizarBDProductos(res.getProductosxy(),

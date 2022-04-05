@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -51,9 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import retrofit2.Call;
-import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -78,35 +76,38 @@ public class MainActivity extends AppCompatActivity {
 
         if (wizardVisto != null && wizardVisto.toUpperCase().equals("TRUE")) {
 
-            setContentView(R.layout.login);
-            progress_bar = findViewById(R.id.progress_bar);
-            progress_bar.setVisibility(View.INVISIBLE);
-            txtUsuario = findViewById(R.id.txtUsuario);
-            manejarEnterPass();
-            if (!ut.tienePermisos(this, this)) {
-                mandarMensaje("Por favor permite los permisos correspondientes" +
-                        " a la app, para su funcionamiento correcto");
+            String idUsuario = ut.obtenerValor("idUsuario",this);
+            if(idUsuario!=null && !idUsuario.equals(""))
+            {
+               // sigue logueado lo mandamos al punto de venta
+                realm = ut.obtenerInstanciaBD(this);
+                ut.validaIrPuntoVenta(this, this, realm, ut.obtenerPermisosUsuario(this), "normal");
             }
+            else {
 
-            Realm.init(this);
-       /* RealmConfiguration config = new RealmConfiguration.Builder()
-                .schemaVersion(1) // Must be bumped when the schema changes
-                .migration(new MigracionRealm()) // Migration to run instead of throwing an exception
-                .build();*/
+                setContentView(R.layout.login);
+                progress_bar = findViewById(R.id.progress_bar);
+                progress_bar.setVisibility(View.INVISIBLE);
+                txtUsuario = findViewById(R.id.txtUsuario);
+              TextView  txtVersion = findViewById(R.id.txtVersion);
+              txtVersion.setText(BuildConfig.VERSION_NAME);
+                manejarEnterPass();
+                if (!ut.tienePermisos(this, this)) {
+                    mandarMensaje("Por favor permite los permisos correspondientes" +
+                            " a la app, para su funcionamiento correcto");
+                }
 
-            RealmConfiguration config = new RealmConfiguration.Builder()
-                    .deleteRealmIfMigrationNeeded()
-                    .build();
+                ut.iniciarReal(this);
 
-            Realm.setDefaultConfiguration(config);
-            realm = ut.obtenerInstanciaBD();
-            ImageButton btnModo = findViewById(R.id.btnModo);
+                realm = ut.obtenerInstanciaBD(this);
+                ImageButton btnModo = findViewById(R.id.btnModo);
 
 
-            if (ut.obtenerModoAplicacion(this)) {
-                btnModo.setImageResource(R.drawable.conconexionbla);
-            } else {
-                btnModo.setImageResource(R.drawable.sinconexionbla);
+                if (ut.obtenerModoAplicacion(this)) {
+                    btnModo.setImageResource(R.drawable.conconexionbla);
+                } else {
+                    btnModo.setImageResource(R.drawable.sinconexionbla);
+                }
             }
         } else {
             Intent i = new Intent(getApplicationContext(), SliderActivity.class);
@@ -152,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void preguntarActualizar() {
 
-        android.support.v7.app.AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+        androidx.appcompat.app.AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
         alert.setTitle("Actualizar Catálogos ");
         alert.setMessage("Esta acción actualiza todos los catálogos, puede tomar varios minutos, desea continuar?");
         alert.setPositiveButton("Actualizar Catálogos", new DialogInterface.OnClickListener() {
@@ -190,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
                 pr.setIdAndroid(ut.obtenerSerial(this, this));
                 UsuariosDB udb = new UsuariosDB();
-                Realm realm = ut.obtenerInstanciaBD();
+                Realm realm = ut.obtenerInstanciaBD(this);
                 int idUT = udb.obtenerIdUTUsuario(Integer.parseInt(ut.obtenerValor("idUsuario", this)),
                         Integer.parseInt(ut.obtenerValor("idTienda", this)), realm).getIdUT();
                 pr.setIdUT(idUT);
@@ -309,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     String modo = ut.obtenerValor("modoApp", this);
                     if (modo == null) {
-                        modo = "off";
+                        modo = "on";
                     }
 
                     if (ut.verificaConexion(this) && modo.equals("on")) {
@@ -331,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
                         //verificamos el acceso con lo que tenemos guardado
                         UsuariosDB udb = new UsuariosDB();
                         if (realm == null || realm.isClosed()) {
-                            realm = ut.obtenerInstanciaBD();
+                            realm = ut.obtenerInstanciaBD(this);
                         }
                         List<Usuario> usuarios = udb.obtenerListaUsuarios(realm);
 
@@ -570,7 +571,7 @@ public class MainActivity extends AppCompatActivity {
 
             pr.setIdAndroid(ut.obtenerSerial(this, this));
             UsuariosDB udb = new UsuariosDB();
-            Realm realm7 = ut.obtenerInstanciaBD();
+            Realm realm7 = ut.obtenerInstanciaBD(this);
             int idUT = udb.obtenerIdUTUsuario(Integer.parseInt(ut.obtenerValor("idUsuario", this)),
                     Integer.parseInt(ut.obtenerValor("idTienda", this)), realm7).getIdUT();
 
@@ -627,7 +628,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         if (res.getProductosxy().size() > 0) {
                             ProductosDB pdb = new ProductosDB();
-                            Realm realm = ut.obtenerInstanciaBD();
+                            Realm realm = ut.obtenerInstanciaBD(context);
                             pdb.actualizarBDProductos(res.getProductosxy(),
                                     Integer.parseInt(ut.obtenerValor("idTienda", context)),
                                     ut.obtenerModoAplicacion(context), ut.verificaConexion(context), realm, context);
@@ -639,13 +640,13 @@ public class MainActivity extends AppCompatActivity {
                             for (ProductosXYDTO pro : res.getProductosxy()
                             ) {
                                 if (pro.isPaquete()) {
-                                    realm = ut.obtenerInstanciaBD();
+                                    realm = ut.obtenerInstanciaBD(context);
                                     pdb.borrarPaquetesProducto(pro, realm);
                                     if (realm != null && !realm.isClosed()) {
                                         realm.close();
                                     }
                                     if (pro.getPaquetesxy() != null && pro.getPaquetesxy().size() > 0) {
-                                        realm = ut.obtenerInstanciaBD();
+                                        realm = ut.obtenerInstanciaBD(context);
                                         pdb.guardarPaquetesProducto(pro, realm);
                                         if (realm != null && !realm.isClosed()) {
                                             realm.close();
@@ -703,7 +704,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         if (res.getGruposVRxy().size() > 0) {
                             GrupoDB pdb = new GrupoDB();
-                            Realm realm = ut.obtenerInstanciaBD();
+                            Realm realm = ut.obtenerInstanciaBD(context);
                             pdb.actualizarBDGrupos(res.getGruposVRxy(),
                                     Integer.parseInt(ut.obtenerValor("idTienda", context)), realm);
 
@@ -765,7 +766,7 @@ public class MainActivity extends AppCompatActivity {
 
                         if (resLogin.getUsuarios() != null && resLogin.getUsuarios().size() > 0) {
                             UsuariosDB udb = new UsuariosDB();
-                            Realm realm3 = ut.obtenerInstanciaBD();
+                            Realm realm3 = ut.obtenerInstanciaBD(context);
                             udb.actualizarBDUsuarios(resLogin.getUsuarios(), realm3);
 
                             for (Usuario u : resLogin.getUsuarios()
@@ -789,7 +790,7 @@ public class MainActivity extends AppCompatActivity {
 
                         if (resLogin.getAcceso()) {
                             UsuariosDB udb = new UsuariosDB();
-                            Realm realm4 = ut.obtenerInstanciaBD();
+                            Realm realm4 = ut.obtenerInstanciaBD(context);
                             List<Usuario> usuarios = udb.obtenerListaUsuarios(realm4);
 
                             Usuario encontrado = null;
@@ -884,7 +885,7 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println(res.getMsg());
                     } else {
                         Utilerias ut = new Utilerias();
-                        Realm realm = ut.obtenerInstanciaBD();
+                        Realm realm = ut.obtenerInstanciaBD(context);
                         if (res.getProductosxy().size() > 0) {
                             ProductosDB pdb = new ProductosDB();
                             pdb.actualizarBDProductos(res.getProductosxy(),

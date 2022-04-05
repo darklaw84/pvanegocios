@@ -14,6 +14,16 @@ public class RecibirAbonoDTO {
     private boolean exito;
     private int folio;
     private String msg;
+    private int idUsuario;
+
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
     public int getIdCaja() {
         return idCaja;

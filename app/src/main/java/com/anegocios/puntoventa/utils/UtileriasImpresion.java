@@ -339,10 +339,10 @@ public class UtileriasImpresion {
             mmOutputStream.write(centerData);
             mmOutputStream.write(fontData);
           */
-          /*  try {
+            try {
                 Thread.sleep(milisegundos);
             } catch (InterruptedException e) {
-            }*/
+            }
 
             byte[] send;
             try {
@@ -374,6 +374,8 @@ public class UtileriasImpresion {
                 Thread.sleep(milisegundos);
             } catch (InterruptedException e) {
             }
+
+
             mmOutputStream.write(msg.getBytes());
 
         } catch (Exception e) {

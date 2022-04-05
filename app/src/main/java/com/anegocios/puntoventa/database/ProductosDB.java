@@ -40,7 +40,12 @@ public class ProductosDB {
             if (realm != null) {
 
                 for (ProductosXYDTO ps : productos) {
+                    if(ps.getDescripcionCorta().contains("v"))
+                    {
+                        System.out.println(ps);
+                    }
                     if (ps.isActivo()) {
+
                         if (!realm.isInTransaction()) {
                             realm.beginTransaction();
                         }

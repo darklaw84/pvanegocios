@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fondoExtras">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,6 +45,16 @@
                         android:text="DETALLE TICKET"
                         android:textColor="@color/fondoBtnAzul"
                         android:textSize="25dp" />
+                    <ImageButton
+                        android:id="@+id/imgImpresora"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+
+                        android:background="@color/zxing_transparent"
+                        android:onClick="btnReimprimirTicket"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/impresoraazul" />
 
                     <ImageButton
                         android:id="@+id/btnTresPuntos"
@@ -157,7 +170,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="Folio"
+                        android:text=""
                         android:minWidth="30dp"
                         android:textSize="@dimen/letraTicketCont"
                         android:paddingLeft="15dp"
@@ -341,6 +354,7 @@
             android:background="@drawable/bordertabla"
             android:layout_width="match_parent"
             android:layout_height="120dp"
+            android:nestedScrollingEnabled="true"
 
              />
         <LinearLayout
@@ -540,7 +554,99 @@
                 android:id="@+id/txtSaldo"
                 />
         </LinearLayout>
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+
+
+
+
+             />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:id="@+id/layoutTituloAbonos"
+            android:background="@color/fondoCabecera"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:gravity="center_horizontal"
+                android:text="Abonos"
+                android:textStyle="bold"
+                android:textSize="20dp"
+
+
+                android:textColor="@color/listClaro" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="@color/fondoCabecera"
+            android:gravity="center_vertical"
+            android:id="@+id/layoutHeadersAbonos"
+            android:orientation="horizontal">
+
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:gravity="center_horizontal"
+                android:text="Fecha"
+
+
+                android:textColor="@color/listClaro" />
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:gravity="center_horizontal"
+                android:text="Monto"
+
+
+                android:textColor="@color/listClaro" />
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:gravity="center_horizontal"
+                android:text="Usuario"
+
+                android:textColor="@color/listClaro" />
+
+
+
+
+
+        </LinearLayout>
+
+        <ListView
+
+            android:id="@+id/gvAbonos"
+            android:background="@drawable/bordertabla"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:nestedScrollingEnabled="true"
+
+            />
+
     </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

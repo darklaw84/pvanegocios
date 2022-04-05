@@ -12,6 +12,9 @@ public class ReporteTicketDetalleDTO {
     private boolean exito;
     private List<VentasDetalleTicket> ventas;
 
+
+
+
     public String getIdAndroid() {
         return idAndroid;
     }

@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -56,7 +56,7 @@ public class CrearCuentaActivity extends AppCompatActivity {
         activity = this;
         cargarOnfocus();
         Utilerias ut = new Utilerias();
-        realm = ut.obtenerInstanciaBD();
+        realm = ut.obtenerInstanciaBD(this);
         progress_bar = findViewById(R.id.progress_bar);
         progress_bar.setVisibility(View.INVISIBLE);
     }
@@ -343,7 +343,7 @@ public class CrearCuentaActivity extends AppCompatActivity {
 
                 pr.setIdAndroid(ut.obtenerSerial(this, this));
                 UsuariosDB udb = new UsuariosDB();
-                Realm realm = ut.obtenerInstanciaBD();
+                Realm realm = ut.obtenerInstanciaBD(this);
                 int idUT = udb.obtenerIdUTUsuario(Integer.parseInt(ut.obtenerValor("idUsuario", this)),
                         Integer.parseInt(ut.obtenerValor("idTienda", this)), realm).getIdUT();
                 pr.setIdUT(idUT);
@@ -533,7 +533,7 @@ public class CrearCuentaActivity extends AppCompatActivity {
                         System.out.println(res.getMsg());
                     } else {
                         Utilerias ut = new Utilerias();
-                        Realm realm = ut.obtenerInstanciaBD();
+                        Realm realm = ut.obtenerInstanciaBD(context);
                         if (res.getProductosxy().size() > 0) {
                             ProductosDB pdb = new ProductosDB();
                             pdb.actualizarBDProductos(res.getProductosxy(),

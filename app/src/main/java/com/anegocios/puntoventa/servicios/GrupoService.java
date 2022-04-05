@@ -39,7 +39,7 @@ public class GrupoService extends AsyncTask<Void, Void, GrupoDTO> {
                     if (res.getGruposVRxy().size() > 0) {
                         GrupoDB pdb = new GrupoDB();
                         Utilerias ut = new Utilerias();
-                        Realm realm = ut.obtenerInstanciaBD();
+                        Realm realm = ut.obtenerInstanciaBD(context);
                         pdb.actualizarBDGrupos(res.getGruposVRxy(),
                                 Integer.parseInt(ut.obtenerValor("idTienda", context)), realm);
 

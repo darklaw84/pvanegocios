@@ -167,7 +167,7 @@ public class UtileriasSincronizacion {
 
                                 ProductosDB pdb = new ProductosDB();
                                 Utilerias ut = new Utilerias();
-                                Realm realmAux = ut.obtenerInstanciaBD();
+                                Realm realmAux = ut.obtenerInstanciaBD(context);
                                 pdb.actualizarBDProductos(paraSubir,
                                         Integer.parseInt(ut.obtenerValor("idTienda", context)),
                                         ut.obtenerModoAplicacion(context), ut.verificaConexion(context), realmAux,context);
@@ -239,7 +239,7 @@ public class UtileriasSincronizacion {
                             public void run() {
                                 ProductosDB pdb = new ProductosDB();
                                 Utilerias ut = new Utilerias();
-                                Realm realmaux = ut.obtenerInstanciaBD();
+                                Realm realmaux = ut.obtenerInstanciaBD(context);
                                 pdb.actualizarBDProductos(paraSubir,
                                         Integer.parseInt(ut.obtenerValor("idTienda", context)),
                                         ut.obtenerModoAplicacion(context), ut.verificaConexion(context), realmaux,context);
@@ -502,7 +502,7 @@ public class UtileriasSincronizacion {
         Call<CajaResponseDTO> call = apiInterface.mandarCaja(cr);
         Gson gson = new Gson();
         String json = gson.toJson(cr);
-        CajaService ls = new CajaService(call, idCajaLocal);
+        CajaService ls = new CajaService(call, idCajaLocal,context);
         try {
             ls.execute();
 
@@ -543,7 +543,7 @@ public class UtileriasSincronizacion {
 
         APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
         Call<CajaResponseDTO> call = apiInterface.mandarCaja(cr);
-        CajaService ls = new CajaService(call, -1);
+        CajaService ls = new CajaService(call, -1,c);
         try {
             ls.execute();
 
@@ -554,102 +554,6 @@ public class UtileriasSincronizacion {
     }
 
 
-    public String generarTicket(Context c, Activity a, CajaDTOLocal ca,
-                                TicketDTOLocal ti, List<TicketProductoDTOLocal> productos, Activity activity, Realm realm, long idTiendaGlobal) {
-        CajasDB cdb = new CajasDB();
-        String error = "";
-        Utilerias ut = new Utilerias();
-        TicketDTO cr = new TicketDTO();
-        cr.setIdAndroid(ut.obtenerSerial(c, a));
-        UsuariosDB udb = new UsuariosDB();
-        int idUT = udb.obtenerIdUTUsuario(Integer.parseInt(ut.obtenerValor("idUsuario", c)),
-                Integer.parseInt(ut.obtenerValor("idTienda", c)), realm).getIdUT();
-        cr.setIdUT(idUT);
-        ProductosDB pdb = new ProductosDB();
-        CajaTicketDTO caja = new CajaTicketDTO();
-        caja.setFechaInicio(ca.getFechaInicio());
-        caja.setId(ca.getIdCajaServer());
-
-
-        caja.setIdUT(idUT);
-        TicketCajaTicketDTO ticket = new TicketCajaTicketDTO();
-        ticket.setFolioApp(ti.getIdTicket());
-        ticket.setComment(ti.getComentario());
-        ticket.setIdUsuario(ca.getIdUsuario());
-        ticket.setIdTienda(ca.getIdTienda());
-        ticket.setIdCliente(ti.getIdCliente());
-        ticket.setCorreoTicket(ti.getCorreoTicket());
-        ticket.setCompartirWhatsApp(ti.isCompartirWhatsApp());
-        ticket.setTotal(ti.getTotal());
-        ticket.setFecha(ti.getFecha());
-        ticket.setCambio(ti.getCambio());
-        ticket.setEfectivo(ti.getEfectivo());
-        ticket.setTarjeta(ti.getTarjeta());
-        ticket.setIva(ti.getIva());
-        ticket.setTipo(ti.getTipo());
-        ticket.setProdEntregado(ti.isProdEntregado());
-        ticket.setSubTotal(ti.getSubtotal());
-        ticket.setDescuentoEfectivo(ti.getDescuentoEfectivo());
-        ticket.setDescuentoPorcentual(ti.getDescuentoPorcentual());
-        ticket.setPropinaPorcentual(ti.getPropinaPorcentual());
-        ticket.setPropinaEfectivo(ti.getPropinaEfectivo());
-        List<VentasXYDTO> ventas = new ArrayList<VentasXYDTO>();
-        for (TicketProductoDTOLocal p : productos
-        ) {
-            VentasXYDTO v = new VentasXYDTO();
-            v.setIdProducto(p.getIdProdcutoServer());
-            v.setFecha(p.getFecha());
-            v.setCantidad(p.getCantidad());
-            v.setCantMayoreo(p.getCantidadMayoreo());
-            v.setPrecioMayoreo(p.getPrecioMayoreo());
-            v.setComision(p.getComision());
-            v.setPrecioCompra(p.getPrecioCompra());
-            v.setIva(p.getIva());
-            v.setIvaTotal(p.getIvaTotal());
-            v.setPrecioVenta(p.getPrecioVenta());
-
-            v.setTotal(p.getPrecioVenta() * p.getCantidad());
-
-            List<OpcionPaqueteProductoLocal> opciones = cdb.obtenerOpcionesPaquetesProductos(p.getId(), realm);
-            List<OpcionesVentasXYDTO> opcionesVentas = new ArrayList<>();
-
-            if (opciones != null && opciones.size() > 0) {
-                for (OpcionPaqueteProductoLocal opa : opciones
-                ) {
-                    OpcionesVentasXYDTO ven = new OpcionesVentasXYDTO();
-                    ven.setCantidad(opa.getCantidad());
-                    TicketProductoDTOLocal prodLocal = cdb.obtenerProductosTicketLocal(opa.getIdProducto(), realm);
-                    ProductosXYDTO prod = pdb.obtenerproductoServer(prodLocal.getIdProdcutoServer(), realm);
-                    ven.setComision(prod.getComision());
-                    ven.setIva(prod.getIvaCant());
-                    ven.setIdOpcPkt(opa.getIdOpcion());
-                    ven.setPrecioCompra(prod.getPrecioCompra());
-                    ven.setPrecioPaquete(opa.getPrecio());
-                }
-            }
-            v.setOpcionesVentasxy(opcionesVentas);
-            ventas.add(v);
-        }
-        ticket.setVentasxy(ventas);
-        caja.setTicket(ticket);
-        cr.setCaja(caja);
-
-
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
-        Gson gson = new Gson();
-        String json = gson.toJson(cr);
-        Call<TicketDTO> call = apiInterface.mandarTicket(cr);
-        TicketService ls = new TicketService(call, ti.getIdTicket(), activity, c, idTiendaGlobal);
-
-        try {
-            ls.execute();
-
-        } catch (Exception ex) {
-            error = ex.getMessage();
-            Utilerias.log(c, "Error: " + ex.getMessage() + " " + ex.getStackTrace(), ex);
-        }
-        return error;
-    }
 
 
     public String generarTicketPV(Context c, Activity a, CajaDTOLocal ca,
@@ -708,6 +612,8 @@ public class UtileriasSincronizacion {
             v.setIva(p.getIva());
             v.setIvaTotal(p.getIvaTotal());
             v.setPrecioVenta(p.getPrecioVenta());
+
+
 
             v.setTotal(p.getPrecioVenta() * p.getCantidad());
 

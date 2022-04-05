@@ -42,7 +42,7 @@ public class ActualizacionCatalogosUtil {
             Utilerias ut = new Utilerias();
             pr.setIdAndroid(ut.obtenerSerial(context, activity));
             UsuariosDB udb = new UsuariosDB();
-            Realm realm = ut.obtenerInstanciaBD();
+            Realm realm = ut.obtenerInstanciaBD(context);
             int idUT = udb.obtenerIdUTUsuario(Integer.parseInt(ut.obtenerValor("idUsuario", context)),
                     Integer.parseInt(ut.obtenerValor("idTienda", context)), realm).getIdUT();
             pr.setIdUT(idUT);
@@ -97,7 +97,7 @@ public class ActualizacionCatalogosUtil {
 
         try {
             Utilerias ut = new Utilerias();
-            Realm realm = ut.obtenerInstanciaBD();
+            Realm realm = ut.obtenerInstanciaBD(context);
             pr.setIdAndroid(ut.obtenerSerial(context, activity));
             UsuariosDB udb = new UsuariosDB();
             int idUT = udb.obtenerIdUTUsuario(Integer.parseInt(ut.obtenerValor("idUsuario", context)),

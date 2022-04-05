@@ -8,22 +8,21 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
+
+import com.anegocios.puntoventa.adapters.AbonosTicketAdapter;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -32,30 +31,22 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anegocios.puntoventa.adapters.ReporteAdapter;
 import com.anegocios.puntoventa.adapters.VentasTicketAdapter;
 import com.anegocios.puntoventa.bdlocal.CajaDTOLocal;
-import com.anegocios.puntoventa.database.ClientesDB;
-import com.anegocios.puntoventa.database.GrupoDB;
 import com.anegocios.puntoventa.database.ProductosDB;
 import com.anegocios.puntoventa.database.UsuariosDB;
 import com.anegocios.puntoventa.dtosauxiliares.PaqueteOpcionAux;
-import com.anegocios.puntoventa.dtosauxiliares.ProductosXYDTOAux;
-import com.anegocios.puntoventa.jsons.ClienteDTO;
-import com.anegocios.puntoventa.jsons.GrupoDTO;
 import com.anegocios.puntoventa.jsons.ModificacionPedidoDTO;
 import com.anegocios.puntoventa.jsons.OpcionesPaquete;
-import com.anegocios.puntoventa.jsons.ProductoDTO;
 import com.anegocios.puntoventa.jsons.ProductosXYDTO;
 import com.anegocios.puntoventa.jsons.RecibirAbonoDTO;
 import com.anegocios.puntoventa.jsons.ReporteDTO;
 import com.anegocios.puntoventa.jsons.ReporteDetalleDTO;
 import com.anegocios.puntoventa.jsons.ReporteTicketDetalleDTO;
-import com.anegocios.puntoventa.jsons.Usuario;
 import com.anegocios.puntoventa.jsons.VentasDetalleTicket;
 import com.anegocios.puntoventa.jsons.VentasVentaTicketDTO;
 import com.anegocios.puntoventa.servicios.APIClient;
@@ -65,11 +56,8 @@ import com.anegocios.puntoventa.servicios.APIInterface;
 import com.anegocios.puntoventa.servicios.DetalleTicketService;
 import com.anegocios.puntoventa.servicios.EntregaProductoService;
 import com.anegocios.puntoventa.servicios.RecibirAbonoService;
-import com.anegocios.puntoventa.servicios.ReporteService;
-import com.anegocios.puntoventa.servicios.TicketService;
 import com.anegocios.puntoventa.utils.Utilerias;
 import com.anegocios.puntoventa.utils.UtileriasImpresion;
-import com.anegocios.puntoventa.utils.UtileriasSincronizacion;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -83,7 +71,6 @@ import java.util.List;
 import java.util.Set;
 
 import io.realm.Realm;
-import okhttp3.internal.Util;
 import retrofit2.Call;
 
 public class ReportesGrandeActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
@@ -115,7 +102,7 @@ public class ReportesGrandeActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Utilerias ut = new Utilerias();
-        realm = ut.obtenerInstanciaBD();
+        realm = ut.obtenerInstanciaBD(this);
         activity = this;
         context = this;
         String mostrarPedidos=ut.obtenerValor("mostrarPedidos",this);
@@ -223,6 +210,8 @@ public class ReportesGrandeActivity extends AppCompatActivity implements View.On
     }
 
     public void btnLogOutClick(View view) {
+        Utilerias ut = new Utilerias();
+        ut.guardarValor("idUsuario","",this);
         cerrarRealmN(realm);
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
@@ -580,7 +569,7 @@ public class ReportesGrandeActivity extends AppCompatActivity implements View.On
                 VentasDetalleTicket v = r.getVentas().get(0);
                 txtFolio.setText(v.getFolio());
                 txtEstatus.setText(v.getEstatus());
-                txtSubtotal.setText("" + v.getSubtotal());
+                txtSubtotal.setText("" + v.getSubTotal());
                 txtIva.setText("" + v.getIva());
                 txtDescuento.setText("" + v.getDescuento());
                 txtPropina.setText("" + v.getPropina());
@@ -594,15 +583,57 @@ public class ReportesGrandeActivity extends AppCompatActivity implements View.On
                 } else {
                     txtProdEntregado.setText("NO");
                 }
-                txtCliente.setText(v.getCliente());
+                txtCliente.setText(v.getCliente().getNombre()+" "+v.getCliente().getApellidoP()+" "+v.getCliente().getApellidoM());
                 ListView gvVentas = (ListView) findViewById(R.id.gvVentas);
                 if (r.getVentas().get(0).getVentas() != null) {
                     VentasTicketAdapter adapter = new VentasTicketAdapter(r.getVentas().get(0).getVentas(), this,"G");
                     gvVentas.setAdapter(adapter);
 
                 }
+
+
+
+                LinearLayout layoutTituloAbonos = (LinearLayout) findViewById(R.id.layoutTituloAbonos);
+                LinearLayout layoutHeadersAbonos = (LinearLayout) findViewById(R.id.layoutHeadersAbonos);
+                ListView gvAbonos = (ListView) findViewById(R.id.gvAbonos);
+
+
+                if(r.getVentas().get(0).getPagosDiferidos()!=null && r.getVentas().get(0).getPagosDiferidos().size()>0)
+                {
+                    layoutTituloAbonos.setVisibility(View.VISIBLE);
+                    layoutHeadersAbonos.setVisibility(View.VISIBLE);
+                    gvAbonos.setVisibility(View.VISIBLE);
+                    AbonosTicketAdapter adapter = new AbonosTicketAdapter(r.getVentas().get(0).getPagosDiferidos(), this, "C");
+                    gvAbonos.setAdapter(adapter);
+
+                }
+                else
+                {
+                    layoutTituloAbonos.setVisibility(View.GONE);
+                    layoutHeadersAbonos.setVisibility(View.GONE);
+                    gvAbonos.setVisibility(View.GONE);
+                }
             }
         }
+    }
+
+
+    public void btnReimprimirTicket(View view) {
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                reimprimirTicketActual();
+            }
+        });
+
+    }
+
+    private void reimprimirTicketActual()
+    {
+        Utilerias ut = new Utilerias();
+        long idTiendaGlobal = Long.parseLong(ut.obtenerValor("idTienda", context));
+        ut.reImprimirTicket(this,this,idTiendaGlobal,r);
     }
 
     private void setListViewHeightBasedOnChildren(ListView listView) {
@@ -843,6 +874,7 @@ public class ReportesGrandeActivity extends AppCompatActivity implements View.On
                     int idUT = udb.obtenerIdUTUsuario(Integer.parseInt(ut.obtenerValor("idUsuario", this)),
                             Integer.parseInt(ut.obtenerValor("idTienda", this)), realm).getIdUT();
                     pr.setIdUT(idUT);
+                    pr.setIdUsuario(Integer.parseInt(ut.obtenerValor("idUsuario", this)));
                     pr.setFechaPago(txtFechaPag.getText().toString() + " 00:00:00");
                     pr.setEfectivo(efectivo);
                     pr.setTarjeta(tarjeta);
@@ -860,6 +892,13 @@ public class ReportesGrandeActivity extends AppCompatActivity implements View.On
                             mandarMensaje("No se pudo realizar el abono, por favor intente de nuevo");
                         } else {
                             mandarMensaje("Se realizó con éxito el abono ");
+                            r = consultarDetalle(tipo, folioConsultar);
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    reimprimirTicketActual();
+                                }
+                            });
                             mostrarReportes();
                         }
                     }

@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,17 +17,17 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
+
+import androidx.core.app.ActivityCompat;
+
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.anegocios.puntoventa.AbrirCajaActivity;
+import com.anegocios.puntoventa.BuildConfig;
 import com.anegocios.puntoventa.PuntoVentaActivity;
 import com.anegocios.puntoventa.PuntoVentaChicoActivity;
 import com.anegocios.puntoventa.bdlocal.CajaDTOLocal;
@@ -45,38 +44,54 @@ import com.anegocios.puntoventa.database.ProductosDB;
 import com.anegocios.puntoventa.database.TicketDB;
 import com.anegocios.puntoventa.dtosauxiliares.ClienteXYDTOAux;
 import com.anegocios.puntoventa.dtosauxiliares.ProductosXYDTOAux;
+import com.anegocios.puntoventa.jsons.AbonosDTO;
 import com.anegocios.puntoventa.jsons.ClienteXYDTO;
+import com.anegocios.puntoventa.jsons.DireccionDetalleTicketDTO;
+import com.anegocios.puntoventa.jsons.OpcionesPaqueteTicketDTO;
 import com.anegocios.puntoventa.jsons.ProductosXYDTO;
+import com.anegocios.puntoventa.jsons.ReporteTicketDetalleDTO;
 import com.anegocios.puntoventa.jsons.Usuario;
+import com.anegocios.puntoventa.jsons.VentasDetalleTicket;
+import com.anegocios.puntoventa.jsons.VentasVentaTicketDTO;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import am.util.printer.PrinterWriter;
-import am.util.printer.PrinterWriter58mm;
-import am.util.printer.PrinterWriter80mm;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class Utilerias {
 
     Bitmap bitmap;
+
+
+    public void iniciarReal(Context context) {
+        Realm.init(context);
+       /* RealmConfiguration config = new RealmConfiguration.Builder()
+                .schemaVersion(1) // Must be bumped when the schema changes
+                .migration(new MigracionRealm()) // Migration to run instead of throwing an exception
+                .build();*/
+
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
+
+        Realm.setDefaultConfiguration(config);
+    }
+
 
     public Bitmap getBitmap() {
         return bitmap;
@@ -417,19 +432,30 @@ public class Utilerias {
     }
 
 
-    public Realm obtenerInstanciaBD() {
+    public Realm obtenerInstanciaBD(Context context) {
         Realm realm = null;
-        int veces = 5;
-        for (int i = 1; i <= veces; i++) {
+
+
+        try {
+            realm = Realm.getDefaultInstance();
+
+        } catch (Exception ex) {
+            log(context, "sin datos", ex);
+            ex.printStackTrace();
+        }
+        if (realm != null) {
+            return realm;
+        } else {
+            iniciarReal(context);
             try {
                 realm = Realm.getDefaultInstance();
+
             } catch (Exception ex) {
+                log(context, "reiniciado Realm", ex);
                 ex.printStackTrace();
             }
-            if (realm != null) {
-                break;
-            }
         }
+
         return realm;
     }
 
@@ -535,64 +561,171 @@ public class Utilerias {
 
         //obtenemos el ultimo
 
+
         CajasDB cdb = new CajasDB();
+        realm.refresh();
         TicketDTOLocal ultimoTicket = cdb.obtenerTicketCaja(idTicket, realm);
+        String s = "";
+        if (ultimoTicket != null) {
 
-        String cliente = ultimoTicket.getIdCliente();
+            String cliente = ultimoTicket.getIdCliente();
 
-        String tipoCliente = ultimoTicket.getTipoCliente();
-        String negocio = "";
-        String telefono = "";
-        String direccion = "";
-        String ticketWeb = "";
-        String ticketApp = "";
-        if (ultimoTicket.getIdFolioServer() > 0) {
-            ticketWeb = "" + ultimoTicket.getIdFolioServer();
-        } else {
-            ticketWeb = "";
-        }
-
-        ticketApp = "" + ultimoTicket.getIdTicket();
-
-        String fecha = ultimoTicket.getFecha();
-        if (cliente != null && !cliente.equals("") && tipoCliente != null && !tipoCliente.equals("")) {
-            ClientesDB cldb = new ClientesDB();
-            ClienteXYDTOAux cli = new ClienteXYDTOAux();
-            if (tipoCliente.equals("S")) {
-                ClienteXYDTO cliSer = cldb.obtenerClienteServer(Integer.parseInt(cliente), realm);
-                if (cliSer != null) {
-                    cli = new ClienteXYDTOAux(cliSer, "S");
-                }
+            String tipoCliente = ultimoTicket.getTipoCliente();
+            String negocio = "";
+            String telefono = "";
+            String direccion = "";
+            String ticketWeb = "";
+            String ticketApp = "";
+            if (ultimoTicket.getIdFolioServer() > 0) {
+                ticketWeb = "" + ultimoTicket.getIdFolioServer();
             } else {
-                ClienteXYDTOLocal clil = cldb.obtenerClienteLocal(Integer.parseInt(cliente), realm);
-                if (clil != null) {
-                    cli = new ClienteXYDTOAux(clil, "L");
-                }
+                ticketWeb = "";
             }
-            String nombre = cli.getNombre() == null ? "" : cli.getNombre();
-            String aPaterno = cli.getApellidoP() == null ? "" : cli.getApellidoP();
-            String aMaterno = cli.getApellidoM() == null ? "" : cli.getApellidoM();
-            cliente = nombre + " " + aPaterno
-                    + " " + aMaterno;
-            telefono = cli.getTelefono() == null ? "" : cli.getTelefono();
-            String calle = cli.getCalle() == null ? "" : cli.getCalle();
-            String ext = cli.getNumeroExt() == null ? "" : cli.getNumeroExt();
-            String inter = cli.getNumeroInt() == null ? "" : cli.getNumeroInt();
-            String colonia = cli.getColonia() == null ? "" : cli.getColonia();
-            String municipio = cli.getMunicipio() == null ? "" : cli.getMunicipio();
-            String estado = cli.getEstado() == null ? "" : cli.getEstado();
-            direccion = calle + " " +
-                    ext + " " +
-                    inter + " " +
-                    colonia + " " +
-                    municipio + " " +
-                    estado;
-        } else {
-            cliente = "";
-        }
+
+            ticketApp = "" + ultimoTicket.getIdTicket();
+
+            String fecha = ultimoTicket.getFecha();
+            if (cliente != null && !cliente.equals("") && tipoCliente != null && !tipoCliente.equals("")) {
+                ClientesDB cldb = new ClientesDB();
+                ClienteXYDTOAux cli = new ClienteXYDTOAux();
+                if (tipoCliente.equals("S")) {
+                    ClienteXYDTO cliSer = cldb.obtenerClienteServer(Integer.parseInt(cliente), realm);
+                    if (cliSer != null) {
+                        cli = new ClienteXYDTOAux(cliSer, "S");
+                    }
+                } else {
+                    ClienteXYDTOLocal clil = cldb.obtenerClienteLocal(Integer.parseInt(cliente), realm);
+                    if (clil != null) {
+                        cli = new ClienteXYDTOAux(clil, "L");
+                    }
+                }
+                String nombre = cli.getNombre() == null ? "" : cli.getNombre();
+                String aPaterno = cli.getApellidoP() == null ? "" : cli.getApellidoP();
+                String aMaterno = cli.getApellidoM() == null ? "" : cli.getApellidoM();
+                cliente = nombre + " " + aPaterno
+                        + " " + aMaterno;
+                telefono = cli.getTelefono() == null ? "" : cli.getTelefono();
+                String calle = cli.getCalle() == null ? "" : cli.getCalle();
+                String ext = cli.getNumeroExt() == null ? "" : cli.getNumeroExt();
+                String inter = cli.getNumeroInt() == null ? "" : cli.getNumeroInt();
+                String colonia = cli.getColonia() == null ? "" : cli.getColonia();
+                String municipio = cli.getMunicipio() == null ? "" : cli.getMunicipio();
+                String estado = cli.getEstado() == null ? "" : cli.getEstado();
+                direccion = calle + " " +
+                        ext + " " +
+                        inter + " " +
+                        colonia + " " +
+                        municipio + " " +
+                        estado;
+            } else {
+                cliente = "";
+            }
             /*UsuariosDB udb = new UsuariosDB();
             Usuario usuario = udb.obtenerUsuario(Integer.parseInt(obtenerValor("idUsuario", c)));
             */
+
+
+            if (!cliente.equals("")) {
+                s += "Cliente: " + cortarString(cliente, 24, 23);
+                s += "Telefono: " + telefono + "\n";
+                s += "Direccion: " + cortarString(direccion, 32, 21);
+            }
+            s += "          Ticket App: " + ticketApp + "\n";
+            if (!ticketWeb.equals("")) {
+                s += "          Ticket Web: " + ticketWeb + "\n";
+            }
+            s += "      " + fecha + "\n";
+            s += "------------------------------\n";
+            s += "\n";
+            s += "Cant.  Pre. Uni.  Precio   IVA\n";
+            s += armarProductosTicket(ultimoTicket, realm);
+            s += "\n\n";
+            s += "             Subtotal:" + formatDoubleTicket(ultimoTicket.getSubtotal(), 8, "$") + "\n";
+            s += "                  IVA:" + formatDoubleTicket(ultimoTicket.getIva(), 8, "$") + "\n";
+            s += "            Descuento:" + formatDoubleTicket(ultimoTicket.getDescuentoTotal(), 8, "$") + "\n";
+            s += " Propina y/o comision:" + formatDoubleTicket(ultimoTicket.getPropinaTotal(), 8, "$") + "\n";
+            s += "________________________________\n";
+            s += "                TOTAL:" + formatDoubleTicket(ultimoTicket.getTotal(), 8, "$") + "\n";
+            s += "             EFECTIVO:" + formatDoubleTicket(ultimoTicket.getEfectivo(), 8, "$") + "\n";
+            s += "               CAMBIO:" + formatDoubleTicket(ultimoTicket.getCambio(), 8, "$") + "\n";
+
+            if (ultimoTicket.getTipo().equals("pedido") && (ultimoTicket.getEfectivo() > 0 || ultimoTicket.getTarjeta() > 0)) {
+                //agregamos el saldo y el abono
+                double abono = ultimoTicket.getEfectivo() + ultimoTicket.getTarjeta();
+                s += "                ABONO:" + formatDoubleTicket(abono, 8, "$") + "\n";
+                s += "                SALDO:" + formatDoubleTicket(ultimoTicket.getTotal() - abono, 8, "$") + "\n";
+
+
+                s += "\n";
+                s += "\n";
+                s += "            ABONOS" + "\n";
+
+                s += "    Fecha             Abono   \n";
+                String precios = "";
+                precios = obtenerFechaActualFormateada().substring(0, 10);
+
+                precios += "          ";
+                precios += formatDoubleTicket(abono, 8, "$");
+                s += precios;
+            }
+
+            s += "\n";
+            s += "\n";
+            s += " Comentario:\n";
+            s += cortarString(ultimoTicket.getComentario(), 32, 32);
+            s += "\n";
+
+            if (ultimoTicket.isProdEntregado()) {
+                s += "  ___________________________  " + "\n";
+                s += "             FIRMA" + "\n";
+                s += "      PRODUCTO ENTREGADO" + "\n";
+            }
+        }
+
+        return s;
+
+
+    }
+
+
+    public String armarTicketReimprimir(VentasDetalleTicket detalle) {
+
+        //obtenemos el ultimo
+        boolean prodEntregado = detalle.isProdEntregado();
+        String cliente = "";
+        if (detalle.getCliente() != null) {
+            cliente = detalle.getCliente().getNombre() + " " + detalle.getCliente().getApellidoP() + " " + detalle.getCliente().getApellidoM();
+        }
+
+
+        String telefono = "";
+        if (detalle.getCliente() != null && detalle.getCliente().getTelefonos() != null
+                && detalle.getCliente().getTelefonos().size() > 0) {
+            telefono = detalle.getCliente().getTelefonos().get(0).getNumero();
+        }
+
+
+        String ticketWeb = "";
+        String ticketApp = "";
+
+        ticketWeb = detalle.getFolio();
+
+        if (detalle.getFolioApp() == null) {
+            ticketApp = "";
+        } else {
+            ticketApp = "" + detalle.getFolioApp();
+        }
+
+        String fecha = detalle.getFecha();
+        String direccion = "";
+        if (detalle.getCliente() != null && detalle.getCliente().getDirecciones() != null
+                && detalle.getCliente().getDirecciones().size() > 0) {
+            DireccionDetalleTicketDTO dirObj = detalle.getCliente().getDirecciones().get(0);
+            direccion = dirObj.getCalle() + " " + dirObj.getNumeroExt() + " " +
+                    dirObj.getNumeroInt() + " " + dirObj.getColonia() + " " + dirObj.getMunicipio() + "" +
+                    dirObj.getCp();
+        }
+
 
         String s = "";
         if (!cliente.equals("")) {
@@ -608,36 +741,57 @@ public class Utilerias {
         s += "------------------------------\n";
         s += "\n";
         s += "Cant.  Pre. Uni.  Precio   IVA\n";
-        s += armarProductosTicket(ultimoTicket, realm);
+        s += armarProductosTicketReimprimir(detalle.getVentas());
         s += "\n\n";
-        s += "             Subtotal:" + formatDoubleTicket(ultimoTicket.getSubtotal(), 8, "$") + "\n";
-        s += "                  IVA:" + formatDoubleTicket(ultimoTicket.getIva(), 8, "$") + "\n";
-        s += "            Descuento:" + formatDoubleTicket(ultimoTicket.getDescuentoTotal(), 8, "$") + "\n";
-        s += " Propina y/o comision:" + formatDoubleTicket(ultimoTicket.getPropinaTotal(), 8, "$") + "\n";
+        s += "             Subtotal:" + formatDoubleTicket(detalle.getSubTotal(), 8, "$") + "\n";
+        s += "                  IVA:" + formatDoubleTicket(detalle.getIva(), 8, "$") + "\n";
+        s += "            Descuento:" + formatDoubleTicket(detalle.getDescuento(), 8, "$") + "\n";
+        s += " Propina y/o comision:" + formatDoubleTicket(detalle.getPropina(), 8, "$") + "\n";
         s += "________________________________\n";
-        s += "                TOTAL:" + formatDoubleTicket(ultimoTicket.getTotal(), 8, "$") + "\n";
-        s += "             EFECTIVO:" + formatDoubleTicket(ultimoTicket.getEfectivo(), 8, "$") + "\n";
-        s += "               CAMBIO:" + formatDoubleTicket(ultimoTicket.getCambio(), 8, "$") + "\n";
+        s += "                TOTAL:" + formatDoubleTicket(detalle.getTotal(), 8, "$") + "\n";
 
-        if(ultimoTicket.getTipo().equals("pedido") && (ultimoTicket.getEfectivo()>0 || ultimoTicket.getTarjeta()>0 ))
-        {
+
+        if (detalle.getPagosDiferidos() != null && detalle.getPagosDiferidos().size() > 0) {
             //agregamos el saldo y el abono
-            double abono = ultimoTicket.getEfectivo()+ultimoTicket.getTarjeta();
-            s += "                ABONO:" + formatDoubleTicket(abono, 8, "$") + "\n";
-            s += "                SALDO:" + formatDoubleTicket(ultimoTicket.getTotal()-abono, 8, "$") + "\n";
+            double totalAbonos = 0;
+            for (AbonosDTO ab : detalle.getPagosDiferidos()
+            ) {
+                totalAbonos += Double.parseDouble(ab.getCantidad());
+            }
 
+            s += "                ABONO:" + formatDoubleTicket(totalAbonos, 8, "$") + "\n";
+            s += "                SALDO:" + formatDoubleTicket(detalle.getSaldo(), 8, "$") + "\n";
+
+            s += "\n";
+            s += "\n";
+            s += "            ABONOS" + "\n";
+
+            s += "  Fecha     Usuario      Abono\n";
+            s += armarAbonosTicket(detalle.getPagosDiferidos());
         }
 
+
         s += "\n";
         s += "\n";
+
         s += " Comentario:\n";
-        s += cortarString(ultimoTicket.getComentario(), 32, 32);
+        if (detalle.getComentario() != null) {
+            s += cortarString(detalle.getComentario(), 32, 32);
+        }
         s += "\n";
+        s += "\n";
+
+
+        if (prodEntregado) {
+            s += "  ___________________________  " + "\n";
+            s += "             FIRMA" + "\n";
+            s += "      PRODUCTO ENTREGADO" + "\n";
+        }
+
         return s;
 
 
     }
-
 
     public String armarTicketSDK(long idTicket, Realm realm) {
 
@@ -782,6 +936,80 @@ public class Utilerias {
         return ps;
     }
 
+
+    private String armarProductosTicketReimprimir(List<VentasVentaTicketDTO> productosTicket) {
+
+        String ps = "";
+
+        for (VentasVentaTicketDTO p : productosTicket
+        ) {
+            ProductosXYDTO prodServ;
+            ProductosXYDTOLocal prodLo;
+            ProductosXYDTOAux proAux;
+
+
+            if (p.getOpcionesPkt() != null && p.getOpcionesPkt().size() > 0) {
+
+                ps += cortarString(p.getProducto(), 32, 32);
+
+                for (OpcionesPaqueteTicketDTO o : p.getOpcionesPkt()
+                ) {
+                    String opcionString = "";
+
+                    opcionString = "   * " + o.getCantidad() + " - " + o.getProducto();
+                    ps += cortarString(opcionString, 32, 32);
+
+
+                }
+
+                ps += cortarString(armarPreciosProducto(p.getCantidad(), p.getPrecioUnit(),
+                        p.getCantidad() * p.getPrecioUnit(),
+                        p.getIva()), 32, 32);
+
+
+            } else {
+
+                ps += cortarString(p.getProducto(), 32, 32);
+                ps += cortarString(armarPreciosProducto(p.getCantidad(), p.getPrecioUnit(),
+                        p.getCantidad() * p.getPrecioUnit(),
+                        p.getIva()), 32, 32);
+            }
+        }
+        return ps;
+    }
+
+
+    private String armarAbonosTicket(List<AbonosDTO> abonos) {
+
+        String ps = "";
+
+        for (AbonosDTO p : abonos
+        ) {
+
+            ps += cortarString(
+                    armarAbono(p.getFecha().substring(0, 10), p.getUsuario(), Double.parseDouble(p.getCantidad()))
+                    , 32, 32);
+
+        }
+        return ps;
+    }
+
+    private String armarAbono(String fecha, String usuario, double cantidad) {
+        String precios = "";
+        precios += fecha;
+        precios += " ";
+
+        if (usuario == null) {
+            precios += "          ";
+        } else {
+            precios += cortarUsuarioString(usuario, 11);
+        }
+        precios += " ";
+        precios += formatDoubleTicket(cantidad, 8, "$");
+
+        return precios;
+    }
+
     private String armarPreciosProducto(double cantidad, double punitario, double subtotal, double iva) {
         String precios = "";
         precios += formatDoubleTicket(cantidad, 6, " ");
@@ -828,6 +1056,22 @@ public class Utilerias {
         return cortada;
     }
 
+    public String cortarUsuarioString(String text, int size) {
+        String cortada = "";
+        if (text.length() >= size) {
+            cortada = text.substring(0, size - 1);
+
+        } else {
+            cortada = text;
+            if (cortada.length() < size) {
+                int espaciosfaltan = size - cortada.length();
+                for (int i = 1; i <= espaciosfaltan; i++) {
+                    cortada += " ";
+                }
+            }
+        }
+        return cortada;
+    }
 
     public void enviarTicketWhatssap(String url, Activity activity) {
 
@@ -872,41 +1116,49 @@ public class Utilerias {
 
     public boolean isBluetoothEnabled() {
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        return mBluetoothAdapter.isEnabled();
+        if (mBluetoothAdapter != null) {
+            return mBluetoothAdapter.isEnabled();
+        } else {
+            return false;
+        }
 
     }
 
     public BluetoothDevice obtenerImpresora(String nombreImpresora) {
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+        try {
+            BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
 
 
-        if (pairedDevices.size() > 0) {
-            for (BluetoothDevice device : pairedDevices) {
+            if (pairedDevices.size() > 0) {
+                for (BluetoothDevice device : pairedDevices) {
 
-                // RPP300 is the name of the bluetooth printer device
-                // we got this name from the list of paired devices
+                    // RPP300 is the name of the bluetooth printer device
+                    // we got this name from the list of paired devices
 
-                if (device.getName().equals(nombreImpresora)) {
+                    if (device.getName().equals(nombreImpresora)) {
 
-                    int bondstate = device.getBondState();
-                    if (bondstate == BluetoothDevice.BOND_NONE) {
-                        if (device.createBond()) {
-                            return device;
+                        int bondstate = device.getBondState();
+                        if (bondstate == BluetoothDevice.BOND_NONE) {
+                            if (device.createBond()) {
+                                return device;
+                            } else {
+                                return null;
+                            }
                         } else {
-                            return null;
+                            return device;
                         }
-                    } else {
-                        return device;
                     }
                 }
             }
+        } catch (Exception ex) {
+            log(ctx, "Intentando obtener impresora", ex);
         }
 
         return null;
     }
 
-    public void imprimirTicket(Context c, Activity a, long idTiendaGlobal) {
+    public void imprimirTicket(Context c, Activity a, long idTiendaGlobal, int idTicketImprimir) {
         Utilerias ut = new Utilerias();
 
         if (isBluetoothEnabled()) {
@@ -917,25 +1169,42 @@ public class Utilerias {
                 BluetoothDevice device = obtenerImpresora(nombreImpresora);
                 if (device != null) {
                     CajasDB cdb = new CajasDB();
-                    Realm realmN = obtenerInstanciaBD();
-                    CajaDTOLocal cajaActual = ut.obtenerCajaActual(c, a, realmN);
+                    Realm realmN = obtenerInstanciaBD(c);
 
-                    if(cajaActual!=null) {
-                        List<TicketDTOLocal> tickets = cdb.obtenerTicketsCajaLocales(cajaActual.getIdCaja(), realmN);
+                    String ticket = ut.armarTicket(idTicketImprimir, realmN);
+                    if (ticket != null) {
+                        imprimirBackGround(device, idTiendaGlobal, ticket);
+                    }
+                } else {
+                    System.out.println("No se encontró la impresora configurada");
+                }
+            } else {
+                System.out.println("Por favor configure primero una impresora");
+            }
+        } else {
+            System.out.println("El Bluetooth esta apagado, por favor verifique");
+        }
+    }
 
-                        if (tickets != null && tickets.size() > 0) {
-                            TicketDTOLocal ultimoTicket = tickets.get(tickets.size() - 1);
-                            String ticket = ut.armarTicket(ultimoTicket.getIdTicket(), realmN);
-                            if (ticket != null) {
 
-                                imprimirBackGround(device, idTiendaGlobal, ticket);
+    public void reImprimirTicket(Context c, Activity a, long idTiendaGlobal, ReporteTicketDetalleDTO detalle) {
+        Utilerias ut = new Utilerias();
 
-                            } else {
-                                System.out.println("No se pudo generar el ticket");
-                            }
-                        } else {
-                            System.out.println("No se ha generado ninguna Venta");
-                        }
+        if (isBluetoothEnabled()) {
+
+            String nombreImpresora = ut.obtenerValor("nombreImpresora", c);
+            if (nombreImpresora != null) {
+
+                BluetoothDevice device = obtenerImpresora(nombreImpresora);
+                if (device != null) {
+
+                    String ticket = ut.armarTicketReimprimir(detalle.getVentas().get(0));
+                    if (ticket != null) {
+
+                        imprimirBackGround(device, idTiendaGlobal, ticket);
+
+                    } else {
+                        System.out.println("No se pudo generar el ticket");
                     }
                 } else {
                     System.out.println("No se encontró la impresora configurada");
@@ -1009,43 +1278,45 @@ public class Utilerias {
 
 
         TicketDB tdb = new TicketDB();
-        Realm realm2 = ut.obtenerInstanciaBD();
-        ImagenTicketDTOLocal imagen = tdb.obtenerImagen(idTiendaGlobal, realm2);
+        Realm realm2 = ut.obtenerInstanciaBD(ctx);
+    /*    ImagenTicketDTOLocal imagen = tdb.obtenerImagen(idTiendaGlobal, realm2);
 
         if (imagen != null && imagen.getImagen() != null) {
             uim.setTipoLetra(-1);
 
             uim.imprimirImagen(imagen.getImagen(), device, tipoImpresora, 3000);
         }
+        */
+
 
         List<RowTicketLocal> headerst = tdb.obtenerRows("H", idTiendaGlobal, realm2);
 
         for (RowTicketLocal he : headerst
         ) {
             uim.setTipoLetra(he.getTamanioLetra());
-            uim.mandarLetra(device, tipoImpresora, 1500);
-            uim.imprimirTicket((he.getTexto() + "\n"), device, tipoImpresora, 1500);
+            uim.mandarLetra(device, tipoImpresora, 400);
+            uim.imprimirTicket((he.getTexto() + "\n"), device, tipoImpresora, 400);
         }
         String lineaCorte = "\n\n";
         uim.setTipoLetra(1);
-        uim.mandarLetra(device, tipoImpresora, 1500);
-        uim.imprimirTicket(lineaCorte, device, tipoImpresora, 500);
-        String error = uim.imprimirTicket(bytes, device, tipoImpresora, 1500);
+        uim.mandarLetra(device, tipoImpresora, 400);
+        uim.imprimirTicket(lineaCorte, device, tipoImpresora, 400);
+        String error = uim.imprimirTicket(bytes, device, tipoImpresora, 400);
 
         List<RowTicketLocal> footers = tdb.obtenerRows("F", idTiendaGlobal, realm2);
 
         for (RowTicketLocal fo : footers
         ) {
             uim.setTipoLetra(fo.getTamanioLetra());
-            uim.mandarLetra(device, tipoImpresora, 1500);
-            uim.imprimirTicket((fo.getTexto() + "\n"), device, tipoImpresora, 1500);
+            uim.mandarLetra(device, tipoImpresora, 400);
+            uim.imprimirTicket((fo.getTexto() + "\n"), device, tipoImpresora, 400);
         }
         uim.setTipoLetra(1);
-        uim.imprimirTicket(lineaCorte, device, tipoImpresora, 500);
+        uim.imprimirTicket(lineaCorte, device, tipoImpresora, 400);
         //esto abre el cajon
         try {
             uim.setTipoLetra(0);
-            uim.mandarLetra(device, tipoImpresora, 100);
+            uim.mandarLetra(device, tipoImpresora, 400);
         } catch (Exception ex) {
             System.out.println("Ocurrió un problema abriendo el cajon");
         }
@@ -1082,7 +1353,7 @@ public class Utilerias {
             public void run() {
                 Utilerias ut = new Utilerias();
                 if (ut.verificaConexion(ctx)) {
-                    Realm realm = ut.obtenerInstanciaBD();
+                    Realm realm = ut.obtenerInstanciaBD(ctx);
                     UtileriasSincronizacion uts = new UtileriasSincronizacion();
                     uts.sincronizarTodo(ctx, act, realm, Long.parseLong(ut.obtenerValor("idTienda", ctx)));
                     if (realm != null && !realm.isClosed()) {
@@ -1093,7 +1364,7 @@ public class Utilerias {
         });
 
         if (realm == null || realm.isClosed()) {
-            realm = obtenerInstanciaBD();
+            realm = obtenerInstanciaBD(ctx);
         }
 
         if (permisos.getUsarCaja()) {
@@ -1202,7 +1473,7 @@ public class Utilerias {
     }
 
 
-    public static void log(Context context, String datos,Exception ex) {
+    public static void log(Context context, String datos, Exception ex) {
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat df2 = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
         String sFileName = "logAnegocios" + df.format(new Date()) + ".txt";
@@ -1214,8 +1485,9 @@ public class Utilerias {
             File gpxfile = new File(root, sFileName);
 
             FileWriter writer = new FileWriter(gpxfile, true);
-            writer.append("\r\n" + df2.format(new Date()) + " -> 5.1.10 -> " + datos);
-            if(ex!=null) {
+            String version = BuildConfig.VERSION_NAME;
+            writer.append("\r\n" + df2.format(new Date()) + " -> " + version + " -> " + datos);
+            if (ex != null) {
                 StackTraceElement[] valores = ex.getStackTrace();
                 if (valores != null && valores.length > 0) {
                     for (StackTraceElement l : valores) {
@@ -1225,7 +1497,7 @@ public class Utilerias {
             }
             writer.flush();
             writer.close();
-            scanFile(context, gpxfile );
+            scanFile(context, gpxfile);
 
         } catch (IOException e) {
             e.printStackTrace();

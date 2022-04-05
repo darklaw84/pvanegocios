@@ -7,15 +7,13 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.anegocios.puntoventa.bdlocal.CajaDTOLocal;
@@ -28,18 +26,14 @@ import com.anegocios.puntoventa.jsons.ClienteDTO;
 import com.anegocios.puntoventa.jsons.GrupoDTO;
 import com.anegocios.puntoventa.jsons.ProductoDTO;
 import com.anegocios.puntoventa.jsons.ProductosXYDTO;
-import com.anegocios.puntoventa.jsons.ReporteDTO;
 import com.anegocios.puntoventa.jsons.Usuario;
 import com.anegocios.puntoventa.jsons.VersionEscritorioDTO;
 import com.anegocios.puntoventa.servicios.APIClient;
 import com.anegocios.puntoventa.servicios.APIInterface;
 
 
-import com.anegocios.puntoventa.servicios.ReporteService;
-import com.anegocios.puntoventa.servicios.VersionEscritorioService;
 import com.anegocios.puntoventa.utils.Utilerias;
 import com.anegocios.puntoventa.utils.UtileriasSincronizacion;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -72,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
         Utilerias ut = new Utilerias();
         context = this;
         activity = this;
-        realm = ut.obtenerInstanciaBD();
+        realm = ut.obtenerInstanciaBD(this);
         btnClientes = findViewById(R.id.btnClientes);
         btnPuntoVenta = findViewById(R.id.btnPuntoVenta);
         btnProductos = findViewById(R.id.btnProductos);
@@ -464,7 +458,7 @@ public class HomeActivity extends AppCompatActivity {
                     } else {
                         if (res.getProductosxy().size() > 0) {
                             ProductosDB pdb = new ProductosDB();
-                            Realm realm2 = ut.obtenerInstanciaBD();
+                            Realm realm2 = ut.obtenerInstanciaBD(context);
                             pdb.actualizarBDProductos(res.getProductosxy(),
                                     Integer.parseInt(ut.obtenerValor("idTienda", context)),
                                     ut.obtenerModoAplicacion(context), ut.verificaConexion(context), realm2,context);
@@ -575,7 +569,7 @@ public class HomeActivity extends AppCompatActivity {
                     } else {
                         if (res.getGruposVRxy().size() > 0) {
                             GrupoDB pdb = new GrupoDB();
-                            Realm realm1 = ut.obtenerInstanciaBD();
+                            Realm realm1 = ut.obtenerInstanciaBD(context);
                             pdb.actualizarBDGrupos(res.getGruposVRxy(),
                                     Integer.parseInt(ut.obtenerValor("idTienda", context)), realm1);
                             cerrarRealmN(realm1);
@@ -644,7 +638,7 @@ public class HomeActivity extends AppCompatActivity {
                     } else {
                         if (res.getClientesxy().size() > 0) {
                             ClientesDB pdb = new ClientesDB();
-                            Realm auxrealm = ut.obtenerInstanciaBD();
+                            Realm auxrealm = ut.obtenerInstanciaBD(context);
                             pdb.actualizarBDClientes(res.getClientesxy(),
                                     Integer.parseInt(ut.obtenerValor("idTienda", context)), auxrealm);
                             auxrealm.close();

@@ -48,7 +48,7 @@ public class TicketPVService extends AsyncTask<Void, Void, TicketPVDTO> {
                 if (res.isExito()) {
                     CajasDB cdb = new CajasDB();
                     if (res.getFolio() > 0) {
-                        Realm realm = ut.obtenerInstanciaBD();
+                        Realm realm = ut.obtenerInstanciaBD(con);
                         cdb.actualizarIdFolioTicketServer(idTicketLocal, res.getFolio(), realm);
                         cdb.actualizarTicketEnviado(idTicketLocal, realm);
                         if (realm != null && !realm.isClosed()) {

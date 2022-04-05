@@ -7,7 +7,7 @@ public class VentasDetalleTicket {
     private String folio;
     private String folioApp;
     private String estatus;
-    private double subtotal;
+    private double subTotal;
     private double iva;
     private double descuento;
     private double propina;
@@ -17,11 +17,28 @@ public class VentasDetalleTicket {
     private String comentario;
     private String fecha;
     private boolean prodEntregado;
-    private String cliente;
+    private ClienteDetalleTicketDTO cliente;
     private String idCliente;
     private String vendedor;
     private String mesa;
     private List<VentasVentaTicketDTO> ventas;
+    private List<AbonosDTO> pagosDiferidos;
+
+    public ClienteDetalleTicketDTO getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteDetalleTicketDTO cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<AbonosDTO> getPagosDiferidos() {
+        return pagosDiferidos;
+    }
+
+    public void setPagosDiferidos(List<AbonosDTO> pagosDiferidos) {
+        this.pagosDiferidos = pagosDiferidos;
+    }
 
     public String getIdCliente() {
         return idCliente;
@@ -55,12 +72,12 @@ public class VentasDetalleTicket {
         this.estatus = estatus;
     }
 
-    public double getSubtotal() {
-        return subtotal;
+    public double getSubTotal() {
+        return subTotal;
     }
 
-    public void setSubtotal(double subtotal) {
-        this.subtotal = subtotal;
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
     }
 
     public double getIva() {
@@ -135,13 +152,7 @@ public class VentasDetalleTicket {
         this.prodEntregado = prodEntregado;
     }
 
-    public String getCliente() {
-        return cliente;
-    }
 
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
-    }
 
     public String getVendedor() {
         return vendedor;

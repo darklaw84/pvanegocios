@@ -42,7 +42,7 @@ public class ClienteAsyncService extends AsyncTask<Void, Void, ClienteDTO> {
 
                         ClientesDB pdb = new ClientesDB();
                         Utilerias ut = new Utilerias();
-                        Realm realm3 = ut.obtenerInstanciaBD();
+                        Realm realm3 = ut.obtenerInstanciaBD(con);
                         pdb.actualizarBDClientes(res.getClientesxy(),
                                 Integer.parseInt(ut.obtenerValor("idTienda", con)), realm3);
                         if (realm3 != null && !realm3.isClosed()) {

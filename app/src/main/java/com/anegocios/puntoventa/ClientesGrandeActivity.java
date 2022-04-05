@@ -5,11 +5,11 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -67,7 +67,7 @@ public class ClientesGrandeActivity extends AppCompatActivity
 
 
         Utilerias ut = new Utilerias();
-        realm = ut.obtenerInstanciaBD();
+        realm = ut.obtenerInstanciaBD(this);
         permisos = ut.obtenerPermisosUsuario(this);
         ctx = this;
         act = this;
@@ -80,7 +80,7 @@ public class ClientesGrandeActivity extends AppCompatActivity
         if (realm != null && !realm.isClosed()) {
             realm.refresh();
         } else {
-            realm = ut.obtenerInstanciaBD();
+            realm = ut.obtenerInstanciaBD(this);
             if(realm!=null && !realm.isClosed()) {
                 realm.refresh();
             }
@@ -428,6 +428,8 @@ public class ClientesGrandeActivity extends AppCompatActivity
     }
 
     public void btnLogOutClick(View view) {
+        Utilerias ut = new Utilerias();
+        ut.guardarValor("idUsuario","",this);
         cerrarRealmN(realm);
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);

@@ -1,21 +1,19 @@
 package com.anegocios.puntoventa;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
+
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -24,10 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -45,7 +40,6 @@ import com.anegocios.puntoventa.adapters.ClientesAdapter;
 import com.anegocios.puntoventa.adapters.ClientesAdapterGris;
 import com.anegocios.puntoventa.adapters.GruposGrandeAdapter;
 import com.anegocios.puntoventa.adapters.ProductosAgregadosAdapter;
-import com.anegocios.puntoventa.adapters.ProductosPVAdapter;
 import com.anegocios.puntoventa.adapters.ProductosVentaAdapter;
 import com.anegocios.puntoventa.adapters.SimpleAdapter;
 import com.anegocios.puntoventa.bdlocal.CajaDTOLocal;
@@ -68,7 +62,6 @@ import com.anegocios.puntoventa.jsons.PaquetesProducto;
 import com.anegocios.puntoventa.jsons.ProductosXYDTO;
 import com.anegocios.puntoventa.jsons.ReporteTicketDetalleDTO;
 import com.anegocios.puntoventa.jsons.Usuario;
-import com.anegocios.puntoventa.jsons.VentasDetalleTicket;
 import com.anegocios.puntoventa.jsons.VentasVentaTicketDTO;
 import com.anegocios.puntoventa.servicios.APIClient;
 import com.anegocios.puntoventa.servicios.APIInterface;
@@ -120,6 +113,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
     String vengode;
     int idTicketGenerado;
 
+
     private List<ProductosXYDTOAux> productosBuscar;
 
     private ProductosXYDTOAux prodAjuste;
@@ -148,7 +142,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
             Utilerias ut = new Utilerias();
             ut.guardarValor("hizoResenia", "SI", this);
 
-            realm = ut.obtenerInstanciaBD();
+            realm = ut.obtenerInstanciaBD(this);
             String ventaVengo = ut.obtenerValor("ventaVengo", this);
 
             ProductosDB pdb = new ProductosDB();
@@ -445,19 +439,21 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
         ListView gvProductosAgregados = (ListView) findViewById(R.id.gvProductosAgregados);
         mostrarMontosTotales(montoTotal, subtotal, iva, propinaTotal, descuentoTotal);
         ProductosAgregadosAdapter adapter2 = new ProductosAgregadosAdapter(productosAgregados, this, "G");
-        gvProductosAgregados.setAdapter(adapter2);
-        gvProductosAgregados.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+        if(gvProductosAgregados!=null) {
+            gvProductosAgregados.setAdapter(adapter2);
+            gvProductosAgregados.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
 
-                posicionAjuste = position;
-                prodAjuste = productosAgregados.get(position);
-                mostrarAjuste(prodAjuste);
+                    posicionAjuste = position;
+                    prodAjuste = productosAgregados.get(position);
+                    mostrarAjuste(prodAjuste);
 
 
-            }
-        });
+                }
+            });
+        }
     }
 
 
@@ -491,9 +487,10 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
 
         Utilerias ut = new Utilerias();
         try {
-            CajaDTOLocal cajaActual = ut.obtenerCajaActual(this, this, realm);
-            if (cajaActual != null) {
-                ut.imprimirTicket(this, this, idTiendaGlobal);
+
+            if (idTicketGenerado > 0) {
+
+                ut.imprimirTicket(this, this, idTiendaGlobal,idTicketGenerado);
             } else {
                 mandarMensaje("No hay ningun ticket para reimprimir");
             }
@@ -1679,12 +1676,13 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
         TextView txtDescuento = (TextView) findViewById(R.id.txtDescuento);
         TextView txtPropina = (TextView) findViewById(R.id.txtPropina);
         TextView txtTotal = (TextView) findViewById(R.id.txtTotal);
-        txtDescuento.setText(ut.formatoDouble(descuento));
-        txtSubtotal.setText(ut.formatoDouble(subtotal));
-        txtTotal.setText(ut.formatoDouble(total));
-        txtIva.setText(ut.formatoDouble(iva));
-        txtPropina.setText(ut.formatoDouble(propina));
-
+        if(txtDescuento!=null) {
+            txtDescuento.setText(ut.formatoDouble(descuento));
+            txtSubtotal.setText(ut.formatoDouble(subtotal));
+            txtTotal.setText(ut.formatoDouble(total));
+            txtIva.setText(ut.formatoDouble(iva));
+            txtPropina.setText(ut.formatoDouble(propina));
+        }
         actualizarBotonCarrito();
     }
 
@@ -1706,7 +1704,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
         List<PaquetesProducto> paquetesConOpciones = new ArrayList<>();
         for (PaquetesProducto pa : paquetes
         ) {
-            realm = ut.obtenerInstanciaBD();
+            realm = ut.obtenerInstanciaBD(this);
             //lo pusimos en cero porque hay paquetes que solo tienen una opcion: las fresas
             //tambien aqui lo tuvimos que quitar, veamo sque pasa
             if (pdb.obtenerOpcionesPaquete(pa.getId(), realm).size() > 1) {
@@ -1750,7 +1748,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
     private void generarTicket(String correo, String efectivo, String tarjeta,
                                String cambio, String tipo, boolean productoEntregado, boolean compartirWhatssApp) {
         Utilerias ut = new Utilerias();
-        Realm realm4 = ut.obtenerInstanciaBD();
+        Realm realm4 = ut.obtenerInstanciaBD(this);
 
         String descuentoEfectivo = ut.obtenerValor("descuentoEfectivo", this);
         if (descuentoEfectivo == null || descuentoEfectivo.equals("")) {
@@ -1806,6 +1804,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
         ti.setDescuentoTotal(descuentoTotal);
 
         TicketDTOLocal til = cdb.crearTicket(ti, realm4);
+
 
         ProductosDB pdb = new ProductosDB();
         //despues de crear el ticket creamos los productos del ticket
@@ -1899,7 +1898,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
                 @Override
                 public void run() {
                     Utilerias ut = new Utilerias();
-                    ut.imprimirTicket(context, activity, idTiendaGlobal);
+                    ut.imprimirTicket(context, activity, idTiendaGlobal,idTicketGenerado);
                 }
             });
 
@@ -1908,7 +1907,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
                 @Override
                 public void run() {
                     Utilerias ut = new Utilerias();
-                    Realm realm3 = ut.obtenerInstanciaBD();
+                    Realm realm3 = ut.obtenerInstanciaBD(context);
                     UtileriasSincronizacion uts = new UtileriasSincronizacion();
                     uts.sincronizarTodo(context, activity, realm3, idTiendaGlobal);
                     if (realm3 != null && !realm3.isClosed()) {
@@ -1923,7 +1922,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
                 @Override
                 public void run() {
                     Utilerias ut = new Utilerias();
-                    ut.imprimirTicket(context, activity, idTiendaGlobal);
+                    ut.imprimirTicket(context, activity, idTiendaGlobal,idTicketGenerado);
                 }
             });
 
@@ -2469,6 +2468,8 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
     }
 
     public void btnLogOutClick(View view) {
+        Utilerias ut = new Utilerias();
+        ut.guardarValor("idUsuario","",this);
         cerrarRealmN(realm);
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);

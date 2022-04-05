@@ -1,13 +1,12 @@
 package com.anegocios.puntoventa;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -136,7 +135,7 @@ public class EmparejarActivity extends AppCompatActivity
 
         if (id == R.id.nav_ventas) {
             Utilerias ut = new Utilerias();
-            ut.validaIrPuntoVenta(this, this, ut.obtenerInstanciaBD(), ut.obtenerPermisosUsuario(this), "normal");
+            ut.validaIrPuntoVenta(this, this, ut.obtenerInstanciaBD(this), ut.obtenerPermisosUsuario(this), "normal");
         } else if (id == R.id.nav_productos) {
             Intent i = new Intent(getApplicationContext(), ProductosActivity.class);
             startActivity(i);

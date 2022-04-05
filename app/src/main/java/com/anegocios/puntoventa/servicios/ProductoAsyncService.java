@@ -39,7 +39,7 @@ public class ProductoAsyncService extends AsyncTask<Void, Void, ProductoDTO> {
                     System.out.println(res.getMsg());
                 } else {
                     Utilerias ut = new Utilerias();
-                    Realm realm = ut.obtenerInstanciaBD();
+                    Realm realm = ut.obtenerInstanciaBD(con);
                     if (res.getProductosxy().size() > 0) {
                         ProductosDB pdb = new ProductosDB();
                         pdb.actualizarBDProductos(res.getProductosxy(),

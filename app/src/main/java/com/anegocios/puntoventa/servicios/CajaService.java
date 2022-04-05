@@ -1,5 +1,6 @@
 package com.anegocios.puntoventa.servicios;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.anegocios.puntoventa.database.CajasDB;
@@ -15,11 +16,12 @@ public class CajaService extends AsyncTask<Void, Void, CajaResponseDTO> {
 
     Call<CajaResponseDTO> call;
     int idCajaLocal;
+    Context ctx;
 
 
-    public CajaService(Call<CajaResponseDTO> call, int idCajaLocal) {
+    public CajaService(Call<CajaResponseDTO> call, int idCajaLocal,Context context) {
         this.call = call;
-
+        this.ctx=context;
         this.idCajaLocal = idCajaLocal;
 
     }
@@ -29,7 +31,7 @@ public class CajaService extends AsyncTask<Void, Void, CajaResponseDTO> {
         try {
             Utilerias ut = new Utilerias();
             CajaResponseDTO res = call.execute().body();
-            Realm realm = ut.obtenerInstanciaBD();
+            Realm realm = ut.obtenerInstanciaBD(ctx);
             //actualizamos la caja con el id de la caja server
             CajasDB cdb = new CajasDB();
             if (res != null && idCajaLocal > 0) {
