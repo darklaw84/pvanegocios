@@ -78,8 +78,10 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import io.realm.Realm;
@@ -475,8 +477,15 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
                 mandarMensaje("Se debe de ingresar un monto y una cantidad válida");
             } else {
                 ProductosXYDTOAux prod = productosAgregados.get(posicionAjuste);
-                double cantidadAsignada = Double.parseDouble(txtCantidadAjuste.getText().toString());
-                double precioAsignado = Double.parseDouble(txtPrecioAjuste.getText().toString());
+                NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
+                Number cantidadAsi = format.parse(txtCantidadAjuste.getText().toString());
+                double cantidadAsignada = cantidadAsi.doubleValue();
+
+                Number precioAsi = format.parse(txtPrecioAjuste.getText().toString());
+                double precioAsignado = precioAsi.doubleValue();
+
+
+
                 prod.setCantidad(cantidadAsignada);
                 if (prod.getCantidadMayoreo() > 0) {
                     //quiere decir que lo tenemos que evaluar
@@ -1757,7 +1766,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         ti.setTipo(tipo);
         if (tipo.equals("pedido")) {
             try {
-                if(idPedidoEditar!=null) {
+                if (idPedidoEditar != null) {
                     ti.setIdEdit(Integer.parseInt(idPedidoEditar));
                 }
             } catch (Exception ex) {
@@ -1782,7 +1791,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         ti.setDescuentoTotal(descuentoTotal);
 
         TicketDTOLocal til = cdb.crearTicket(ti, realm4);
-       // Utilerias.log(this, "ticket generado" + til.getIdTicket(), null);
+        // Utilerias.log(this, "ticket generado" + til.getIdTicket(), null);
         ProductosDB pdb = new ProductosDB();
         //despues de crear el ticket creamos los productos del ticket
 

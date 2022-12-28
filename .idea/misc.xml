@@ -4,9 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Xavi/AndroidStudioProjects/pvanegocios/app/src/main/res/layout/abonar.xml" value="0.1" />
+        <entry key="..\:/Users/Xavi/AndroidStudioProjects/pvanegocios/app/src/main/res/layout/ajusteproducto.xml" value="0.1" />
         <entry key="..\:/Users/Xavi/AndroidStudioProjects/pvanegocios/app/src/main/res/layout/cliente.xml" value="0.1" />
         <entry key="..\:/Users/Xavi/AndroidStudioProjects/pvanegocios/app/src/main/res/layout/consultaclientes.xml" value="0.1" />
         <entry key="..\:/Users/Xavi/AndroidStudioProjects/pvanegocios/app/src/main/res/layout/detalleticket.xml" value="0.1" />
+        <entry key="..\:/Users/Xavi/AndroidStudioProjects/pvanegocios/app/src/main/res/layout/detalleticketgrande.xml" value="0.1" />
         <entry key="..\:/Users/Xavi/AndroidStudioProjects/pvanegocios/app/src/main/res/layout/login.xml" value="0.22" />
         <entry key="..\:/Users/Xavi/AndroidStudioProjects/pvanegocios/app/src/main/res/layout/pantallapagar.xml" value="0.1" />
         <entry key="..\:/Users/Xavi/AndroidStudioProjects/pvanegocios/app/src/main/res/layout/product.xml" value="0.1" />

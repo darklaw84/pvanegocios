@@ -62,9 +62,11 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -72,6 +74,7 @@ import java.util.regex.Pattern;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import okhttp3.internal.Util;
 
 public class Utilerias {
 
@@ -756,7 +759,14 @@ public class Utilerias {
             double totalAbonos = 0;
             for (AbonosDTO ab : detalle.getPagosDiferidos()
             ) {
-                totalAbonos += Double.parseDouble(ab.getCantidad());
+                try {
+                    NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
+                    Number cantidadAsi = format.parse(ab.getCantidad());
+                    double cantidadAsignada = cantidadAsi.doubleValue();
+                    totalAbonos += cantidadAsignada;
+                } catch (Exception ex) {
+                    Utilerias.log(ctx, "Error al formatear cantidad" + ex.getMessage(), ex);
+                }
             }
 
             s += "                ABONO:" + formatDoubleTicket(totalAbonos, 8, "$") + "\n";
@@ -985,10 +995,17 @@ public class Utilerias {
 
         for (AbonosDTO p : abonos
         ) {
+            try {
+                NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
+                Number cantidadAsi = format.parse(p.getCantidad());
+                double cantidadAsignada = cantidadAsi.doubleValue();
 
-            ps += cortarString(
-                    armarAbono(p.getFecha().substring(0, 10), p.getUsuario(), Double.parseDouble(p.getCantidad()))
-                    , 32, 32);
+                ps += cortarString(
+                        armarAbono(p.getFecha().substring(0, 10), p.getUsuario(), cantidadAsignada)
+                        , 32, 32);
+            } catch (Exception ex) {
+                Utilerias.log(ctx, "Error 2 al formatear " + ex.getMessage(), ex);
+            }
 
         }
         return ps;
