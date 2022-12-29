@@ -74,6 +74,24 @@
                     android:background="@color/fondoApp"
                     android:gravity="right|center_vertical"
                     android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/txtCodigoBarras"
+                        android:layout_width="0dp"
+                        android:layout_height="33dp"
+                        android:layout_weight=".9"
+                        android:layout_gravity="left"
+
+
+
+                        android:background="@color/fondoApp"
+                        android:ems="10"
+                        android:cursorVisible="false"
+                        android:gravity="left"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/fondoApp"
+                        android:textColorHint="@color/fondoApp"
+                        android:theme="@style/EditTextStyle"
+                        android:typeface="sans" />
                     <ImageButton
                         android:id="@+id/botonImpresora"
                         android:layout_width="25dp"

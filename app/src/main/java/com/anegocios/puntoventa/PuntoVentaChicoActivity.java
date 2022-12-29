@@ -23,8 +23,10 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -132,6 +134,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
     boolean estatusImpresora;
     String idPedidoEditar;
     String folioPedidoEditar;
+    ListView gvProductosDisponibles;
 
 
     @Override
@@ -360,6 +363,51 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
             estatusImpresora = verificarImpresora();
         }
         ImageButton botonImpresora = (ImageButton) findViewById(R.id.botonImpresora);
+         final EditText txtCodigoBarras = findViewById(R.id.txtCodigoBarras);
+        txtCodigoBarras.setText("");
+        txtCodigoBarras.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String codigoBarras = txtCodigoBarras.getText().toString();
+                if(!codigoBarras.equals("")) {
+                    int cont=0;
+                    boolean encontrado=false;
+                    for(ProductosXYDTOAux p : productosDisponibles)
+                    {
+                        if(p.getCodigoBarras()!= null &&  p.getCodigoBarras().trim().equals(txtCodigoBarras.getText().toString().trim()))
+                        {
+                            agregarConAnimacion(cont);
+                            encontrado=true;
+                            break;
+                        }
+                        cont++;
+                    }
+                    if(!encontrado)
+                    {
+                        mandarMensaje("No se encontró el producto con el código "+txtCodigoBarras.getText().toString().trim());
+                        txtCodigoBarras.setText("");
+                        txtCodigoBarras.requestFocus();
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+
+        txtCodigoBarras.addTextChangedListener(textWatcher);
+        txtCodigoBarras.setFocusableInTouchMode(true);
 
         if (estatusImpresora) {
             botonImpresora.setImageResource(R.drawable.bluetoothok);
@@ -399,7 +447,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
             productosDisponibles = pdb.obtenerProductosCompletos(
                     Integer.parseInt(ut.obtenerValor("idTienda", this)), realm);
         }
-        final ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
+          gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
         if (productosDisponibles != null) {
 
             ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, this, "C");
@@ -412,20 +460,30 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                Animation animation = AnimationUtils.loadAnimation(context, R.anim.move);
-                Animation blinkanimation = AnimationUtils.loadAnimation(context, R.anim.blinkticketbutton);
-                Button btnCarrito = (Button) findViewById(R.id.btnCarrito);
-               /* int posicionVisible = gvProductosDisponibles.getFirstVisiblePosition();
-                View hijoNoNulo = gvProductosDisponibles.getChildAt(position - posicionVisible);
-                */
-                gvProductosDisponibles.startAnimation(animation);
-                btnCarrito.startAnimation(blinkanimation);
+                agregarConAnimacion(position);
 
-                agregarProducto(productosDisponibles.get(position), false);
             }
         });
 
         //actualizarTotalesProductos();
+    }
+
+    private void agregarConAnimacion(int position)
+    {
+
+        EditText txtCodigoBarras = findViewById(R.id.txtCodigoBarras);
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.move);
+        Animation blinkanimation = AnimationUtils.loadAnimation(context, R.anim.blinkticketbutton);
+        Button btnCarrito = (Button) findViewById(R.id.btnCarrito);
+               /* int posicionVisible = gvProductosDisponibles.getFirstVisiblePosition();
+                View hijoNoNulo = gvProductosDisponibles.getChildAt(position - posicionVisible);
+                */
+        gvProductosDisponibles.startAnimation(animation);
+        btnCarrito.startAnimation(blinkanimation);
+
+        agregarProducto(productosDisponibles.get(position), false);
+        txtCodigoBarras.setText("");
+        txtCodigoBarras.requestFocus();
     }
 
 
@@ -1009,6 +1067,9 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         EditText txtTarjetaPedido = (EditText) findViewById(R.id.txtTarjetaPedido);
 
         EditText txtEfectivoPedido = (EditText) findViewById(R.id.txtEfectivoPedido);
+        EditText txtPagoCorreo = (EditText) findViewById(R.id.txtPagoCorreo);
+
+
 
         String tarjetaPedido = "0";
         if (!txtTarjetaPedido.getText().toString().equals("")) {
@@ -1021,8 +1082,17 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         }
 
 
-        generarTicket("", efectivoPedido, tarjetaPedido, "0",
-                "pedido", entregado, false);
+        generarTicket(txtPagoCorreo.getText().toString(), efectivoPedido, tarjetaPedido, "0",
+                "pedido", entregado, enviarWhatsApp);
+    }
+
+
+    public void btnHacerCotizacionClick(View view) {
+
+        EditText txtPagoCorreo = (EditText) findViewById(R.id.txtPagoCorreo);
+
+        generarTicket(txtPagoCorreo.getText().toString(), "0", "0",
+                "0", "cotizacion", false, enviarWhatsApp);
     }
 
 
@@ -1645,6 +1715,8 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
             mostrarPuntoVenta();
         } else if (pantalla != null && pantalla.equals("pedido")) {
             mostrarPuntoVenta();
+        } else if (pantalla != null && pantalla.equals("cotizacion")) {
+            mostrarPuntoVenta();
         } else if (pantalla != null && pantalla.equals("configuracionticket")) {
             mostrarPuntoVenta();
         } else if (pantalla != null && pantalla.equals("pantallapagar")) {
@@ -1861,7 +1933,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
 
         ut.guardarValor("correoAsignar", "", this);
 
-        if (tipo.equals("cotizacion")) {
+       /* if (tipo.equals("cotizacion")) {
             productosAgregados = new ArrayList<ProductosXYDTOAux>();
             montoTotal = 0;
             totalArticulos = 0;
@@ -1870,11 +1942,11 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
 
 
         } else {
-
+*/
             mostrarVentaExitosa("" + idTicketGenerado, tipo);
 
 
-        }
+  //      }
 
 
         if (ut.verificaConexion(context)) {
@@ -1929,14 +2001,25 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
     public void btnCotizarClick(View view) {
         if (permisos.getCotizar()) {
             if (productosAgregados != null && productosAgregados.size() > 0) {
-                generarTicket("", "0", "0",
-                        "0", "cotizacion", false, false);
+                pantalla = "cotizacion";
+
+              mostrarConfirmaCotizacion();
             } else {
                 mandarMensaje("Debes agregar algun producto para poder generar la venta");
             }
         } else {
             mandarMensaje("No tienes permisos para cotizar");
         }
+    }
+
+    private void mostrarConfirmaCotizacion()
+    {
+        setContentView(R.layout.cotizacion);
+        Utilerias ut = new Utilerias();
+        TextView txtTotalPago = (TextView) findViewById(R.id.txtTotalPago);
+
+        txtTotalPago.setText("TOTAL COTIZADO:   " + ut.formatoDouble(montoTotal));
+
     }
 
     private void mostrarVentaExitosa(String folioTicket, String tipo) {
