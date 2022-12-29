@@ -986,6 +986,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
+                android:textSize="22dp"
                 android:paddingLeft="15dp"
                 android:id="@+id/lblComentario"
                 android:text="Comentario"
@@ -1047,6 +1048,220 @@
                     android:gravity="center_horizontal"
                     />
             </LinearLayout>
+
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/zxing_transparent"
+                    android:onClick="btnGPS"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/location" />
+
+                <ImageButton
+
+                    android:id="@+id/btnMaps"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/zxing_transparent"
+                    android:onClick="btnMaps"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/maps" />
+
+                <ImageButton
+
+                    android:id="@+id/btnWaze"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/zxing_transparent"
+                    android:onClick="btnWaze"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/waze">
+
+                </ImageButton>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="22dp"
+                android:paddingLeft="15dp"
+                android:id="@+id/lblLatitud"
+                android:text="Latitud"
+                android:textColor="@color/letraCobrar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+
+
+
+                <EditText
+                    android:id="@+id/txtLatitud"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:textSize="18dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:gravity="left"
+
+                    android:inputType="numberDecimal|numberSigned"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="1dp"
+                    android:id="@+id/vieLatitud"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:textSize="22dp"
+                android:id="@+id/lblLongitud"
+                android:text="Longitud"
+                android:textColor="@color/letraCobrar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+
+
+
+
+                <EditText
+                    android:id="@+id/txtLongitud"
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="33dp"
+                    android:layout_gravity="left"
+                    android:background="@color/fondoApp"
+                    android:ems="10"
+                    android:textSize="18dp"
+                    android:gravity="left"
+
+                    android:inputType="numberDecimal|numberSigned"
+                    android:textColor="@color/letraCobrar"
+                    android:textColorHint="@color/letraCobrar"
+                    android:theme="@style/EditTextStyle"
+                    android:typeface="sans" />
+                <TextView
+
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight=".9"
+                    android:layout_height="1dp"
+                    android:id="@+id/vieLongitud"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    />
+            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 

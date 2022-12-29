@@ -32,6 +32,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -175,10 +176,14 @@ public class ProductosActivity extends AppCompatActivity
 
                 ProductoAsyncService ls = new ProductoAsyncService(call);
                 ls.execute();
+
+
                 if(realm!=null && !realm.isClosed())
                 {
                     realm.close();
                 }
+
+
 
 
 
@@ -349,8 +354,10 @@ public class ProductosActivity extends AppCompatActivity
 
             txtBuscarProd.addTextChangedListener(textWatcher);
             txtBuscarProd.setFocusableInTouchMode(true);
-           /* txtBuscarProd.requestFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            //estaban comentadas pero las descomentamos para que s epueda hacer
+            // lo del lector de codigos de barra
+            txtBuscarProd.requestFocus();
+          /*  InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(txtBuscarProd, InputMethodManager.SHOW_IMPLICIT);*/
         } catch (Exception ex) {
             Utilerias.log(this, "Error: " + ex.getMessage() + " " + ex.getStackTrace(), ex);
@@ -375,6 +382,8 @@ public class ProductosActivity extends AppCompatActivity
                 setContentView(R.layout.product);
                 cargarOnfocus();
                 TextView txtTitulo = (TextView) findViewById(R.id.txtTitulo);
+                TextView txtCodigoBarras = (TextView) findViewById(R.id.txtCodigoBarras);
+
                 txtTitulo.setText("NUEVO PRODUCTO");
                 EditText txtIva = (EditText) findViewById(R.id.txtIva);
                 txtIva.setEnabled(false);
@@ -382,6 +391,11 @@ public class ProductosActivity extends AppCompatActivity
                 accion = "N";
                 Spinner spGrupos = (Spinner) findViewById(R.id.spGrupos);
                 List<String> gruposS = new ArrayList<String>();
+                GrupoDB gdb = new GrupoDB();
+                Utilerias ut = new Utilerias();
+
+                grupos = gdb.obtenerListaGrupos(Integer.parseInt(ut.obtenerValor("idTienda", this)), realm);
+
 
                 gruposS.add("Seleccione");
                 for (GrupoVRXY gr : grupos
@@ -394,6 +408,7 @@ public class ProductosActivity extends AppCompatActivity
 
                 spGrupos.setAdapter(aa);
                 manejarClickIva();
+                txtCodigoBarras.requestFocus();
             } else {
                 mandarMensaje("No tienes permiso para crear productos");
             }
@@ -744,7 +759,7 @@ public class ProductosActivity extends AppCompatActivity
                                 //quiere decir que se creo una nueva imagen
                                 p.setImgString(ut.BitMapToString(bitmapImage));
                             }
-                            p.setCodigoBarras(txtCodigoBarras.getText().toString());
+                            p.setCodigoBarras(txtCodigoBarras.getText().toString().trim());
                             p.setExistencias(existencias);
                             p.setPrecioVenta(precioVenta);
                             p.setPrecioCompra(precioCompra);
@@ -1058,7 +1073,7 @@ public class ProductosActivity extends AppCompatActivity
         Utilerias ut = new Utilerias();
 
         productos =
-                pdb.obtenerProductosCompletosPatron(txtBuscarProd.getText().toString(),
+                pdb.obtenerProductosCompletosPatron(txtBuscarProd.getText().toString().trim(),
                         Integer.parseInt(ut.obtenerValor("idTienda", this)), realm);
 
         TextView txtTotalRegs = (TextView) findViewById(R.id.txtTotalRegs);

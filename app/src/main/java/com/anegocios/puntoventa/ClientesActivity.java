@@ -1,15 +1,24 @@
 package com.anegocios.puntoventa;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+
 import com.google.android.material.navigation.NavigationView;
+
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -59,6 +68,8 @@ public class ClientesActivity extends AppCompatActivity
     Realm realm;
     Context ctx;
     Activity act;
+    double latitud;
+    double longitud;
 
 
     @Override
@@ -81,7 +92,7 @@ public class ClientesActivity extends AppCompatActivity
             realm.refresh();
         } else {
             realm = ut.obtenerInstanciaBD(this);
-            if(realm!=null && !realm.isClosed()) {
+            if (realm != null && !realm.isClosed()) {
                 realm.refresh();
             }
         }
@@ -92,9 +103,7 @@ public class ClientesActivity extends AppCompatActivity
     }
 
 
-
-    private void  cargarOnfocus()
-    {
+    private void cargarOnfocus() {
         EditText txtNombre = (EditText) findViewById(R.id.txtNombre);
         EditText txtPaterno = (EditText) findViewById(R.id.txtPaterno);
         EditText txtMaterno = (EditText) findViewById(R.id.txtMaterno);
@@ -311,16 +320,13 @@ public class ClientesActivity extends AppCompatActivity
         });
 
 
-
     }
-
 
 
     public void btnMostrarMenuClick(View view) {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.openDrawer(GravityCompat.START);
     }
-
 
 
     private void mostrarListaClientes() {
@@ -336,7 +342,7 @@ public class ClientesActivity extends AppCompatActivity
         TextView txtTotalRegs = (TextView) findViewById(R.id.txtTotalRegs);
         txtTotalRegs.setText("" + clientes.size());
         ListView gvClientes = (ListView) findViewById(R.id.gvClientes);
-        ClientesAdapter adapter = new ClientesAdapter(clientes, this,"C");
+        ClientesAdapter adapter = new ClientesAdapter(clientes, this, "C");
         gvClientes.setAdapter(adapter);
         gvClientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -411,7 +417,7 @@ public class ClientesActivity extends AppCompatActivity
         } else if (id == R.id.nav_reportes) {
             cerrarRealmN(realm);
             Utilerias ut = new Utilerias();
-            ut.guardarValor("mostrarPedidos","NO",this);
+            ut.guardarValor("mostrarPedidos", "NO", this);
             if (ut.esPantallaChica(this)) {
                 Intent i = new Intent(getApplicationContext(), ReportesActivity.class);
                 startActivity(i);
@@ -428,7 +434,7 @@ public class ClientesActivity extends AppCompatActivity
 
     public void btnLogOutClick(View view) {
         Utilerias ut = new Utilerias();
-        ut.guardarValor("idUsuario","",this);
+        ut.guardarValor("idUsuario", "", this);
         cerrarRealmN(realm);
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
@@ -485,14 +491,16 @@ public class ClientesActivity extends AppCompatActivity
         if (permisos.getClt_C()) {
 
             Utilerias ut = new Utilerias();
-            if(ut.esPantallaChica(this)) {
+            if (ut.esPantallaChica(this)) {
                 setContentView(R.layout.cliente);
-            }
-            else
-            {
+            } else {
                 setContentView(R.layout.clientegrande);
             }
             cargarOnfocus();
+            ImageButton btnMaps = (ImageButton) findViewById(R.id.btnMaps);
+            ImageButton btnWaze = (ImageButton) findViewById(R.id.btnWaze);
+            btnWaze.setVisibility(View.GONE);
+            btnMaps.setVisibility(View.GONE);
             TextView txtTitulo = (TextView) findViewById(R.id.txtTitulo);
             txtTitulo.setText("NUEVO CLIENTE");
             accion = "N";
@@ -519,6 +527,8 @@ public class ClientesActivity extends AppCompatActivity
         EditText txtEstado = (EditText) findViewById(R.id.txtEstado);
         EditText txtCodigoPostal = (EditText) findViewById(R.id.txtCodigoPostal);
         EditText txtComentario = (EditText) findViewById(R.id.txtComentario);
+        EditText txtLatitud = (EditText) findViewById(R.id.txtLatitud);
+        EditText txtLongitud = (EditText) findViewById(R.id.txtLongitud);
 
 
         if (txtNombre.getText().toString().trim().equals("")
@@ -559,7 +569,13 @@ public class ClientesActivity extends AppCompatActivity
                 d.setMunicipio(txtMunicipio.getText().toString());
                 d.setEstado(txtEstado.getText().toString());
                 d.setCp(txtCodigoPostal.getText().toString());
-                d.setComentario(txtComentario.getText().toString());
+                String lati = txtLatitud.getText().toString();
+                String longi = txtLongitud.getText().toString();
+                if (!lati.equals("") && !longi.equals("")) {
+                    d.setComentario(txtComentario.getText().toString() + "[#" + lati + "," + longi + "#]");
+                } else {
+                    d.setComentario(txtComentario.getText().toString());
+                }
                 direcciones.add(d);
                 p.setDireccionesxy(direcciones);
 
@@ -587,7 +603,14 @@ public class ClientesActivity extends AppCompatActivity
                         aux.setMunicipio(txtMunicipio.getText().toString());
                         aux.setEstado(txtEstado.getText().toString());
                         aux.setCp(txtCodigoPostal.getText().toString());
-                        aux.setComentario(txtComentario.getText().toString());
+                        String lati = txtLatitud.getText().toString();
+                        String longi = txtLongitud.getText().toString();
+                        if (!lati.equals("") && !longi.equals("")) {
+                            aux.setComentario(txtComentario.getText().toString() + "[#" + lati + "," + longi + "#]");
+                        } else {
+                            aux.setComentario(txtComentario.getText().toString());
+                        }
+
                         // es local, actualizamos el local
                         ClientesDB pdb = new ClientesDB();
 
@@ -614,7 +637,14 @@ public class ClientesActivity extends AppCompatActivity
                         aux.setMunicipio(txtMunicipio.getText().toString());
                         aux.setEstado(txtEstado.getText().toString());
                         aux.setCp(txtCodigoPostal.getText().toString());
-                        aux.setComentario(txtComentario.getText().toString());
+                        String lati = txtLatitud.getText().toString();
+                        String longi = txtLongitud.getText().toString();
+                        if (!lati.equals("") && !longi.equals("")) {
+                            aux.setComentario(txtComentario.getText().toString() + "[#" + lati + "," + longi + "#]");
+                        } else {
+                            aux.setComentario(txtComentario.getText().toString());
+                        }
+
 
                         ClientesDB pdb = new ClientesDB();
 
@@ -642,7 +672,14 @@ public class ClientesActivity extends AppCompatActivity
                     p.setMunicipio(txtMunicipio.getText().toString());
                     p.setEstado(txtEstado.getText().toString());
                     p.setCp(txtCodigoPostal.getText().toString());
-                    p.setComentario(txtComentario.getText().toString());
+                    String lati = txtLatitud.getText().toString();
+                    String longi = txtLongitud.getText().toString();
+                    if (!lati.equals("") && !longi.equals("")) {
+                        p.setComentario(txtComentario.getText().toString() + "[#" + lati + "," + longi + "#]");
+                    } else {
+                        p.setComentario(txtComentario.getText().toString());
+                    }
+
                     ClientesDB pdb = new ClientesDB();
 
                     String error = pdb.guardarBDClienteLocal(p, Integer.parseInt(ut.obtenerValor("idTienda", this)), realm);
@@ -661,6 +698,74 @@ public class ClientesActivity extends AppCompatActivity
         }
 
     }
+
+    public void btnGPS(View view) {
+        Location location = getLastKnownLocation();
+        if (location == null) {
+            latitud = 0.00;
+            longitud = 0.00;
+        } else {
+            latitud = location.getLatitude();
+            longitud = location.getLongitude();
+        }
+        EditText txtLongitud = (EditText) findViewById(R.id.txtLongitud);
+        EditText txtLatitud = (EditText) findViewById(R.id.txtLatitud);
+        txtLongitud.setText("" + longitud);
+        txtLatitud.setText("" + latitud);
+    }
+
+
+    LocationManager mLocationManager;
+
+
+    private Location getLastKnownLocation() {
+        mLocationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+
+        for (String provider : providers) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                return null;
+            }
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
+    }
+
+
+    public void btnMaps(View view) {
+        if (latitud != 0) {
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                    Uri.parse("http://maps.google.com/maps?daddr=" + latitud + "," + longitud + ""));
+            startActivity(intent);
+        } else {
+            mandarMensaje("No se tiene la dirección del cliente");
+        }
+    }
+
+    public void btnWaze(View view) {
+        if (latitud != 0) {
+            try {
+                String uri = "waze://?ll=" + latitud + "," + longitud + "&z=10";
+                startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+            }
+            catch (Exception ex)
+            {
+                mandarMensaje("No tienes instalado Waze");
+            }
+        } else {
+            mandarMensaje("No se tiene la dirección del cliente");
+        }
+    }
+
 
     private void subirCliente(ClienteXYDTO p) {
         ClienteDTO pr = new ClienteDTO();
@@ -707,11 +812,9 @@ public class ClientesActivity extends AppCompatActivity
 
     private void mostrarCliente(ClienteXYDTOAux p) {
         Utilerias ut = new Utilerias();
-        if(ut.esPantallaChica(this)) {
+        if (ut.esPantallaChica(this)) {
             setContentView(R.layout.cliente);
-        }
-        else
-        {
+        } else {
             setContentView(R.layout.clientegrande);
         }
         cargarOnfocus();
@@ -731,7 +834,11 @@ public class ClientesActivity extends AppCompatActivity
         EditText txtEstado = (EditText) findViewById(R.id.txtEstado);
         EditText txtCodigoPostal = (EditText) findViewById(R.id.txtCodigoPostal);
         EditText txtComentario = (EditText) findViewById(R.id.txtComentario);
+        EditText txtLatitud = (EditText) findViewById(R.id.txtLatitud);
+        EditText txtLongitud = (EditText) findViewById(R.id.txtLongitud);
         ImageButton btnListo = (ImageButton) findViewById(R.id.btnListo);
+        ImageButton btnMaps = (ImageButton) findViewById(R.id.btnMaps);
+        ImageButton btnWaze = (ImageButton) findViewById(R.id.btnWaze);
 
 
         if (p.getNombre() == null) {
@@ -756,8 +863,29 @@ public class ClientesActivity extends AppCompatActivity
         txtColonia.setText(p.getColonia());
         txtMunicipio.setText(p.getMunicipio());
         txtEstado.setText(p.getEstado());
-        txtComentario.setText(p.getComentario());
+
         txtCodigoPostal.setText(p.getCp());
+
+        if (p.getComentario().contains("[#")) {
+            btnMaps.setVisibility(View.VISIBLE);
+            btnWaze.setVisibility(View.VISIBLE);
+            int inicia = p.getComentario().indexOf("[");
+            int termina = p.getComentario().indexOf("]");
+            String ubi = p.getComentario().substring(inicia + 2, termina - 1);
+            String comentario = p.getComentario().substring(0, inicia);
+            txtComentario.setText(comentario);
+            String[] datos = ubi.split(",");
+            if (datos.length == 2) {
+                latitud = Double.parseDouble(datos[0]);
+                longitud = Double.parseDouble(datos[1]);
+                txtLatitud.setText(datos[0]);
+                txtLongitud.setText(datos[1]);
+            }
+        } else {
+            txtComentario.setText(p.getComentario());
+            btnMaps.setVisibility(View.GONE);
+            btnWaze.setVisibility(View.GONE);
+        }
 
 
         String correo = "" + p.getCorreo();
@@ -813,7 +941,7 @@ public class ClientesActivity extends AppCompatActivity
         TextView txtTotalRegs = (TextView) findViewById(R.id.txtTotalRegs);
         txtTotalRegs.setText("" + clientes.size());
         ListView gvClientes = (ListView) findViewById(R.id.gvClientes);
-        ClientesAdapter adapter = new ClientesAdapter(clientes, this,"C");
+        ClientesAdapter adapter = new ClientesAdapter(clientes, this, "C");
         gvClientes.setAdapter(adapter);
     }
 

@@ -1,11 +1,18 @@
 package com.anegocios.puntoventa;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import com.google.android.material.navigation.NavigationView;
+
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -59,6 +66,8 @@ public class ClientesGrandeActivity extends AppCompatActivity
     Realm realm;
     Context ctx;
     Activity act;
+    double latitud;
+    double longitud;
 
 
     @Override
@@ -495,6 +504,10 @@ public class ClientesGrandeActivity extends AppCompatActivity
             }
             cargarOnfocus();
             TextView txtTitulo = (TextView) findViewById(R.id.txtTitulo);
+            ImageButton btnMaps = (ImageButton) findViewById(R.id.btnMaps);
+            ImageButton btnWaze = (ImageButton) findViewById(R.id.btnWaze);
+            btnWaze.setVisibility(View.GONE);
+            btnMaps.setVisibility(View.GONE);
             txtTitulo.setText("NUEVO CLIENTE");
             accion = "N";
             pantalla = "cliente";
@@ -520,7 +533,8 @@ public class ClientesGrandeActivity extends AppCompatActivity
         EditText txtEstado = (EditText) findViewById(R.id.txtEstado);
         EditText txtCodigoPostal = (EditText) findViewById(R.id.txtCodigoPostal);
         EditText txtComentario = (EditText) findViewById(R.id.txtComentario);
-
+        EditText txtLatitud = (EditText) findViewById(R.id.txtLatitud);
+        EditText txtLongitud = (EditText) findViewById(R.id.txtLongitud);
 
         if (txtNombre.getText().toString().trim().equals("")
 
@@ -560,7 +574,13 @@ public class ClientesGrandeActivity extends AppCompatActivity
                 d.setMunicipio(txtMunicipio.getText().toString());
                 d.setEstado(txtEstado.getText().toString());
                 d.setCp(txtCodigoPostal.getText().toString());
-                d.setComentario(txtComentario.getText().toString());
+                String lati = txtLatitud.getText().toString();
+                String longi = txtLongitud.getText().toString();
+                if (!lati.equals("") && !longi.equals("")) {
+                    d.setComentario(txtComentario.getText().toString() + "[#" + lati + "," + longi + "#]");
+                } else {
+                    d.setComentario(txtComentario.getText().toString());
+                }
                 direcciones.add(d);
                 p.setDireccionesxy(direcciones);
 
@@ -588,7 +608,13 @@ public class ClientesGrandeActivity extends AppCompatActivity
                         aux.setMunicipio(txtMunicipio.getText().toString());
                         aux.setEstado(txtEstado.getText().toString());
                         aux.setCp(txtCodigoPostal.getText().toString());
-                        aux.setComentario(txtComentario.getText().toString());
+                        String lati = txtLatitud.getText().toString();
+                        String longi = txtLongitud.getText().toString();
+                        if (!lati.equals("") && !longi.equals("")) {
+                            aux.setComentario(txtComentario.getText().toString() + "[#" + lati + "," + longi + "#]");
+                        } else {
+                            aux.setComentario(txtComentario.getText().toString());
+                        }
                         // es local, actualizamos el local
                         ClientesDB pdb = new ClientesDB();
 
@@ -615,7 +641,13 @@ public class ClientesGrandeActivity extends AppCompatActivity
                         aux.setMunicipio(txtMunicipio.getText().toString());
                         aux.setEstado(txtEstado.getText().toString());
                         aux.setCp(txtCodigoPostal.getText().toString());
-                        aux.setComentario(txtComentario.getText().toString());
+                        String lati = txtLatitud.getText().toString();
+                        String longi = txtLongitud.getText().toString();
+                        if (!lati.equals("") && !longi.equals("")) {
+                            aux.setComentario(txtComentario.getText().toString() + "[#" + lati + "," + longi + "#]");
+                        } else {
+                            aux.setComentario(txtComentario.getText().toString());
+                        }
 
                         ClientesDB pdb = new ClientesDB();
 
@@ -643,7 +675,13 @@ public class ClientesGrandeActivity extends AppCompatActivity
                     p.setMunicipio(txtMunicipio.getText().toString());
                     p.setEstado(txtEstado.getText().toString());
                     p.setCp(txtCodigoPostal.getText().toString());
-                    p.setComentario(txtComentario.getText().toString());
+                    String lati = txtLatitud.getText().toString();
+                    String longi = txtLongitud.getText().toString();
+                    if (!lati.equals("") && !longi.equals("")) {
+                        p.setComentario(txtComentario.getText().toString() + "[#" + lati + "," + longi + "#]");
+                    } else {
+                        p.setComentario(txtComentario.getText().toString());
+                    }
                     ClientesDB pdb = new ClientesDB();
 
                     String error = pdb.guardarBDClienteLocal(p, Integer.parseInt(ut.obtenerValor("idTienda", this)), realm);
@@ -662,6 +700,77 @@ public class ClientesGrandeActivity extends AppCompatActivity
         }
 
     }
+
+
+
+    public void btnGPS(View view) {
+        Location location = getLastKnownLocation();
+        if (location == null) {
+            latitud = 0.00;
+            longitud = 0.00;
+        } else {
+            latitud = location.getLatitude();
+            longitud = location.getLongitude();
+        }
+        EditText txtLongitud = (EditText) findViewById(R.id.txtLongitud);
+        EditText txtLatitud = (EditText) findViewById(R.id.txtLatitud);
+        txtLongitud.setText("" + longitud);
+        txtLatitud.setText("" + latitud);
+    }
+
+
+    LocationManager mLocationManager;
+
+
+    private Location getLastKnownLocation() {
+        mLocationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+
+        for (String provider : providers) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                return null;
+            }
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
+    }
+
+
+    public void btnMaps(View view) {
+        if (latitud != 0) {
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                    Uri.parse("http://maps.google.com/maps?daddr=" + latitud + "," + longitud + ""));
+            startActivity(intent);
+        } else {
+            mandarMensaje("No se tiene la dirección del cliente");
+        }
+    }
+
+    public void btnWaze(View view) {
+        if (latitud != 0) {
+            try {
+                String uri = "waze://?ll=" + latitud + "," + longitud + "&z=10";
+                startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+            }
+            catch (Exception ex)
+            {
+                mandarMensaje("No tienes instalado Waze");
+            }
+        } else {
+            mandarMensaje("No se tiene la dirección del cliente");
+        }
+    }
+
+
 
     private void subirCliente(ClienteXYDTO p) {
         ClienteDTO pr = new ClienteDTO();
@@ -732,8 +841,11 @@ public class ClientesGrandeActivity extends AppCompatActivity
         EditText txtEstado = (EditText) findViewById(R.id.txtEstado);
         EditText txtCodigoPostal = (EditText) findViewById(R.id.txtCodigoPostal);
         EditText txtComentario = (EditText) findViewById(R.id.txtComentario);
+        EditText txtLatitud = (EditText) findViewById(R.id.txtLatitud);
+        EditText txtLongitud = (EditText) findViewById(R.id.txtLongitud);
         ImageButton btnListo = (ImageButton) findViewById(R.id.btnListo);
-
+        ImageButton btnMaps = (ImageButton) findViewById(R.id.btnMaps);
+        ImageButton btnWaze = (ImageButton) findViewById(R.id.btnWaze);
 
         if (p.getNombre() == null) {
             txtNombre.setText("");
@@ -757,9 +869,29 @@ public class ClientesGrandeActivity extends AppCompatActivity
         txtColonia.setText(p.getColonia());
         txtMunicipio.setText(p.getMunicipio());
         txtEstado.setText(p.getEstado());
-        txtComentario.setText(p.getComentario());
+
         txtCodigoPostal.setText(p.getCp());
 
+        if (p.getComentario().contains("[#")) {
+            btnMaps.setVisibility(View.VISIBLE);
+            btnWaze.setVisibility(View.VISIBLE);
+            int inicia = p.getComentario().indexOf("[");
+            int termina = p.getComentario().indexOf("]");
+            String ubi = p.getComentario().substring(inicia + 2, termina - 1);
+            String comentario = p.getComentario().substring(0, inicia);
+            txtComentario.setText(comentario);
+            String[] datos = ubi.split(",");
+            if (datos.length == 2) {
+                latitud = Double.parseDouble(datos[0]);
+                longitud = Double.parseDouble(datos[1]);
+                txtLatitud.setText(datos[0]);
+                txtLongitud.setText(datos[1]);
+            }
+        } else {
+            txtComentario.setText(p.getComentario());
+            btnMaps.setVisibility(View.GONE);
+            btnWaze.setVisibility(View.GONE);
+        }
 
         String correo = "" + p.getCorreo();
         if (correo == null) {
