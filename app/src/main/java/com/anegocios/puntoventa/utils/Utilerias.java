@@ -20,6 +20,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.text.TextUtils;
 import android.util.Base64;
@@ -30,6 +31,7 @@ import com.anegocios.puntoventa.AbrirCajaActivity;
 import com.anegocios.puntoventa.BuildConfig;
 import com.anegocios.puntoventa.PuntoVentaActivity;
 import com.anegocios.puntoventa.PuntoVentaChicoActivity;
+import com.anegocios.puntoventa.R;
 import com.anegocios.puntoventa.bdlocal.CajaDTOLocal;
 import com.anegocios.puntoventa.bdlocal.ClienteXYDTOLocal;
 import com.anegocios.puntoventa.bdlocal.ImagenTicketDTOLocal;
@@ -691,6 +693,62 @@ public class Utilerias {
     }
 
 
+    public String armarCorte(double efectivoContado, double efectivoCalculado,
+                             double tarjetaContado, double tarjetaCalculado) {
+
+
+        String s = "";
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
+        s += "Fecha Corte: " + df.format(new Date()) + "\n";
+
+
+        s += "\n";
+        s += "------------------------------\n";
+        s += "\n";
+
+        s += "Efectivo Calculado :" + formatDoubleTicket(efectivoCalculado, 8, "$") + "\n";
+        s += "  Efectivo Contado :" + formatDoubleTicket(efectivoContado, 8, "$") + "\n";
+        s += " Tarjeta Calculado :" + formatDoubleTicket(tarjetaCalculado, 8, "$") + "\n";
+        s += "   Tarjeta Contado :" + formatDoubleTicket(tarjetaContado, 8, "$") + "\n";
+        s += "\n";
+        s += "________________________________\n";
+        s += "\n";
+
+        int primerRenglon = 32;
+        if (efectivoCalculado == efectivoContado) {
+            s += cortarString("¡Felicidades la diferencia fue de : $0 en pago con EFECTIVO! ", 32, primerRenglon);
+
+        } else if (efectivoContado > efectivoCalculado) {
+            double diferencia = efectivoContado - efectivoCalculado;
+            s += cortarString("¡Sobraron: $" + diferencia + " en EFECTIVO! ", 32, primerRenglon);
+
+        } else if (efectivoContado < efectivoCalculado) {
+            double diferencia = efectivoContado - efectivoCalculado;
+            s += cortarString("¡Faltaron: $" + diferencia + " en EFECTIVO!  ", 32, primerRenglon);
+
+        }
+
+
+        if (tarjetaCalculado == tarjetaContado) {
+            s += cortarString("¡Felicidades la diferencia fue de : $0 en pago con TARJETA!", 32, primerRenglon);
+
+        } else if (tarjetaContado > tarjetaCalculado) {
+            double diferencia = tarjetaContado - tarjetaCalculado;
+            s += cortarString("¡Sobraron: $" + diferencia + " en TARJETA!", 32, primerRenglon);
+
+        } else if (tarjetaContado < tarjetaCalculado) {
+            double diferencia = tarjetaContado - tarjetaCalculado;
+            s += cortarString("¡Faltaron: $" + diferencia + " en TARJETA!", 32, primerRenglon);
+        }
+
+
+        return s;
+
+
+    }
+
+
     public String armarTicketReimprimir(VentasDetalleTicket detalle) {
 
         //obtenemos el ultimo
@@ -1175,6 +1233,33 @@ public class Utilerias {
         return null;
     }
 
+    public void imprimirCorte(Context c, double efectivoContado, double efectivoCalculado,
+                              double tarjetaContado, double tarjetaCalculado) {
+        Utilerias ut = new Utilerias();
+
+        if (isBluetoothEnabled()) {
+
+            String nombreImpresora = ut.obtenerValor("nombreImpresora", c);
+            if (nombreImpresora != null) {
+
+                BluetoothDevice device = obtenerImpresora(nombreImpresora);
+                if (device != null) {
+                    String corte = ut.armarCorte(efectivoContado, efectivoCalculado,
+                            tarjetaContado, tarjetaCalculado);
+                    if (corte != null) {
+                        imprimirBackGroundCorte(device, corte);
+                    }
+                } else {
+                    System.out.println("No se encontró la impresora configurada");
+                }
+            } else {
+                System.out.println("Por favor configure primero una impresora");
+            }
+        } else {
+            System.out.println("El Bluetooth esta apagado, por favor verifique");
+        }
+    }
+
     public void imprimirTicket(Context c, Activity a, long idTiendaGlobal, int idTicketImprimir) {
         Utilerias ut = new Utilerias();
 
@@ -1342,6 +1427,29 @@ public class Utilerias {
             realm2.close();
         }
 
+
+    }
+
+
+    private void imprimirBackGroundCorte(BluetoothDevice device, String bytes) {
+        String tipoImpresora = "GENE";
+
+        Utilerias ut = new Utilerias();
+
+        UtileriasImpresion uim = new UtileriasImpresion();
+        uim.setCenter(false);
+        uim.setBold(false);
+        uim.setdH(false);
+        uim.setdW(false);
+
+        String lineaCorte = "\n\n";
+        uim.setTipoLetra(1);
+        uim.mandarLetra(device, tipoImpresora, 400);
+        uim.imprimirTicket(lineaCorte, device, tipoImpresora, 400);
+        String error = uim.imprimirTicket(bytes, device, tipoImpresora, 400);
+
+        uim.setTipoLetra(1);
+        uim.imprimirTicket(lineaCorte, device, tipoImpresora, 400);
 
     }
 

@@ -135,6 +135,10 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
     String idPedidoEditar;
     String folioPedidoEditar;
     ListView gvProductosDisponibles;
+    double efectivoCalculadoCor;
+    double efectivoContadoCor;
+    double tarjetacalculadoCor;
+    double tarjetaContadoCor;
 
 
     @Override
@@ -363,7 +367,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
             estatusImpresora = verificarImpresora();
         }
         ImageButton botonImpresora = (ImageButton) findViewById(R.id.botonImpresora);
-         final EditText txtCodigoBarras = findViewById(R.id.txtCodigoBarras);
+        final EditText txtCodigoBarras = findViewById(R.id.txtCodigoBarras);
         txtCodigoBarras.setText("");
         txtCodigoBarras.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -378,22 +382,19 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String codigoBarras = txtCodigoBarras.getText().toString();
-                if(!codigoBarras.equals("")) {
-                    int cont=0;
-                    boolean encontrado=false;
-                    for(ProductosXYDTOAux p : productosDisponibles)
-                    {
-                        if(p.getCodigoBarras()!= null &&  p.getCodigoBarras().trim().equals(txtCodigoBarras.getText().toString().trim()))
-                        {
+                if (!codigoBarras.equals("")) {
+                    int cont = 0;
+                    boolean encontrado = false;
+                    for (ProductosXYDTOAux p : productosDisponibles) {
+                        if (p.getCodigoBarras() != null && p.getCodigoBarras().trim().equals(txtCodigoBarras.getText().toString().trim())) {
                             agregarConAnimacion(cont);
-                            encontrado=true;
+                            encontrado = true;
                             break;
                         }
                         cont++;
                     }
-                    if(!encontrado)
-                    {
-                        mandarMensaje("No se encontró el producto con el código "+txtCodigoBarras.getText().toString().trim());
+                    if (!encontrado) {
+                        mandarMensaje("No se encontró el producto con el código " + txtCodigoBarras.getText().toString().trim());
                         txtCodigoBarras.setText("");
                         txtCodigoBarras.requestFocus();
                     }
@@ -447,7 +448,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
             productosDisponibles = pdb.obtenerProductosCompletos(
                     Integer.parseInt(ut.obtenerValor("idTienda", this)), realm);
         }
-          gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
+        gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
         if (productosDisponibles != null) {
 
             ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, this, "C");
@@ -468,8 +469,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         //actualizarTotalesProductos();
     }
 
-    private void agregarConAnimacion(int position)
-    {
+    private void agregarConAnimacion(int position) {
 
         EditText txtCodigoBarras = findViewById(R.id.txtCodigoBarras);
         Animation animation = AnimationUtils.loadAnimation(context, R.anim.move);
@@ -541,7 +541,6 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
 
                 Number precioAsi = format.parse(txtPrecioAjuste.getText().toString());
                 double precioAsignado = precioAsi.doubleValue();
-
 
 
                 prod.setCantidad(cantidadAsignada);
@@ -748,6 +747,10 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
 
     private void mostrarResultadoCorte(double efectivoCalculado, double efectivoContado
             , double tarjetacalculado, double tarjetaContado) {
+        efectivoCalculadoCor= efectivoCalculado;
+        efectivoContadoCor = efectivoContado;
+        tarjetacalculadoCor = tarjetacalculado;
+        tarjetaContadoCor = tarjetaContado;
         setContentView(R.layout.resultadocorte);
         TextView txtResultadoEfectivo = (TextView) findViewById(R.id.txtResultadoEfectivo);
         TextView txtResultadoTarjeta = (TextView) findViewById(R.id.txtResultadoTarjeta);
@@ -1068,7 +1071,6 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
 
         EditText txtEfectivoPedido = (EditText) findViewById(R.id.txtEfectivoPedido);
         EditText txtPagoCorreo = (EditText) findViewById(R.id.txtPagoCorreo);
-
 
 
         String tarjetaPedido = "0";
@@ -1943,10 +1945,10 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
 
         } else {
 */
-            mostrarVentaExitosa("" + idTicketGenerado, tipo);
+        mostrarVentaExitosa("" + idTicketGenerado, tipo);
 
 
-  //      }
+        //      }
 
 
         if (ut.verificaConexion(context)) {
@@ -2003,7 +2005,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
             if (productosAgregados != null && productosAgregados.size() > 0) {
                 pantalla = "cotizacion";
 
-              mostrarConfirmaCotizacion();
+                mostrarConfirmaCotizacion();
             } else {
                 mandarMensaje("Debes agregar algun producto para poder generar la venta");
             }
@@ -2012,8 +2014,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         }
     }
 
-    private void mostrarConfirmaCotizacion()
-    {
+    private void mostrarConfirmaCotizacion() {
         setContentView(R.layout.cotizacion);
         Utilerias ut = new Utilerias();
         TextView txtTotalPago = (TextView) findViewById(R.id.txtTotalPago);
@@ -2084,6 +2085,12 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         totalArticulos = 0;
         idPedidoEditar = "0";
 
+    }
+
+    public void btnImprimirCorteClick(View view) {
+        Utilerias ut = new Utilerias();
+            ut.imprimirCorte(this, efectivoContadoCor, efectivoCalculadoCor
+                    ,tarjetaContadoCor,tarjetacalculadoCor);
     }
 
     public void btnImprimirClick(View view) {

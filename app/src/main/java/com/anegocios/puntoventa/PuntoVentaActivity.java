@@ -115,6 +115,11 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
     int idTicketGenerado;
     ListView gvProductosDisponibles;
 
+    double efectivoCalculadoCor;
+    double efectivoContadoCor;
+    double tarjetacalculadoCor;
+    double tarjetaContadoCor;
+
 
     private List<ProductosXYDTOAux> productosBuscar;
 
@@ -772,6 +777,11 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
 
     private void mostrarResultadoCorte(double efectivoCalculado, double efectivoContado
             , double tarjetacalculado, double tarjetaContado) {
+
+        efectivoCalculadoCor= efectivoCalculado;
+        efectivoContadoCor = efectivoContado;
+        tarjetacalculadoCor = tarjetacalculado;
+        tarjetaContadoCor = tarjetaContado;
         setContentView(R.layout.resultadocorte);
         TextView txtResultadoEfectivo = (TextView) findViewById(R.id.txtResultadoEfectivo);
         TextView txtResultadoTarjeta = (TextView) findViewById(R.id.txtResultadoTarjeta);
@@ -803,6 +813,12 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
         }
 
 
+    }
+
+    public void btnImprimirCorteClick(View view) {
+        Utilerias ut = new Utilerias();
+        ut.imprimirCorte(this, efectivoContadoCor, efectivoCalculadoCor
+                ,tarjetaContadoCor,tarjetacalculadoCor);
     }
 
     public void mostrarExtras() {
