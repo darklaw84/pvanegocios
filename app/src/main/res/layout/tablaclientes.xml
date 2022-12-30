@@ -8,20 +8,60 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
 
         <TextView
 
-            android:layout_width="match_parent"
-
+            android:layout_width="0dp"
+            android:layout_weight=".5"
             android:gravity="center_horizontal|center_vertical"
             android:layout_height="25dp"
             android:textColor="@color/letraTablas"
             android:id="@+id/txtNombre"
-            android:textSize="18dp"
+            android:textSize="14dp"
             android:text="FRANCISCO JAVIER GALLEGOS MONTOYA"
             />
+
+        <TextView
+
+            android:layout_width="0dp"
+android:layout_weight=".2"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_height="25dp"
+            android:textColor="@color/letraTablas"
+            android:id="@+id/txtRuta"
+            android:textSize="14dp"
+            android:text=""
+            />
+
+        <ImageButton
+
+            android:id="@+id/btnMaps"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginRight="10dp"
+            android:background="@color/zxing_transparent"
+            android:onClick="btnMaps"
+            android:scaleType="fitCenter"
+            android:src="@drawable/maps" />
+
+
+        <ImageButton
+
+            android:id="@+id/btnWaze"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginRight="10dp"
+            android:background="@color/zxing_transparent"
+
+            android:scaleType="fitCenter"
+            android:src="@drawable/waze" />
+
 
 
 

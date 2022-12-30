@@ -1465,7 +1465,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         cliAux.setCorreo("");
         clientes.add(0, cliAux);
         ListView gvClientes = (ListView) findViewById(R.id.gvClientes);
-        ClientesAdapter adapter = new ClientesAdapter(clientes, this, "C");
+        ClientesAdapterGris adapter = new ClientesAdapterGris(clientes, this);
         gvClientes.setAdapter(adapter);
     }
 

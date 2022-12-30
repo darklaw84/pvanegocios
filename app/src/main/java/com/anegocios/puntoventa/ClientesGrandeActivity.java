@@ -324,6 +324,34 @@ public class ClientesGrandeActivity extends AppCompatActivity
     }
 
 
+    public void mostrarWaze(String uri)
+    {
+        try {
+            startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+        }
+        catch (Exception ex)
+        {
+            mandarMensaje("No tienes instalado Waze");
+        }
+    }
+
+
+    public void mostrarMaps(String uri)
+    {
+        try {
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                    Uri.parse(uri));
+            startActivity(intent);
+        }
+        catch (Exception ex)
+        {
+            mandarMensaje("No tienes instalado Waze");
+        }
+    }
+
+
+
+
 
     public void btnMostrarMenuClick(View view) {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -345,7 +373,7 @@ public class ClientesGrandeActivity extends AppCompatActivity
         TextView txtTotalRegs = (TextView) findViewById(R.id.txtTotalRegs);
         txtTotalRegs.setText("" + clientes.size());
         ListView gvClientes = (ListView) findViewById(R.id.gvClientes);
-        ClientesAdapter adapter = new ClientesAdapter(clientes, this,"G");
+        ClientesAdapter adapter = new ClientesAdapter(clientes, this,"G",null,this);
         gvClientes.setAdapter(adapter);
         gvClientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -872,7 +900,7 @@ public class ClientesGrandeActivity extends AppCompatActivity
 
         txtCodigoPostal.setText(p.getCp());
 
-        if (p.getComentario().contains("[#")) {
+        if (p.getComentario()!= null && p.getComentario().contains("[#")) {
             btnMaps.setVisibility(View.VISIBLE);
             btnWaze.setVisibility(View.VISIBLE);
             int inicia = p.getComentario().indexOf("[");
@@ -946,7 +974,7 @@ public class ClientesGrandeActivity extends AppCompatActivity
         TextView txtTotalRegs = (TextView) findViewById(R.id.txtTotalRegs);
         txtTotalRegs.setText("" + clientes.size());
         ListView gvClientes = (ListView) findViewById(R.id.gvClientes);
-        ClientesAdapter adapter = new ClientesAdapter(clientes, this,"G");
+        ClientesAdapter adapter = new ClientesAdapter(clientes, this,"G",null,this);
         gvClientes.setAdapter(adapter);
     }
 
