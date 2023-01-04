@@ -367,48 +367,8 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
             estatusImpresora = verificarImpresora();
         }
         ImageButton botonImpresora = (ImageButton) findViewById(R.id.botonImpresora);
-        final EditText txtCodigoBarras = findViewById(R.id.txtCodigoBarras);
-        txtCodigoBarras.setText("");
-        txtCodigoBarras.requestFocus();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String codigoBarras = txtCodigoBarras.getText().toString();
-                if (!codigoBarras.equals("")) {
-                    int cont = 0;
-                    boolean encontrado = false;
-                    for (ProductosXYDTOAux p : productosDisponibles) {
-                        if (p.getCodigoBarras() != null && p.getCodigoBarras().trim().equals(txtCodigoBarras.getText().toString().trim())) {
-                            agregarConAnimacion(cont);
-                            encontrado = true;
-                            break;
-                        }
-                        cont++;
-                    }
-                    if (!encontrado) {
-                        mandarMensaje("No se encontró el producto con el código " + txtCodigoBarras.getText().toString().trim());
-                        txtCodigoBarras.setText("");
-                        txtCodigoBarras.requestFocus();
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
-
-        txtCodigoBarras.addTextChangedListener(textWatcher);
-        txtCodigoBarras.setFocusableInTouchMode(true);
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         if (estatusImpresora) {
             botonImpresora.setImageResource(R.drawable.bluetoothok);
@@ -471,7 +431,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
 
     private void agregarConAnimacion(int position) {
 
-        EditText txtCodigoBarras = findViewById(R.id.txtCodigoBarras);
+        EditText txtCodigoBarras = findViewById(R.id.txtBuscarProd);
         Animation animation = AnimationUtils.loadAnimation(context, R.anim.move);
         Animation blinkanimation = AnimationUtils.loadAnimation(context, R.anim.blinkticketbutton);
         Button btnCarrito = (Button) findViewById(R.id.btnCarrito);
@@ -747,7 +707,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
 
     private void mostrarResultadoCorte(double efectivoCalculado, double efectivoContado
             , double tarjetacalculado, double tarjetaContado) {
-        efectivoCalculadoCor= efectivoCalculado;
+        efectivoCalculadoCor = efectivoCalculado;
         efectivoContadoCor = efectivoContado;
         tarjetacalculadoCor = tarjetacalculado;
         tarjetaContadoCor = tarjetaContado;
@@ -1234,6 +1194,9 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
             }
         };
         txtBuscarProd.addTextChangedListener(textWatcher);
+        txtBuscarProd.requestFocus();
+        InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
     private void buscarProducto() {
@@ -1241,17 +1204,38 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         EditText txtBuscarProd = (EditText) findViewById(R.id.txtBuscarProd);
         ProductosDB pdb = new ProductosDB();
         Utilerias ut = new Utilerias();
+        String textoBuscar = txtBuscarProd.getText().toString().trim();
+        if (textoBuscar.length() > 6) {
 
-        productosDisponibles =
-                pdb.obtenerProductosCompletosPatron(txtBuscarProd.getText().toString(),
-                        Integer.parseInt(ut.obtenerValor("idTienda", this)), realm);
+            int cont = 0;
+            boolean encontrado = false;
+            for (ProductosXYDTOAux p : productosDisponibles) {
+                if (p.getCodigoBarras() != null && p.getCodigoBarras().trim().equals(txtBuscarProd.getText().toString().trim())) {
+                    agregarConAnimacion(cont);
+                    encontrado = true;
+                    break;
+                }
+                cont++;
+            }
+            if (!encontrado) {
+                mandarMensaje("No se encontró el producto con el código " + txtBuscarProd.getText().toString().trim());
+                txtBuscarProd.setText("");
+                txtBuscarProd.requestFocus();
+            }
 
-        if (productosDisponibles != null) {
-            ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
-            ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context, "C");
-            gvProductosDisponibles.setAdapter(adapter);
-            totalBusqueda = productosDisponibles.size();
-            //  actualizarTotalesProductos();
+        } else {
+
+            productosDisponibles =
+                    pdb.obtenerProductosCompletosPatron(txtBuscarProd.getText().toString(),
+                            Integer.parseInt(ut.obtenerValor("idTienda", this)), realm);
+
+            if (productosDisponibles != null) {
+                ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
+                ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context, "C");
+                gvProductosDisponibles.setAdapter(adapter);
+                totalBusqueda = productosDisponibles.size();
+                //  actualizarTotalesProductos();
+            }
         }
     }
 
@@ -1325,6 +1309,10 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         Spinner spGrupos = (Spinner) findViewById(R.id.spGrupos);
         spGrupos.setVisibility(View.VISIBLE);
         txtBuscarProd.setVisibility(View.GONE);
+
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(txtBuscarProd.getWindowToken(), 0);
     }
 
 
@@ -2089,8 +2077,8 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
 
     public void btnImprimirCorteClick(View view) {
         Utilerias ut = new Utilerias();
-            ut.imprimirCorte(this, efectivoContadoCor, efectivoCalculadoCor
-                    ,tarjetaContadoCor,tarjetacalculadoCor);
+        ut.imprimirCorte(this, efectivoContadoCor, efectivoCalculadoCor
+                , tarjetaContadoCor, tarjetacalculadoCor);
     }
 
     public void btnImprimirClick(View view) {

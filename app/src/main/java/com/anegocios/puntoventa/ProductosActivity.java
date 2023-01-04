@@ -409,6 +409,8 @@ public class ProductosActivity extends AppCompatActivity
                 spGrupos.setAdapter(aa);
                 manejarClickIva();
                 txtCodigoBarras.requestFocus();
+                InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
             } else {
                 mandarMensaje("No tienes permiso para crear productos");
             }
