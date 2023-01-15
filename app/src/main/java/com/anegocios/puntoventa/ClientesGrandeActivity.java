@@ -349,6 +349,22 @@ public class ClientesGrandeActivity extends AppCompatActivity
         }
     }
 
+    public void mostrarClienteActual(int position)
+    {
+        if (permisos.getClt_U()) {
+
+
+            pSel = clientes.get(position);
+            mostrarCliente(pSel);
+            TextView txtTitulo = (TextView) findViewById(R.id.txtTitulo);
+            txtTitulo.setText("EDITAR CLIENTE");
+            pantalla = "cliente";
+            accion = "E";
+        } else {
+            mandarMensaje("No tiene permitido editar Clientes");
+        }
+    }
+
 
 
 

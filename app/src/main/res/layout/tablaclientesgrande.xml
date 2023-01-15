@@ -72,6 +72,10 @@
             android:textSize="20dp"
             android:text="FRANCISCO JAVIER GALLEGOS MONTOYA"
             />
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <ImageButton
 
@@ -98,7 +102,7 @@
 
             android:scaleType="fitCenter"
             android:src="@drawable/waze" />
-
+    </LinearLayout>
 
 
     </LinearLayout>

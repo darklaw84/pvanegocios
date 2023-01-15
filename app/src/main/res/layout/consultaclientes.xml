@@ -142,10 +142,14 @@
 
 
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
             <TextView
 
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight=".5"
                 android:layout_height="25dp"
 
                 android:gravity="center_horizontal|center_vertical"
@@ -153,8 +157,31 @@
 
                 android:background="@color/fondoCabecera"
                 android:textColor="@color/listClaro" />
+    <TextView
 
+        android:layout_width="0dp"
+        android:layout_weight=".25"
+        android:layout_height="25dp"
 
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Ruta"
+
+        android:background="@color/fondoCabecera"
+        android:textColor="@color/listClaro" />
+
+    <TextView
+
+        android:layout_width="80dp"
+        
+        android:layout_height="25dp"
+
+        android:gravity="center_horizontal|center_vertical"
+        android:text=""
+
+        android:background="@color/fondoCabecera"
+        android:textColor="@color/listClaro" />
+
+</LinearLayout>
 
 
 

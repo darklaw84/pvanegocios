@@ -34,6 +34,7 @@ public class ClientesDB {
                         p.setNombre(ps.getNombre());
                         p.setApellidoM(ps.getApellidoM());
                         p.setApellidoP(ps.getApellidoP());
+                        p.setRuta(ps.getRuta());
                         p.setIdTienda(idTienda);
                         RealmList<CorreosXYDTO> correos = new RealmList<CorreosXYDTO>();
                         if (ps.getCorreosxy() != null && ps.getCorreosxy().size() > 0) {
@@ -92,6 +93,7 @@ public class ClientesDB {
                         p.setApellidoM(ps.getApellidoM());
                         p.setApellidoP(ps.getApellidoP());
                         p.setIdTienda(idTienda);
+                        p.setRuta(ps.getRuta());
                         RealmList<CorreosXYDTO> correos = new RealmList<CorreosXYDTO>();
                         if (ps.getCorreosxy() != null && ps.getCorreosxy().size() > 0) {
                             CorreosXYDTO corr = realm.createObject(CorreosXYDTO.class);

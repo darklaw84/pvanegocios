@@ -26,11 +26,13 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -151,8 +153,7 @@ public class ProductosActivity extends AppCompatActivity
 
     }
 
-    private void siActualizar()
-    {
+    private void siActualizar() {
         Utilerias ut = new Utilerias();
         if (ut.verificaConexion(this)) {
             ProductoDTO pr = new ProductoDTO();
@@ -178,13 +179,9 @@ public class ProductosActivity extends AppCompatActivity
                 ls.execute();
 
 
-                if(realm!=null && !realm.isClosed())
-                {
+                if (realm != null && !realm.isClosed()) {
                     realm.close();
                 }
-
-
-
 
 
             } catch (Exception ex) {
@@ -196,8 +193,7 @@ public class ProductosActivity extends AppCompatActivity
     }
 
 
-    public void mostrarActualizando()
-    {
+    public void mostrarActualizando() {
         setContentView(R.layout.actualizandoproductos);
     }
 
@@ -262,7 +258,7 @@ public class ProductosActivity extends AppCompatActivity
         } else if (id == R.id.nav_reportes) {
             cerrarRealmN(realm);
             Utilerias ut = new Utilerias();
-            ut.guardarValor("mostrarPedidos","NO",this);
+            ut.guardarValor("mostrarPedidos", "NO", this);
             if (ut.esPantallaChica(this)) {
                 Intent i = new Intent(getApplicationContext(), ReportesActivity.class);
                 startActivity(i);
@@ -279,7 +275,7 @@ public class ProductosActivity extends AppCompatActivity
 
     public void btnLogOutClick(View view) {
         Utilerias ut = new Utilerias();
-        ut.guardarValor("idUsuario","",this);
+        ut.guardarValor("idUsuario", "", this);
         cerrarRealmN(realm);
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
@@ -409,8 +405,7 @@ public class ProductosActivity extends AppCompatActivity
                 spGrupos.setAdapter(aa);
                 manejarClickIva();
                 txtCodigoBarras.requestFocus();
-                InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                showSoftKeyboard(txtCodigoBarras);
             } else {
                 mandarMensaje("No tienes permiso para crear productos");
             }
@@ -419,19 +414,26 @@ public class ProductosActivity extends AppCompatActivity
         }
     }
 
+    public void showSoftKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            boolean isShowing = imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+            if (!isShowing)
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        }
+    }
 
-
-    private void  cargarOnfocus()
-    {
-        EditText txtCodigoBarras = (EditText) findViewById(R.id.txtCodigoBarras);
-        EditText txtNombreProd = (EditText) findViewById(R.id.txtNombreProd);
-        EditText txtPrecioCompra = (EditText) findViewById(R.id.txtPrecioCompra);
-        EditText txtPrecioVenta = (EditText) findViewById(R.id.txtPrecioVenta);
-        EditText txtPrecioMayoreo = (EditText) findViewById(R.id.txtPrecioMayoreo);
-        EditText txtCantMayoreo = (EditText) findViewById(R.id.txtCantMayoreo);
-        EditText txtComision = (EditText) findViewById(R.id.txtComision);
-        EditText txtExistencias = (EditText) findViewById(R.id.txtExistencias);
-        EditText txtIva = (EditText) findViewById(R.id.txtIva);
+    private void cargarOnfocus() {
+        final EditText txtCodigoBarras = (EditText) findViewById(R.id.txtCodigoBarras);
+        final  EditText txtNombreProd = (EditText) findViewById(R.id.txtNombreProd);
+        final  EditText txtPrecioCompra = (EditText) findViewById(R.id.txtPrecioCompra);
+        final  EditText txtPrecioVenta = (EditText) findViewById(R.id.txtPrecioVenta);
+        final  EditText txtPrecioMayoreo = (EditText) findViewById(R.id.txtPrecioMayoreo);
+        final  EditText txtCantMayoreo = (EditText) findViewById(R.id.txtCantMayoreo);
+        final  EditText txtComision = (EditText) findViewById(R.id.txtComision);
+        final  EditText txtExistencias = (EditText) findViewById(R.id.txtExistencias);
+        final  EditText txtIva = (EditText) findViewById(R.id.txtIva);
         final TextView lblCantidadMayoreo = (TextView) findViewById(R.id.lblCantidadMayoreo);
         final TextView lblCodBarra = (TextView) findViewById(R.id.lblCodBarra);
         final TextView lblComision = (TextView) findViewById(R.id.lblComision);
@@ -442,7 +444,7 @@ public class ProductosActivity extends AppCompatActivity
         final TextView lblPrecioMayoreo = (TextView) findViewById(R.id.lblPrecioMayoreo);
         final TextView lblPrecioVenta = (TextView) findViewById(R.id.lblPrecioVenta);
         final View vieCantidadMayoreo = (View) findViewById(R.id.vieCantidadMayoreo);
-       final View vieCodigoBarras = (View) findViewById(R.id.vieCodigoBarras);
+        final View vieCodigoBarras = (View) findViewById(R.id.vieCodigoBarras);
         final View vieComision = (View) findViewById(R.id.vieComision);
         final View vieExistencias = (View) findViewById(R.id.vieExistencias);
         final View vieIva = (View) findViewById(R.id.vieIva);
@@ -470,6 +472,7 @@ public class ProductosActivity extends AppCompatActivity
                 if (hasFocus) {
                     lblCodBarra.setTextColor(ContextCompat.getColor(context, R.color.letraVerde));
                     vieCodigoBarras.setBackgroundColor(ContextCompat.getColor(context, R.color.letraVerde));
+                    showSoftKeyboard(txtCodigoBarras);
                 } else {
                     lblCodBarra.setTextColor(ContextCompat.getColor(context, R.color.letraCobrar));
                     vieCodigoBarras.setBackgroundColor(ContextCompat.getColor(context, R.color.letraCobrar));
@@ -483,6 +486,7 @@ public class ProductosActivity extends AppCompatActivity
                 if (hasFocus) {
                     lblNombre.setTextColor(ContextCompat.getColor(context, R.color.letraVerde));
                     vieNombre.setBackgroundColor(ContextCompat.getColor(context, R.color.letraVerde));
+                    showSoftKeyboard(txtNombreProd);
                 } else {
                     lblNombre.setTextColor(ContextCompat.getColor(context, R.color.letraCobrar));
                     vieNombre.setBackgroundColor(ContextCompat.getColor(context, R.color.letraCobrar));
@@ -496,6 +500,7 @@ public class ProductosActivity extends AppCompatActivity
                 if (hasFocus) {
                     lblPrecioCompra.setTextColor(ContextCompat.getColor(context, R.color.letraVerde));
                     viePrecioCompra.setBackgroundColor(ContextCompat.getColor(context, R.color.letraVerde));
+                    showSoftKeyboard(txtPrecioCompra);
                 } else {
                     lblPrecioCompra.setTextColor(ContextCompat.getColor(context, R.color.letraCobrar));
                     viePrecioCompra.setBackgroundColor(ContextCompat.getColor(context, R.color.letraCobrar));
@@ -509,6 +514,7 @@ public class ProductosActivity extends AppCompatActivity
                 if (hasFocus) {
                     lblPrecioVenta.setTextColor(ContextCompat.getColor(context, R.color.letraVerde));
                     viePrecioVenta.setBackgroundColor(ContextCompat.getColor(context, R.color.letraVerde));
+                    showSoftKeyboard(txtPrecioVenta);
                 } else {
                     lblPrecioVenta.setTextColor(ContextCompat.getColor(context, R.color.letraCobrar));
                     viePrecioVenta.setBackgroundColor(ContextCompat.getColor(context, R.color.letraCobrar));
@@ -523,6 +529,7 @@ public class ProductosActivity extends AppCompatActivity
                 if (hasFocus) {
                     lblPrecioMayoreo.setTextColor(ContextCompat.getColor(context, R.color.letraVerde));
                     viePrecioMayoreo.setBackgroundColor(ContextCompat.getColor(context, R.color.letraVerde));
+                    showSoftKeyboard(txtPrecioMayoreo);
                 } else {
                     lblPrecioMayoreo.setTextColor(ContextCompat.getColor(context, R.color.letraCobrar));
                     viePrecioMayoreo.setBackgroundColor(ContextCompat.getColor(context, R.color.letraCobrar));
@@ -537,6 +544,7 @@ public class ProductosActivity extends AppCompatActivity
                 if (hasFocus) {
                     lblComision.setTextColor(ContextCompat.getColor(context, R.color.letraVerde));
                     vieComision.setBackgroundColor(ContextCompat.getColor(context, R.color.letraVerde));
+                    showSoftKeyboard(txtComision);
                 } else {
                     lblComision.setTextColor(ContextCompat.getColor(context, R.color.letraCobrar));
                     vieComision.setBackgroundColor(ContextCompat.getColor(context, R.color.letraCobrar));
@@ -550,6 +558,7 @@ public class ProductosActivity extends AppCompatActivity
                 if (hasFocus) {
                     lblExistencias.setTextColor(ContextCompat.getColor(context, R.color.letraVerde));
                     vieExistencias.setBackgroundColor(ContextCompat.getColor(context, R.color.letraVerde));
+                    showSoftKeyboard(txtExistencias);
                 } else {
                     lblExistencias.setTextColor(ContextCompat.getColor(context, R.color.letraCobrar));
                     vieExistencias.setBackgroundColor(ContextCompat.getColor(context, R.color.letraCobrar));
@@ -563,13 +572,13 @@ public class ProductosActivity extends AppCompatActivity
                 if (hasFocus) {
                     lblCantidadMayoreo.setTextColor(ContextCompat.getColor(context, R.color.letraVerde));
                     vieCantidadMayoreo.setBackgroundColor(ContextCompat.getColor(context, R.color.letraVerde));
+                    showSoftKeyboard(txtCantMayoreo);
                 } else {
                     lblCantidadMayoreo.setTextColor(ContextCompat.getColor(context, R.color.letraCobrar));
                     vieCantidadMayoreo.setBackgroundColor(ContextCompat.getColor(context, R.color.letraCobrar));
                 }
             }
         });
-
 
 
     }
@@ -1126,7 +1135,7 @@ public class ProductosActivity extends AppCompatActivity
                     });
 
                 } else {
-                    mensajeRegresa=res.getMsg();
+                    mensajeRegresa = res.getMsg();
                     if (res.getProductosxy() == null) {
                         activity.runOnUiThread(new Runnable() {
                             public void run() {
@@ -1171,8 +1180,6 @@ public class ProductosActivity extends AppCompatActivity
     }
 
 
-
-
     class ProductoAsyncService extends AsyncTask<Void, Void, ProductoDTO> {
 
         Call<ProductoDTO> call;
@@ -1213,7 +1220,7 @@ public class ProductosActivity extends AppCompatActivity
                             ProductosDB pdb = new ProductosDB();
                             pdb.actualizarBDProductos(res.getProductosxy(),
                                     Integer.parseInt(ut.obtenerValor("idTienda", context)),
-                                    ut.obtenerModoAplicacion(context), ut.verificaConexion(context), realm,context);
+                                    ut.obtenerModoAplicacion(context), ut.verificaConexion(context), realm, context);
                         }
                         ProductosDB pdb = new ProductosDB();
                         for (ProductosXYDTO pro : res.getProductosxy()

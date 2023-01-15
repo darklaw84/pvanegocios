@@ -51,7 +51,7 @@ public class ClientesAdapter extends ArrayAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View rowView;
 
@@ -124,6 +124,12 @@ public class ClientesAdapter extends ArrayAdapter {
 
                     aG.mostrarMaps(finalUriMaps);
 
+                }
+            });
+
+            txtNombre.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    aG.mostrarClienteActual(position);
                 }
             });
 
@@ -202,6 +208,12 @@ public class ClientesAdapter extends ArrayAdapter {
 
                     a.mostrarMaps(finalUriMaps);
 
+                }
+            });
+
+            txtNombre.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    a.mostrarClienteActual(position);
                 }
             });
 

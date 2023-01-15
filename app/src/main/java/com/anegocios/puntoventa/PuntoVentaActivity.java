@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -368,51 +369,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
             estatusImpresora = verificarImpresora();
         }
         ImageButton botonImpresora = (ImageButton) findViewById(R.id.botonImpresora);
-        final EditText txtCodigoBarras = findViewById(R.id.txtCodigoBarras);
-        txtCodigoBarras.setText("");
-        txtCodigoBarras.requestFocus();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String codigoBarras = txtCodigoBarras.getText().toString();
-                if(!codigoBarras.equals("")) {
-                    int cont=0;
-                    boolean encontrado=false;
-                    for(ProductosXYDTOAux p : productosDisponibles)
-                    {
-                        if(p.getCodigoBarras()!= null &&  p.getCodigoBarras().trim().equals(txtCodigoBarras.getText().toString().trim()))
-                        {
-                            agregarConAnimacion(cont);
-                            encontrado=true;
-                            break;
-                        }
-                        cont++;
-                    }
-                    if(!encontrado)
-                    {
-                        mandarMensaje("No se encontró el producto con el código "+txtCodigoBarras.getText().toString().trim());
-                        txtCodigoBarras.setText("");
-                        txtCodigoBarras.requestFocus();
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
-
-        txtCodigoBarras.addTextChangedListener(textWatcher);
-        txtCodigoBarras.setFocusableInTouchMode(true);
         if (estatusImpresora) {
             botonImpresora.setImageResource(R.drawable.bluetoothokazu);
         } else {
@@ -479,7 +436,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
     private void agregarConAnimacion(int position)
     {
 
-        EditText txtCodigoBarras = findViewById(R.id.txtCodigoBarras);
+        EditText txtBuscarProd = findViewById(R.id.txtBuscarProd);
 
         Animation animation = AnimationUtils.loadAnimation(context, R.anim.movegrande);
         Animation blinkanimation = AnimationUtils.loadAnimation(context, R.anim.blinkticketbutton);
@@ -492,8 +449,8 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
 
         agregarProducto(productosDisponibles.get(position), false);
         actualizarListaAgregados();
-        txtCodigoBarras.setText("");
-        txtCodigoBarras.requestFocus();
+        txtBuscarProd.setText("");
+        txtBuscarProd.requestFocus();
     }
 
 
@@ -1261,6 +1218,19 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
             }
         };
         txtBuscarProd.addTextChangedListener(textWatcher);
+        txtBuscarProd.requestFocus();
+        showSoftKeyboard(txtBuscarProd);
+    }
+
+
+    public void showSoftKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            boolean isShowing = imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+            if (!isShowing)
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        }
     }
 
     private void buscarProducto() {
@@ -1269,16 +1239,40 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
         ProductosDB pdb = new ProductosDB();
         Utilerias ut = new Utilerias();
 
-        productosDisponibles =
-                pdb.obtenerProductosCompletosPatron(txtBuscarProd.getText().toString(),
-                        Integer.parseInt(ut.obtenerValor("idTienda", this)), realm);
+        String textoBuscar = txtBuscarProd.getText().toString().trim();
+        if (textoBuscar.length() > 8) {
 
-        if (productosDisponibles != null) {
-            ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
-            ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context,"G");
-            gvProductosDisponibles.setAdapter(adapter);
-            totalBusqueda = productosDisponibles.size();
-            //  actualizarTotalesProductos();
+            int cont=0;
+            boolean encontrado=false;
+            for(ProductosXYDTOAux p : productosDisponibles)
+            {
+                if(p.getCodigoBarras()!= null &&  p.getCodigoBarras().trim().equals(txtBuscarProd.getText().toString().trim()))
+                {
+                    agregarConAnimacion(cont);
+                    encontrado=true;
+                    break;
+                }
+                cont++;
+            }
+            if (encontrado) {
+
+                txtBuscarProd.setText("");
+                txtBuscarProd.requestFocus();
+            }
+
+        } else {
+
+            productosDisponibles =
+                    pdb.obtenerProductosCompletosPatron(txtBuscarProd.getText().toString(),
+                            Integer.parseInt(ut.obtenerValor("idTienda", this)), realm);
+
+            if (productosDisponibles != null) {
+                ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
+                ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context, "G");
+                gvProductosDisponibles.setAdapter(adapter);
+                totalBusqueda = productosDisponibles.size();
+                //  actualizarTotalesProductos();
+            }
         }
     }
 

@@ -184,6 +184,17 @@
 
                         android:textColor="@color/listClaro"
                         android:textSize="@dimen/letraTituloTicketG" />
+                    <TextView
+
+                        android:layout_width="80dp"
+
+                        android:layout_height="25dp"
+
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text=""
+
+                        android:background="@color/fondoCabecera"
+                        android:textColor="@color/listClaro" />
 
                 </LinearLayout>
 

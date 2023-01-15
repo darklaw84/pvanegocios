@@ -880,6 +880,11 @@ public class ClientesActivity extends AppCompatActivity
                 longitud = Double.parseDouble(datos[1]);
                 txtLatitud.setText(datos[0]);
                 txtLongitud.setText(datos[1]);
+                if(latitud==0)
+                {
+                    btnMaps.setVisibility(View.GONE);
+                    btnWaze.setVisibility(View.GONE);
+                }
             }
         } else {
             txtComentario.setText(p.getComentario());
@@ -926,6 +931,23 @@ public class ClientesActivity extends AppCompatActivity
         catch (Exception ex)
         {
             mandarMensaje("No tienes instalado Waze");
+        }
+    }
+
+
+    public void mostrarClienteActual(int position)
+    {
+        if (permisos.getClt_U()) {
+
+
+            pSel = clientes.get(position);
+            mostrarCliente(pSel);
+            TextView txtTitulo = (TextView) findViewById(R.id.txtTitulo);
+            txtTitulo.setText("EDITAR CLIENTE");
+            pantalla = "cliente";
+            accion = "E";
+        } else {
+            mandarMensaje("No tiene permitido editar Clientes");
         }
     }
 

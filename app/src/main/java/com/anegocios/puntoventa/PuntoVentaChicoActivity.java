@@ -1195,8 +1195,18 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         };
         txtBuscarProd.addTextChangedListener(textWatcher);
         txtBuscarProd.requestFocus();
-        InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        showSoftKeyboard(txtBuscarProd);
+    }
+
+
+    public void showSoftKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            boolean isShowing = imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+            if (!isShowing)
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        }
     }
 
     private void buscarProducto() {
@@ -1205,7 +1215,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         ProductosDB pdb = new ProductosDB();
         Utilerias ut = new Utilerias();
         String textoBuscar = txtBuscarProd.getText().toString().trim();
-        if (textoBuscar.length() > 6) {
+        if (textoBuscar.length() > 8) {
 
             int cont = 0;
             boolean encontrado = false;
@@ -1217,8 +1227,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
                 }
                 cont++;
             }
-            if (!encontrado) {
-                mandarMensaje("No se encontró el producto con el código " + txtBuscarProd.getText().toString().trim());
+            if (encontrado) {
                 txtBuscarProd.setText("");
                 txtBuscarProd.requestFocus();
             }
