@@ -35,7 +35,7 @@ public class ActualizacionCatalogosUtil {
 
     public void consultarProductos(Context context, Activity activity, boolean all) {
         ProductoDTO pr = new ProductoDTO();
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(context).create(APIInterface.class);
 
 
         try {
@@ -68,7 +68,7 @@ public class ActualizacionCatalogosUtil {
 
     public void consultarGrupos(Context context,Activity activity)
     {
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(context).create(APIInterface.class);
         Utilerias ut = new Utilerias();
         GrupoDTO pro = new GrupoDTO();
 
@@ -92,7 +92,7 @@ public class ActualizacionCatalogosUtil {
 
     public void consultarClientes(Context context, Activity activity) {
         ClienteDTO pr = new ClienteDTO();
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(context).create(APIInterface.class);
 
 
         try {

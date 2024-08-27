@@ -504,7 +504,7 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
         if (datosAux != null) {
             for (ReporteDetalleDTO d : datosAux
             ) {
-                if (d.getCliente().contains(txtBuscarCli.getText().toString())) {
+                if (d.getCliente().toUpperCase().contains(txtBuscarCli.getText().toString().toUpperCase())) {
                     datosBuscar.add(d);
                 }
             }
@@ -735,7 +735,7 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
 
     private void siEntregarProducto() {
         ModificacionPedidoDTO pr = new ModificacionPedidoDTO();
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
         try {
             Utilerias ut = new Utilerias();
             pr.setAndroidId(ut.obtenerSerial(this, this));
@@ -838,7 +838,7 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
 
     public void btnPedidoAbonarClick(View view) {
         RecibirAbonoDTO pr = new RecibirAbonoDTO();
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
 
 
         EditText txtFechaPag = (EditText) findViewById(R.id.txtFechaPago);
@@ -928,7 +928,7 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void consultarReporte(String tipo, String fechaIni, String fechaFin) {
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
         ReporteDTO pr = new ReporteDTO();
 
         try {
@@ -957,7 +957,7 @@ public class ReportesActivity extends AppCompatActivity implements View.OnClickL
 
 
     private ReporteTicketDetalleDTO consultarDetalle(String tipo, String folio) {
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
         ReporteTicketDetalleDTO pr = new ReporteTicketDetalleDTO();
 
         try {

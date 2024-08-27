@@ -72,7 +72,7 @@ public class AbrirCajaActivity  extends AppCompatActivity {
 
 
             if (ut.verificaConexion(this)) {
-                UtileriasSincronizacion uts = new UtileriasSincronizacion();
+                UtileriasSincronizacion uts = new UtileriasSincronizacion(this);
                 uts.sincronizarTodo(this, this, realm,
                         Long.parseLong(ut.obtenerValor("idTienda", this)));
             }

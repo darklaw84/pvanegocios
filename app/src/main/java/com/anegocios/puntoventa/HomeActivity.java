@@ -90,7 +90,7 @@ public class HomeActivity extends AppCompatActivity {
 
         try {
             setContentView(R.layout.webview);
-            APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+            APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
             Utilerias ut = new Utilerias();
             VersionEscritorioDTO ve = new VersionEscritorioDTO();
 
@@ -233,7 +233,7 @@ public class HomeActivity extends AppCompatActivity {
             Utilerias ut = new Utilerias();
             if (ut.obtenerModoAplicacion(this)) {
                 if (ut.verificaConexion(this)) {
-                    UtileriasSincronizacion uts = new UtileriasSincronizacion();
+                    UtileriasSincronizacion uts = new UtileriasSincronizacion(this);
 
                     String error = uts.sincronizarTodo(this, this, realm,
                             Long.parseLong(ut.obtenerValor("idTienda", context)));
@@ -307,7 +307,7 @@ public class HomeActivity extends AppCompatActivity {
 
         if (ut.obtenerModoAplicacion(this)) {
             if (ut.verificaConexion(this)) {
-                UtileriasSincronizacion uts = new UtileriasSincronizacion();
+                UtileriasSincronizacion uts = new UtileriasSincronizacion(this);
                 uts.sincronizarTodo(this, this, realm,
                         Long.parseLong(ut.obtenerValor("idTienda", context)));
             }
@@ -346,7 +346,7 @@ public class HomeActivity extends AppCompatActivity {
             Utilerias ut = new Utilerias();
             if (ut.obtenerModoAplicacion(this)) {
                 if (ut.verificaConexion(this)) {
-                    UtileriasSincronizacion uts = new UtileriasSincronizacion();
+                    UtileriasSincronizacion uts = new UtileriasSincronizacion(this);
 
 
 
@@ -383,7 +383,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void actualizarCatalogos() {
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
         Utilerias ut = new Utilerias();
         GrupoDTO pro = new GrupoDTO();
 
@@ -505,7 +505,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 if (productos != null && productos.size() > 0) {
 
-                    UtileriasSincronizacion uts = new UtileriasSincronizacion();
+                    UtileriasSincronizacion uts = new UtileriasSincronizacion(context);
 
                     String error = uts.sincronizarCajas(context, activity, realm,
                             Long.parseLong(ut.obtenerValor("idTienda", context)));
@@ -593,7 +593,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void actualizarClientes() {
         ClienteDTO pr = new ClienteDTO();
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
 
 
         try {

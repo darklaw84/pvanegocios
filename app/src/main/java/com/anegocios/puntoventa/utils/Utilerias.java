@@ -83,6 +83,14 @@ public class Utilerias {
     Bitmap bitmap;
 
 
+    public String serverAnterior() {
+        return "https://www.anegocios.com/WebService/";
+    }
+
+    public String serverNuevo() {
+        return "https://www.anegocios.com.mx/WebService/";
+    }
+
     public void iniciarReal(Context context) {
         Realm.init(context);
        /* RealmConfiguration config = new RealmConfiguration.Builder()
@@ -95,6 +103,12 @@ public class Utilerias {
                 .build();
 
         Realm.setDefaultConfiguration(config);
+    }
+
+    public static String obtenerServer(Context context) {
+
+        String url = obtenerValor("urlServer", context);
+        return url;
     }
 
 
@@ -178,7 +192,7 @@ public class Utilerias {
         editor.commit();
     }
 
-    public String obtenerValor(String key, Context context) {
+    public static String obtenerValor(String key, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(key, null);
     }
@@ -193,7 +207,8 @@ public class Utilerias {
             tienePermisos = false;
         }
 
-        if(Build.VERSION.SDK_INT < 30) {
+
+        if (Build.VERSION.SDK_INT < 30) {
 
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 tienePermisos = false;
@@ -228,6 +243,7 @@ public class Utilerias {
                         Manifest.permission.INTERNET,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.BLUETOOTH_CONNECT,
                         Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.CAMERA,
                         Manifest.permission.ACCESS_NETWORK_STATE}, 1);
@@ -1487,7 +1503,7 @@ public class Utilerias {
                 Utilerias ut = new Utilerias();
                 if (ut.verificaConexion(ctx)) {
                     Realm realm = ut.obtenerInstanciaBD(ctx);
-                    UtileriasSincronizacion uts = new UtileriasSincronizacion();
+                    UtileriasSincronizacion uts = new UtileriasSincronizacion(ctx);
                     uts.sincronizarTodo(ctx, act, realm, Long.parseLong(ut.obtenerValor("idTienda", ctx)));
                     if (realm != null && !realm.isClosed()) {
                         realm.close();

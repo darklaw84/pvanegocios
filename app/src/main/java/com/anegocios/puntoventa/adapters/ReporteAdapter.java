@@ -61,6 +61,10 @@ public class ReporteAdapter extends ArrayAdapter {
         else
         {
             rowView = inflater.inflate(R.layout.tablareportegrande, null);
+            TextView txtFolioApp = (TextView) rowView.findViewById(R.id.txtFolioApp);
+
+            txtFolioApp.setText("" + mItems.get(position).getFolioApp());
+
         }
         TextView txtFolio = (TextView) rowView.findViewById(R.id.txtFolio);
         TextView txtReporteTotal = (TextView) rowView.findViewById(R.id.txtReporteTotal);

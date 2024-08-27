@@ -818,7 +818,7 @@ public class ClientesGrandeActivity extends AppCompatActivity
 
     private void subirCliente(ClienteXYDTO p) {
         ClienteDTO pr = new ClienteDTO();
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
 
 
         try {

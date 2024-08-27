@@ -10,10 +10,12 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.navigation.NavigationView;
+
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -246,7 +248,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
 
 
     private ReporteTicketDetalleDTO consultarDetalle(String tipo, String folio) {
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
         ReporteTicketDetalleDTO pr = new ReporteTicketDetalleDTO();
 
         try {
@@ -413,10 +415,10 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
             productosDisponibles = pdb.obtenerProductosCompletos(
                     Integer.parseInt(ut.obtenerValor("idTienda", this)), realm);
         }
-         gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
+        gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
         if (productosDisponibles != null) {
 
-            ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, this,"G");
+            ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, this, "G");
             gvProductosDisponibles.setAdapter(adapter);
             totalBusqueda = productosDisponibles.size();
 
@@ -425,16 +427,19 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
+                agregarConAnimacion(position);
 
             }
         });
 
         //actualizarTotalesProductos();
+        prepararEscaneoProducto();
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
     }
 
-    private void agregarConAnimacion(int position)
-    {
+    private void agregarConAnimacion(int position) {
 
         EditText txtBuscarProd = findViewById(R.id.txtBuscarProd);
 
@@ -449,16 +454,49 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
 
         agregarProducto(productosDisponibles.get(position), false);
         actualizarListaAgregados();
-        txtBuscarProd.setText("");
+
         txtBuscarProd.requestFocus();
     }
 
+
+    private void prepararEscaneoProducto() {
+
+        EditText txtCodigoBarras = (EditText) findViewById(R.id.txtCodigoBarras);
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                buscarProducto("codBarras");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        txtCodigoBarras.addTextChangedListener(textWatcher);
+        txtCodigoBarras.requestFocus();
+        avoidShowSoftKeyboard(txtCodigoBarras);
+    }
+
+
+    public void avoidShowSoftKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
     private void actualizarListaAgregados() {
         ListView gvProductosAgregados = (ListView) findViewById(R.id.gvProductosAgregados);
         mostrarMontosTotales(montoTotal, subtotal, iva, propinaTotal, descuentoTotal);
         ProductosAgregadosAdapter adapter2 = new ProductosAgregadosAdapter(productosAgregados, this, "G");
-        if(gvProductosAgregados!=null) {
+        if (gvProductosAgregados != null) {
             gvProductosAgregados.setAdapter(adapter2);
             gvProductosAgregados.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -509,7 +547,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
 
             if (idTicketGenerado > 0) {
 
-                ut.imprimirTicket(this, this, idTiendaGlobal,idTicketGenerado);
+                ut.imprimirTicket(this, this, idTiendaGlobal, idTicketGenerado);
             } else {
                 mandarMensaje("No hay ningun ticket para reimprimir");
             }
@@ -529,13 +567,17 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
                 mandarMensaje("Se debe de ingresar un monto y una cantidad válida");
             } else {
                 ProductosXYDTOAux prod = productosAgregados.get(posicionAjuste);
-                double cantidadAsignada = Double.parseDouble(txtCantidadAjuste.getText().toString());
-                double precioAsignado = Double.parseDouble(txtPrecioAjuste.getText().toString());
+                String cantidad = txtCantidadAjuste.getText().toString();
+                double cantidadAsignada = Double.valueOf(cantidad);
+                String precio = txtPrecioAjuste.getText().toString();
+                double precioAsignado = Double.valueOf(precio);
                 prod.setCantidad(cantidadAsignada);
                 if (prod.getCantidadMayoreo() > 0) {
                     //quiere decir que lo tenemos que evaluar
                     if (cantidadAsignada >= prod.getCantidadMayoreo()) {
                         prod.setPrecioVenta(prod.getPrecioMayoreo());
+                    } else {
+                        prod.setPrecioVenta(precioAsignado);
                     }
                 } else {
 
@@ -597,7 +639,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
                     l.setProduct(Build.PRODUCT);
                     l.setUsername(usuario);
                     //login(l);
-                    APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+                    APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
                     Call<LoginResponseDTO> call = apiInterface.login(l);
 
                     LoginCorteService ls = new LoginCorteService(call);
@@ -705,7 +747,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
                     //despues de guardar el corte
                     if (ut.obtenerModoAplicacion(this)) {
                         if (ut.verificaConexion(this)) {
-                            UtileriasSincronizacion uts = new UtileriasSincronizacion();
+                            UtileriasSincronizacion uts = new UtileriasSincronizacion(this);
                             uts.sincronizarTodo(this, this, realm, idTiendaGlobal);
 
                         }
@@ -735,7 +777,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
     private void mostrarResultadoCorte(double efectivoCalculado, double efectivoContado
             , double tarjetacalculado, double tarjetaContado) {
 
-        efectivoCalculadoCor= efectivoCalculado;
+        efectivoCalculadoCor = efectivoCalculado;
         efectivoContadoCor = efectivoContado;
         tarjetacalculadoCor = tarjetacalculado;
         tarjetaContadoCor = tarjetaContado;
@@ -775,7 +817,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
     public void btnImprimirCorteClick(View view) {
         Utilerias ut = new Utilerias();
         ut.imprimirCorte(this, efectivoContadoCor, efectivoCalculadoCor
-                ,tarjetaContadoCor,tarjetacalculadoCor);
+                , tarjetaContadoCor, tarjetacalculadoCor);
     }
 
     public void mostrarExtras() {
@@ -1072,7 +1114,6 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
     }
 
 
-
     public void btnHacerCotizacionClick(View view) {
 
         EditText txtPagoCorreo = (EditText) findViewById(R.id.txtPagoCorreo);
@@ -1209,7 +1250,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                buscarProducto();
+                buscarProducto("buscarProd");
             }
 
             @Override
@@ -1233,31 +1274,43 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
         }
     }
 
-    private void buscarProducto() {
+    private void buscarProducto(String campo) {
         //aqui dentro lo que hayan puesto lo buscamos
         EditText txtBuscarProd = (EditText) findViewById(R.id.txtBuscarProd);
+        EditText txtCodigoBarras = (EditText) findViewById(R.id.txtCodigoBarras);
         ProductosDB pdb = new ProductosDB();
         Utilerias ut = new Utilerias();
 
-        String textoBuscar = txtBuscarProd.getText().toString().trim();
-        if (textoBuscar.length() > 8) {
+        String textoBuscar = "";
+        if (campo.equals("codBarras")) {
+            textoBuscar = txtCodigoBarras.getText().toString().trim();
+        } else {
+            textoBuscar = txtBuscarProd.getText().toString().trim();
+        }
+        if (textoBuscar.length() >= 13) {
 
-            int cont=0;
-            boolean encontrado=false;
-            for(ProductosXYDTOAux p : productosDisponibles)
-            {
-                if(p.getCodigoBarras()!= null &&  p.getCodigoBarras().trim().equals(txtBuscarProd.getText().toString().trim()))
-                {
+            int cont = 0;
+            boolean encontrado = false;
+            for (ProductosXYDTOAux p : productosDisponibles) {
+                if (p.getCodigoBarras() != null && p.getCodigoBarras().trim().equals(textoBuscar.trim())) {
                     agregarConAnimacion(cont);
-                    encontrado=true;
+                    encontrado = true;
                     break;
                 }
                 cont++;
             }
             if (encontrado) {
-
-                txtBuscarProd.setText("");
                 txtBuscarProd.requestFocus();
+            }
+
+            if (campo.equals("codBarras")) {
+                txtCodigoBarras.setText("");
+                txtCodigoBarras.requestFocus();
+            }
+
+            if(!encontrado)
+            {
+                mandarMensaje("Producto no encontrado "+textoBuscar.trim());
             }
 
         } else {
@@ -1329,7 +1382,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
                 productosDisponibles = productosBuscar;
                 if (productosDisponibles != null) {
                     ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
-                    ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context,"G");
+                    ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context, "G");
                     gvProductosDisponibles.setAdapter(adapter);
                 }
             }
@@ -1343,9 +1396,13 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
     public void btnCancelClick(View view) {
         EditText txtBuscarProd = (EditText) findViewById(R.id.txtBuscarProd);
 
+        txtBuscarProd.setText("");
         Spinner spGrupos = (Spinner) findViewById(R.id.spGrupos);
         spGrupos.setVisibility(View.VISIBLE);
         txtBuscarProd.setVisibility(View.GONE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(txtBuscarProd.getWindowToken(), 0);
     }
 
 
@@ -1755,7 +1812,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
         TextView txtDescuento = (TextView) findViewById(R.id.txtDescuento);
         TextView txtPropina = (TextView) findViewById(R.id.txtPropina);
         TextView txtTotal = (TextView) findViewById(R.id.txtTotal);
-        if(txtDescuento!=null) {
+        if (txtDescuento != null) {
             txtDescuento.setText(ut.formatoDouble(descuento));
             txtSubtotal.setText(ut.formatoDouble(subtotal));
             txtTotal.setText(ut.formatoDouble(total));
@@ -1964,10 +2021,10 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
 
         } else {
 */
-            mostrarVentaExitosa("" + idTicketGenerado, tipo);
+        mostrarVentaExitosa("" + idTicketGenerado, tipo);
 
 
-  //      }
+        //      }
 
 
         if (ut.verificaConexion(context)) {
@@ -1977,7 +2034,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
                 @Override
                 public void run() {
                     Utilerias ut = new Utilerias();
-                    ut.imprimirTicket(context, activity, idTiendaGlobal,idTicketGenerado);
+                    ut.imprimirTicket(context, activity, idTiendaGlobal, idTicketGenerado);
                 }
             });
 
@@ -1987,7 +2044,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
                 public void run() {
                     Utilerias ut = new Utilerias();
                     Realm realm3 = ut.obtenerInstanciaBD(context);
-                    UtileriasSincronizacion uts = new UtileriasSincronizacion();
+                    UtileriasSincronizacion uts = new UtileriasSincronizacion(context);
                     uts.sincronizarTodo(context, activity, realm3, idTiendaGlobal);
                     if (realm3 != null && !realm3.isClosed()) {
                         realm3.close();
@@ -2001,7 +2058,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
                 @Override
                 public void run() {
                     Utilerias ut = new Utilerias();
-                    ut.imprimirTicket(context, activity, idTiendaGlobal,idTicketGenerado);
+                    ut.imprimirTicket(context, activity, idTiendaGlobal, idTicketGenerado);
                 }
             });
 
@@ -2034,8 +2091,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
         }
     }
 
-    private void mostrarConfirmaCotizacion()
-    {
+    private void mostrarConfirmaCotizacion() {
         setContentView(R.layout.cotizacion);
         Utilerias ut = new Utilerias();
         TextView txtTotalPago = (TextView) findViewById(R.id.txtTotalPago);
@@ -2236,12 +2292,18 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
             prod.setPrecioVenta(original.getPrecioVenta());
         }
         TextView lblPermisoPrecio = (TextView) findViewById(R.id.lblPermisoPrecio);
+        ImageButton btnMasPrecio = (ImageButton) findViewById(R.id.btnMasPrecio);
+        ImageButton btnMenosPrecio = (ImageButton) findViewById(R.id.btnMenosPrecio);
         if (permisos.getEditPrecio()) {
             txtPrecioAjuste.setEnabled(true);
             lblPermisoPrecio.setText("");
+            btnMasPrecio.setClickable(true);
+            btnMenosPrecio.setClickable(true);
         } else {
             txtPrecioAjuste.setEnabled(false);
             lblPermisoPrecio.setText("Sin permiso para ajustar precio");
+            btnMasPrecio.setClickable(false);
+            btnMenosPrecio.setClickable(false);
         }
 
     }
@@ -2466,7 +2528,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
 
                 if (productosDisponibles != null) {
                     ListView gvProductosDisponibles = (ListView) findViewById(R.id.gvProductosDisponibles);
-                    ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context,"G");
+                    ProductosVentaAdapter adapter = new ProductosVentaAdapter(productosDisponibles, context, "G");
                     gvProductosDisponibles.setAdapter(adapter);
                     totalBusqueda = productosDisponibles.size();
                     // actualizarTotalesProductos();
@@ -2559,7 +2621,7 @@ public class PuntoVentaActivity extends AppCompatActivity implements NavigationV
 
     public void btnLogOutClick(View view) {
         Utilerias ut = new Utilerias();
-        ut.guardarValor("idUsuario","",this);
+        ut.guardarValor("idUsuario", "", this);
         cerrarRealmN(realm);
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);

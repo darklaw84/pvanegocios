@@ -74,7 +74,13 @@
                     android:background="@color/fondoApp"
                     android:gravity="right|center_vertical"
                     android:orientation="horizontal">
-
+                    <EditText
+                        android:layout_width="1dp"
+                        android:inputType="none"
+                        android:imeOptions="actionDone"
+                        android:id="@+id/txtCodigoBarras"
+                        android:layout_height="wrap_content"
+                        ></EditText>
                     <ImageButton
                         android:id="@+id/botonImpresora"
                         android:layout_width="25dp"

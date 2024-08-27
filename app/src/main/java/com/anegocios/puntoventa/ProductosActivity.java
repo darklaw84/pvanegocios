@@ -157,7 +157,7 @@ public class ProductosActivity extends AppCompatActivity
         Utilerias ut = new Utilerias();
         if (ut.verificaConexion(this)) {
             ProductoDTO pr = new ProductoDTO();
-            APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+            APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
 
 
             try {
@@ -933,7 +933,7 @@ public class ProductosActivity extends AppCompatActivity
     private void subirProducto(ProductosXYDTO p) {
         ProductoDTO pr = new ProductoDTO();
         progress_bar = (ProgressBar) findViewById(R.id.progress_bar);
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
 
 
         try {

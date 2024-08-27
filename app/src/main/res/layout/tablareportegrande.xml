@@ -15,12 +15,23 @@
             />
         <TextView
 
-            android:layout_width="0dp"
-            android:layout_weight=".1"
+            android:layout_width="100dp"
+
             android:layout_height="wrap_content"
             android:textColor="@color/letraTablas"
             android:gravity="center_horizontal"
             android:id="@+id/txtFolio"
+            android:textSize="14dp"
+            android:text="1245"
+            />
+        <TextView
+
+            android:layout_width="50dp"
+
+            android:layout_height="wrap_content"
+            android:textColor="@color/letraTablas"
+            android:gravity="center_horizontal"
+            android:id="@+id/txtFolioApp"
             android:textSize="@dimen/letraRowTicketG"
             android:text="1245"
             />

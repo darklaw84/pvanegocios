@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -74,23 +76,24 @@ public class MainActivity extends AppCompatActivity {
         activity = this;
 
 
+
+
+
         if (wizardVisto != null && wizardVisto.toUpperCase().equals("TRUE")) {
 
-            String idUsuario = ut.obtenerValor("idUsuario",this);
-            if(idUsuario!=null && !idUsuario.equals(""))
-            {
-               // sigue logueado lo mandamos al punto de venta
+            String idUsuario = ut.obtenerValor("idUsuario", this);
+            if (idUsuario != null && !idUsuario.equals("")) {
+                // sigue logueado lo mandamos al punto de venta
                 realm = ut.obtenerInstanciaBD(this);
                 ut.validaIrPuntoVenta(this, this, realm, ut.obtenerPermisosUsuario(this), "normal");
-            }
-            else {
+            } else {
 
                 setContentView(R.layout.login);
                 progress_bar = findViewById(R.id.progress_bar);
                 progress_bar.setVisibility(View.INVISIBLE);
                 txtUsuario = findViewById(R.id.txtUsuario);
-              TextView  txtVersion = findViewById(R.id.txtVersion);
-              txtVersion.setText(BuildConfig.VERSION_NAME);
+                TextView txtVersion = findViewById(R.id.txtVersion);
+                txtVersion.setText(BuildConfig.VERSION_NAME);
                 manejarEnterPass();
                 if (!ut.tienePermisos(this, this)) {
                     mandarMensaje("Por favor permite los permisos correspondientes" +
@@ -145,7 +148,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnEntrarClick(View view) {
-
+        Utilerias ut = new Utilerias();
+        ut.guardarValor("urlServer", ut.serverNuevo(), this);
         login();
 
     }
@@ -179,12 +183,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void siActualizar()
-    {
+    private void siActualizar() {
         Utilerias ut = new Utilerias();
         if (ut.verificaConexion(this)) {
             ProductoDTO pr = new ProductoDTO();
-            APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+            APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
 
 
             try {
@@ -203,11 +206,9 @@ public class MainActivity extends AppCompatActivity {
 
                 ProductoAsyncService ls = new ProductoAsyncService(call);
                 ls.execute();
-                if(realm!=null && !realm.isClosed())
-                {
+                if (realm != null && !realm.isClosed()) {
                     realm.close();
                 }
-
 
 
             } catch (Exception ex) {
@@ -275,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             RecuperarContraseniaDTO rc = new RecuperarContraseniaDTO();
             rc.setUsername(txtUsuario.getText().toString());
-            APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+            APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
             Call<RecuperarContraseniaResponseDTO> call = apiInterface.recuperarContrasenia(rc);
 
             RecuperarContraseniaService ls = new RecuperarContraseniaService(call);
@@ -322,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
                         l.setProduct(Build.PRODUCT);
                         l.setUsername(txtUsuario.getText().toString());
                         //login(l);
-                        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+                        APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
                         Gson gson = new Gson();
                         String json = gson.toJson(l);
                         Call<LoginResponseDTO> call = apiInterface.login(l);
@@ -452,11 +453,11 @@ public class MainActivity extends AppCompatActivity {
                 if (productos != null && productos.size() > 0) {
                     ut.guardarValor("idTienda", "" + tiendasUsuario.get(0).getIdTienda(), this);
                     ActualizacionCatalogosUtil acut = new ActualizacionCatalogosUtil();
-                    acut.consultarGrupos(context,activity);
+                    acut.consultarGrupos(context, activity);
                     acut.consultarClientes(context, activity);
                     activity.runOnUiThread(new Runnable() {
                         public void run() {
-                           preguntarActualizar();
+                            preguntarActualizar();
                         }
                     });
 
@@ -494,8 +495,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void mostrarActualizando()
-    {
+    public void mostrarActualizando() {
         setContentView(R.layout.actualizandoproductos);
     }
 
@@ -518,9 +518,9 @@ public class MainActivity extends AppCompatActivity {
                 List<ProductosXYDTOAux> productos = pdb.obtenerProductosCompletos(gSel.getIdTienda(), realm);
 
                 TiendasDB tbd = new TiendasDB();
-                Tienda tienda= tbd.obtenerTienda(gSel.getIdTienda(),realm);
-                String vigencia=tienda.getVigencia();
-                String tipoUsuario=tienda.getTipo();
+                Tienda tienda = tbd.obtenerTienda(gSel.getIdTienda(), realm);
+                String vigencia = tienda.getVigencia();
+                String tipoUsuario = tienda.getTipo();
                 ut.guardarValor("vigencia", vigencia, this);
                 ut.guardarValor("tipoUsuario", tipoUsuario, this);
                 ut.guardarValor("idTienda", "" + gSel.getIdTienda(), this);
@@ -528,9 +528,9 @@ public class MainActivity extends AppCompatActivity {
                     preguntarActualizar();
 
                 } else {
-                    ActualizacionCatalogosUtil acum= new ActualizacionCatalogosUtil();
-                    acum.consultarClientes(this,this);
-                    acum.consultarGrupos(this,this);
+                    ActualizacionCatalogosUtil acum = new ActualizacionCatalogosUtil();
+                    acum.consultarClientes(this, this);
+                    acum.consultarGrupos(this, this);
                     siActualizar();
                 }
 
@@ -545,7 +545,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void actualizarCatalogos() {
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
         Utilerias ut = new Utilerias();
         GrupoDTO pro = new GrupoDTO();
 
@@ -592,8 +592,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void  irPuntoVenta()
-    {
+    private void irPuntoVenta() {
         Utilerias ut = new Utilerias();
         ut.validaIrPuntoVenta(this, this, realm, ut.obtenerPermisosUsuario(this), "normal");
     }
@@ -764,69 +763,75 @@ public class MainActivity extends AppCompatActivity {
 
                     } else {
 
-                        if (resLogin.getUsuarios() != null && resLogin.getUsuarios().size() > 0) {
-                            UsuariosDB udb = new UsuariosDB();
-                            Realm realm3 = ut.obtenerInstanciaBD(context);
-                            udb.actualizarBDUsuarios(resLogin.getUsuarios(), realm3);
+                        if (resLogin.getMsg()!= null && resLogin.getMsg().equals("El usuario no existe")) {
+                            ut.guardarValor("urlServer", ut.serverAnterior(), context);
+                            login();
+                        } else {
 
-                            for (Usuario u : resLogin.getUsuarios()
-                            ) {
-                                if (u.getUT() != null && u.getUT().size() > 0) {
-                                    for (UT iut : u.getUT()
-                                    ) {
-                                        if (udb.verificarExistenciaUT(u.getId(), iut.getIdTienda(), iut.getId(), realm3) == null) {
-                                            udb.guardarUTUsuario(u.getId(), iut.getIdTienda(),
-                                                    iut.getId(), realm3, iut.getVigencia(), iut.getTipoLic());
+                            if (resLogin.getUsuarios() != null && resLogin.getUsuarios().size() > 0) {
+                                UsuariosDB udb = new UsuariosDB();
+                                Realm realm3 = ut.obtenerInstanciaBD(context);
+                                udb.actualizarBDUsuarios(resLogin.getUsuarios(), realm3);
+
+                                for (Usuario u : resLogin.getUsuarios()
+                                ) {
+                                    if (u.getUT() != null && u.getUT().size() > 0) {
+                                        for (UT iut : u.getUT()
+                                        ) {
+                                            if (udb.verificarExistenciaUT(u.getId(), iut.getIdTienda(), iut.getId(), realm3) == null) {
+                                                udb.guardarUTUsuario(u.getId(), iut.getIdTienda(),
+                                                        iut.getId(), realm3, iut.getVigencia(), iut.getTipoLic());
+                                            }
                                         }
+
+                                    }
+                                }
+                                if (realm3 != null && !realm3.isClosed()) {
+                                    realm3.close();
+                                }
+                            }
+
+
+                            if (resLogin.getAcceso()) {
+                                UsuariosDB udb = new UsuariosDB();
+                                Realm realm4 = ut.obtenerInstanciaBD(context);
+                                List<Usuario> usuarios = udb.obtenerListaUsuarios(realm4);
+
+                                Usuario encontrado = null;
+                                for (Usuario u : usuarios) {
+                                    if (u.getUsername().trim().toUpperCase().equals(txtUsuario.getText().toString().trim().toUpperCase())) {
+                                        encontrado = u;
+                                        break;
+                                    }
+                                }
+
+                                if (encontrado != null) {
+                                    if (resLogin.getTiendas() != null && resLogin.getTiendas().size() > 0) {
+                                        TiendasDB tdb = new TiendasDB();
+
+                                        tdb.actualizarBDTiendas(resLogin.getTiendas(), encontrado.getId(), realm4);
+
                                     }
 
-                                }
-                            }
-                            if (realm3 != null && !realm3.isClosed()) {
-                                realm3.close();
-                            }
-                        }
 
-
-                        if (resLogin.getAcceso()) {
-                            UsuariosDB udb = new UsuariosDB();
-                            Realm realm4 = ut.obtenerInstanciaBD(context);
-                            List<Usuario> usuarios = udb.obtenerListaUsuarios(realm4);
-
-                            Usuario encontrado = null;
-                            for (Usuario u : usuarios) {
-                                if (u.getUsername().trim().toUpperCase().equals(txtUsuario.getText().toString().trim().toUpperCase())) {
-                                    encontrado = u;
-                                    break;
-                                }
-                            }
-
-                            if (encontrado != null) {
-                                if (resLogin.getTiendas() != null && resLogin.getTiendas().size() > 0) {
-                                    TiendasDB tdb = new TiendasDB();
-
-                                    tdb.actualizarBDTiendas(resLogin.getTiendas(), encontrado.getId(), realm4);
-
+                                    usuarioCorrecto(encontrado, realm4, resLogin.getTiendas().get(0).getImagenesPV());
+                                } else {
+                                    activity.runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            mandarMensaje("Esta escribiendo de forma incorrecta su usuario");
+                                        }
+                                    });
                                 }
 
 
-                                usuarioCorrecto(encontrado, realm4, resLogin.getTiendas().get(0).getImagenesPV());
                             } else {
                                 activity.runOnUiThread(new Runnable() {
                                     public void run() {
-                                        mandarMensaje("Esta escribiendo de forma incorrecta su usuario");
+                                        mandarMensaje(resLogin.getMsg());
                                     }
                                 });
+
                             }
-
-
-                        } else {
-                            activity.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    mandarMensaje(resLogin.getMsg());
-                                }
-                            });
-
                         }
                     }
                 } catch (Exception ex) {
@@ -890,7 +895,7 @@ public class MainActivity extends AppCompatActivity {
                             ProductosDB pdb = new ProductosDB();
                             pdb.actualizarBDProductos(res.getProductosxy(),
                                     Integer.parseInt(ut.obtenerValor("idTienda", context)),
-                                    ut.obtenerModoAplicacion(context), ut.verificaConexion(context), realm,context);
+                                    ut.obtenerModoAplicacion(context), ut.verificaConexion(context), realm, context);
                         }
                         ProductosDB pdb = new ProductosDB();
                         for (ProductosXYDTO pro : res.getProductosxy()

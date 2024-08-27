@@ -68,7 +68,7 @@
                         android:scaleType="centerInside"
                         android:src="@drawable/rayitas" />
                     <TextView
-                        android:layout_width="10dp"
+                        android:layout_width="9dp"
                         android:layout_height="wrap_content" />
 
                     <Spinner

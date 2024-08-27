@@ -47,6 +47,13 @@ import retrofit2.Call;
 
 public class UtileriasSincronizacion {
 
+    Context ctx;
+
+    public UtileriasSincronizacion(Context context)
+    {
+        ctx = context;
+    }
+
 
     public String sincronizarTodo(Context context, Activity activity, Realm realm, long idTiendaGlobal) {
 
@@ -132,7 +139,7 @@ public class UtileriasSincronizacion {
 
         String error = "";
         ProductoDTO pr = new ProductoDTO();
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(context).create(APIInterface.class);
 
 
         try {
@@ -206,7 +213,7 @@ public class UtileriasSincronizacion {
 
         String error = "";
         ProductoDTO pr = new ProductoDTO();
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(context).create(APIInterface.class);
 
 
         try {
@@ -318,7 +325,7 @@ public class UtileriasSincronizacion {
 
         String error = "";
         ClienteDTO pr = new ClienteDTO();
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(context).create(APIInterface.class);
 
 
         try {
@@ -362,7 +369,7 @@ public class UtileriasSincronizacion {
 
         String error = "";
         ClienteDTO pr = new ClienteDTO();
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(context).create(APIInterface.class);
 
 
         try {
@@ -498,7 +505,7 @@ public class UtileriasSincronizacion {
         caja.setFechaInicio(fechaInicio);
         caja.setMontoInicial(montoInicial);
         cr.setCaja(caja);
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(context).create(APIInterface.class);
         Call<CajaResponseDTO> call = apiInterface.mandarCaja(cr);
         Gson gson = new Gson();
         String json = gson.toJson(cr);
@@ -541,7 +548,7 @@ public class UtileriasSincronizacion {
         caja.setCorte(corte);
         cr.setCaja(caja);
 
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(c).create(APIInterface.class);
         Call<CajaResponseDTO> call = apiInterface.mandarCaja(cr);
         CajaService ls = new CajaService(call, -1,c);
         try {
@@ -640,7 +647,7 @@ public class UtileriasSincronizacion {
         }
         cr.setVentasxy(ventas);
 
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(c).create(APIInterface.class);
         Gson gson = new Gson();
         String json = gson.toJson(cr);
         if (ti.getIdEdit() > 0) {

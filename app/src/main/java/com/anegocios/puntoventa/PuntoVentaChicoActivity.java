@@ -20,12 +20,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -247,7 +249,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
 
 
     private ReporteTicketDetalleDTO consultarDetalle(String tipo, String folio) {
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
         ReporteTicketDetalleDTO pr = new ReporteTicketDetalleDTO();
 
         try {
@@ -426,12 +428,16 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
             }
         });
 
+        prepararEscaneoProducto();
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         //actualizarTotalesProductos();
     }
 
     private void agregarConAnimacion(int position) {
 
-        EditText txtCodigoBarras = findViewById(R.id.txtBuscarProd);
+        EditText txtBuscarProd = findViewById(R.id.txtBuscarProd);
         Animation animation = AnimationUtils.loadAnimation(context, R.anim.move);
         Animation blinkanimation = AnimationUtils.loadAnimation(context, R.anim.blinkticketbutton);
         Button btnCarrito = (Button) findViewById(R.id.btnCarrito);
@@ -442,8 +448,8 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         btnCarrito.startAnimation(blinkanimation);
 
         agregarProducto(productosDisponibles.get(position), false);
-        txtCodigoBarras.setText("");
-        txtCodigoBarras.requestFocus();
+
+        txtBuscarProd.requestFocus();
     }
 
 
@@ -495,12 +501,13 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
                 mandarMensaje("Se debe de ingresar un monto y una cantidad válida");
             } else {
                 ProductosXYDTOAux prod = productosAgregados.get(posicionAjuste);
-                NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
-                Number cantidadAsi = format.parse(txtCantidadAjuste.getText().toString());
-                double cantidadAsignada = cantidadAsi.doubleValue();
+                String cantidad = txtCantidadAjuste.getText().toString();
 
-                Number precioAsi = format.parse(txtPrecioAjuste.getText().toString());
-                double precioAsignado = precioAsi.doubleValue();
+                double cantidadAsignada = Double.valueOf(cantidad);
+
+                String precio = txtPrecioAjuste.getText().toString();
+
+                double precioAsignado = Double.valueOf(precio);
 
 
                 prod.setCantidad(cantidadAsignada);
@@ -508,6 +515,8 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
                     //quiere decir que lo tenemos que evaluar
                     if (cantidadAsignada >= prod.getCantidadMayoreo()) {
                         prod.setPrecioVenta(prod.getPrecioMayoreo());
+                    } else {
+                        prod.setPrecioVenta(precioAsignado);
                     }
                 } else {
 
@@ -570,7 +579,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
                     l.setProduct(Build.PRODUCT);
                     l.setUsername(usuario);
                     //login(l);
-                    APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+                    APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
                     Call<LoginResponseDTO> call = apiInterface.login(l);
 
                     LoginCorteService ls = new LoginCorteService(call);
@@ -678,7 +687,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
                     //despues de guardar el corte
                     if (ut.obtenerModoAplicacion(this)) {
                         if (ut.verificaConexion(this)) {
-                            UtileriasSincronizacion uts = new UtileriasSincronizacion();
+                            UtileriasSincronizacion uts = new UtileriasSincronizacion(this);
                             uts.sincronizarTodo(this, this, realm, idTiendaGlobal);
 
                         }
@@ -1185,7 +1194,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                buscarProducto();
+                buscarProducto("buscarProd");
             }
 
             @Override
@@ -1199,6 +1208,48 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
     }
 
 
+    private void prepararEscaneoProducto() {
+
+        EditText txtCodigoBarras = (EditText) findViewById(R.id.txtCodigoBarras);
+
+
+        txtCodigoBarras.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == 0 || actionId == EditorInfo.IME_ACTION_DONE){
+                    buscarProducto("codBarras");
+                    return true;
+                }
+                return false;
+            }
+        });
+      /*  TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                buscarProducto("codBarras");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        txtCodigoBarras.addTextChangedListener(textWatcher);
+        */
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(txtCodigoBarras.getWindowToken(), 0);
+        txtCodigoBarras.requestFocus();
+
+    }
+
+
     public void showSoftKeyboard(View view) {
         if (view.requestFocus()) {
             InputMethodManager imm = (InputMethodManager)
@@ -1209,18 +1260,27 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         }
     }
 
-    private void buscarProducto() {
+
+    private void buscarProducto(String campo) {
         //aqui dentro lo que hayan puesto lo buscamos
         EditText txtBuscarProd = (EditText) findViewById(R.id.txtBuscarProd);
+        EditText txtCodigoBarras = (EditText) findViewById(R.id.txtCodigoBarras);
         ProductosDB pdb = new ProductosDB();
         Utilerias ut = new Utilerias();
-        String textoBuscar = txtBuscarProd.getText().toString().trim();
-        if (textoBuscar.length() > 8) {
+        String textoBuscar = "";
+        if (campo.equals("codBarras")) {
+            textoBuscar = txtCodigoBarras.getText().toString().trim();
+        } else {
+            textoBuscar = txtBuscarProd.getText().toString().trim();
+        }
+
+        if (textoBuscar.length()>=12) {
+            textoBuscar = textoBuscar.replace("\n", "");
 
             int cont = 0;
             boolean encontrado = false;
             for (ProductosXYDTOAux p : productosDisponibles) {
-                if (p.getCodigoBarras() != null && p.getCodigoBarras().trim().equals(txtBuscarProd.getText().toString().trim())) {
+                if (p.getCodigoBarras() != null && p.getCodigoBarras().trim().equals(textoBuscar.trim())) {
                     agregarConAnimacion(cont);
                     encontrado = true;
                     break;
@@ -1228,8 +1288,16 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
                 cont++;
             }
             if (encontrado) {
-                txtBuscarProd.setText("");
                 txtBuscarProd.requestFocus();
+            }
+
+            if (campo.equals("codBarras")) {
+                txtCodigoBarras.setText("");
+                txtCodigoBarras.requestFocus();
+            }
+
+            if (!encontrado) {
+                mandarMensaje("Producto no encontrado " + textoBuscar.trim());
             }
 
         } else {
@@ -1318,8 +1386,9 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
         Spinner spGrupos = (Spinner) findViewById(R.id.spGrupos);
         spGrupos.setVisibility(View.VISIBLE);
         txtBuscarProd.setVisibility(View.GONE);
+        txtBuscarProd.setText("");
 
-        InputMethodManager imm = (InputMethodManager)getSystemService(
+        InputMethodManager imm = (InputMethodManager) getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(txtBuscarProd.getWindowToken(), 0);
     }
@@ -1964,7 +2033,7 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
                 public void run() {
                     Utilerias ut = new Utilerias();
                     Realm realm3 = ut.obtenerInstanciaBD(context);
-                    UtileriasSincronizacion uts = new UtileriasSincronizacion();
+                    UtileriasSincronizacion uts = new UtileriasSincronizacion(context);
                     uts.sincronizarTodo(context, activity, realm3, idTiendaGlobal);
                     if (realm3 != null && !realm3.isClosed()) {
                         realm3.close();
@@ -2255,11 +2324,17 @@ public class PuntoVentaChicoActivity extends AppCompatActivity implements Naviga
             prod.setPrecioVenta(original.getPrecioVenta());
         }
         TextView lblPermisoPrecio = (TextView) findViewById(R.id.lblPermisoPrecio);
+        ImageButton btnMasPrecio = (ImageButton) findViewById(R.id.btnMasPrecio);
+        ImageButton btnMenosPrecio = (ImageButton) findViewById(R.id.btnMenosPrecio);
         if (permisos.getEditPrecio()) {
             txtPrecioAjuste.setEnabled(true);
+            btnMasPrecio.setClickable(true);
+            btnMenosPrecio.setClickable(true);
             lblPermisoPrecio.setText("");
         } else {
             txtPrecioAjuste.setEnabled(false);
+            btnMasPrecio.setClickable(false);
+            btnMenosPrecio.setClickable(false);
             lblPermisoPrecio.setText("Sin permiso para ajustar precio");
         }
 

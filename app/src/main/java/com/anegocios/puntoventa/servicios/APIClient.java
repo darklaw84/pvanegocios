@@ -1,5 +1,10 @@
 package com.anegocios.puntoventa.servicios;
 
+import android.content.Context;
+
+import com.anegocios.puntoventa.utils.Utilerias;
+import com.itextpdf.xmp.impl.Utils;
+
 import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
 
@@ -16,10 +21,11 @@ public class APIClient {
 
     private static Retrofit retrofit = null;
 
-    public static Retrofit getClient() {
+    public static Retrofit getClient(Context context) {
 // productivo
-      retrofit = new Retrofit.Builder()
-                .baseUrl("https://www.anegocios.com/WebService/")
+        String url = Utilerias.obtenerServer(context);
+        retrofit = new Retrofit.Builder()
+                .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(getUnsafeOkHttpClient())
 
@@ -40,7 +46,7 @@ public class APIClient {
 
         try {
             // Create a trust manager that does not validate certificate chains
-            final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
                 @Override
                 public void checkClientTrusted(
                         java.security.cert.X509Certificate[] chain,
@@ -57,7 +63,7 @@ public class APIClient {
                 public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                     return new java.security.cert.X509Certificate[0];
                 }
-            } };
+            }};
 
             // Install the all-trusting trust manager
             final SSLContext sslContext = SSLContext.getInstance("TLS");
@@ -71,8 +77,8 @@ public class APIClient {
             okHttpClient = okHttpClient.newBuilder()
                     .sslSocketFactory(sslSocketFactory)
                     .connectTimeout(30, TimeUnit.SECONDS)
-                    .writeTimeout(30,TimeUnit.SECONDS)
-                    .readTimeout(30,TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
                     .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER).build();
 
             return okHttpClient;

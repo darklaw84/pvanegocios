@@ -272,7 +272,7 @@ public class AyudaActivity extends AppCompatActivity
 
         try {
             setContentView(R.layout.webview);
-            APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+            APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
             Utilerias ut = new Utilerias();
             VersionEscritorioDTO ve = new VersionEscritorioDTO();
 

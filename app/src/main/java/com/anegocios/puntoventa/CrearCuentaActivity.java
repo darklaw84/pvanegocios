@@ -228,7 +228,9 @@ public class CrearCuentaActivity extends AppCompatActivity {
     }
 
     private void crearCuenta(CrearCuentaDTO cc, String usuario, String pass) {
-        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        Utilerias ut = new Utilerias();
+        ut.guardarValor("urlServer",ut.serverNuevo(),this);
+        APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
         Call<CrearCuentaResponseDTO> call = apiInterface.crearCuenta(cc);
 
         CrearCuentaService ls = new CrearCuentaService(call);
@@ -257,7 +259,7 @@ public class CrearCuentaActivity extends AppCompatActivity {
             l.setProduct(Build.PRODUCT);
             l.setUsername(usuario);
             //login(l);
-            APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+            APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
             Call<LoginResponseDTO> call = apiInterface.login(l);
 
             LoginService ls = new LoginService(call);
@@ -336,7 +338,7 @@ public class CrearCuentaActivity extends AppCompatActivity {
         Utilerias ut = new Utilerias();
         if (ut.verificaConexion(this)) {
             ProductoDTO pr = new ProductoDTO();
-            APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+            APIInterface apiInterface = APIClient.getClient(this).create(APIInterface.class);
 
 
             try {
@@ -431,7 +433,11 @@ public class CrearCuentaActivity extends AppCompatActivity {
 
                 } else {
                     if (res == null) {
+                        activity.runOnUiThread(new Runnable() {
+                            public void run() {
                         mandarMensaje("No se pudo contactar el servicio, intente de nuevo");
+                            }
+                        });
                     } else {
                         mensaje = res.getMsg();
                         activity.runOnUiThread(new Runnable() {
